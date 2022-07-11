@@ -13,6 +13,7 @@ try {
 catch (PDOException $e) {
     echo "Database error: " . $e->getMessage();
 }
- echo json_encode($coordinates);
+//  echo json_encode($coordinates);
+var_dump($coordinates);
 
 ?>

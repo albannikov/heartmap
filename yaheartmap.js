@@ -93,7 +93,8 @@ ymaps.ready(async function () {
     radiuses = [5, 10, 20, 30],
     opacities = [0.4, 0.6, 0.8, 1];
 
-    let data = await fetchData();
+    // let data = await fetchData();
+    let data = [62.134265, 77.458448];
 
     ymaps.modules.require(['Heatmap'], function (Heatmap) {
         var heatmap = new Heatmap(data, {
