@@ -6,6 +6,11 @@ defineProps({
 })
 
 const count = ref(0)
+
+
+ 
+
+
 </script>
 
 <template>
@@ -31,6 +36,8 @@ const count = ref(0)
     Edit
     <code>components/HelloWorld.vue</code> to test hot module replacement.
   </p>
+
+  
 </template>
 
 <style scoped>
