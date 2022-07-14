@@ -1,6 +1,10 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import Button from './Button.vue'
+import Button from './Button.vue';
+
+
+
+
 
 defineProps({
   msg: String
@@ -10,6 +14,8 @@ const count = ref(0);
 const name = ref("");
 const posts = ref([]);
 const loading = ref(false);
+// const db = await fetch('./server');
+
 
 async function getData() {
   loading.value = true;
