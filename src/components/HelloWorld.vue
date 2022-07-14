@@ -3,9 +3,6 @@ import { ref, onMounted } from 'vue';
 import Button from './Button.vue';
 
 
-
-
-
 defineProps({
   msg: String
 });
