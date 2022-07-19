@@ -13,17 +13,32 @@ const posts = ref([]);
 const loading = ref(false);
 // const db = await fetch('./server');
 
+window.coordinates = [];
 
 async function getData() {
   loading.value = true;
-  const repsponse = await fetch('https://jsonplaceholder.typicode.com/posts');
+  const repsponse = await fetch('http://localhost:8081/');
   const data = await repsponse.json();
+  console.log(data);
   posts.value = data;
+  // coordinates = "[";
+// let data = [62.134265, 77.458448];
+for (let i = 0; i < data.length; 	i++) { 
+  
+   coordinates += [parseFloat(data[i]['LOCATION_WIDTH']), parseFloat(data[i]['LOCATION_LONG'])];  
+  // $coordinates [] = [(float)$row["LOCATION_WIDTH"], (float)$row["LOCATION_LONG"]]; // наполняем многомерный массив   
+}  
+// coordinates += "]";
+// coordinates = coordinates.slice(0, -2) + ']';
+
+console.log("Отправляем с HelloWorld" + coordinates);
+//  window.globalVar = "I am global";
 
   setTimeout(() => {
     loading.value = false;
-  }, 1500);
+  }, 500);
 }
+
 
 function onClick() {
   console.log("Click");
@@ -34,44 +49,21 @@ onMounted(async () => {
 })
 
 
-
- 
-
-
 </script>
 
 <template>
-  <h1>{{ msg }}</h1>
+  <!-- <h1>{{ msg }}</h1> -->
 
-  <p>
-    Recommended IDE setup:
-    <a href="https://code.visualstudio.com/" target="_blank">VS Code</a>
-    +
-    <a href="https://github.com/johnsoncodehk/volar" target="_blank">Volar</a>
-  </p>
 
-  <p>
-    <a href="https://vitejs.dev/guide/features.html" target="_blank">
-      Vite Documentation
-    </a>
-    |
-    <a href="https://v3.vuejs.org/" target="_blank">Vue 3 Documentation</a>
-  </p>
-
-  <button type="button" @click="count++">count is: {{ count }}</button>
-  <p>
-    Edit
-    <code>components/HelloWorld.vue</code> to test hot module replacement.
-  </p>
-
-  <h1>{{ msg }}</h1>
-
-  Name is: {{ name }}
-
-  <div>
-    <input type="text" v-model="name">
-  </div>
-
+    <div class="row main-block">
+      <div class="col-2 left-menu">
+        Боковое меню
+      </div>
+      <div class="col-10 hero-unit">      
+      <div class="container">   
+        <div id="YMapsID"></div>  
+<button class="btn btn-primary" id="buttonFiltr">Button</button>  
+  
   <Button 
     @click="getData" 
     :variant="'success'" 
@@ -80,13 +72,7 @@ onMounted(async () => {
     Get data
   </Button>
 
-  <Button @click="onClick">
-    Upload
-  </Button>
-
-  <Button>
-    Delete
-  </Button>
+  
 
   <div v-if="loading"> 
     <h3>Загузка</h3>
@@ -95,24 +81,37 @@ onMounted(async () => {
     <table class="table table-bordered">
       <thead>
         <tr>
-          <th>User id</th>
           <th>id</th>
-          <th>Title</th>
-          <th>Body</th>
+          <th>Дата</th>
+          <th>Тип</th>
+          <th>Описание</th>
         </tr>
       </thead>
       <tbody>
-
-        <tr v-for="post in posts">
-          <td>{{ post.userId }}</td>
+        <tr v-for="post in posts" :key="post.id">
           <td>{{ post.id }}</td>
-          <td>{{ post.title }}</td>
-          <td>{{ post.body }}</td>
+          <td>{{ post.DATE }}</td>
+          <td>{{ post.TIPE }}</td>
+          <td>{{ post.DESCRIPTION }}</td>
         </tr>
-
+<!-- DATE: "16.05.2022"
+DESCRIPTION: "5 мкр"
+LOCATION_LONG: 77.457443
+LOCATION_WIDTH: 62.13134
+TIPE: "Trash"
+id: 1 -->
       </tbody>
     </table>
   </div>
+  
+
+</div>
+</div>
+</div>
+
+
+
+
 </template>
 
 <style scoped>

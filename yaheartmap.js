@@ -1,9 +1,6 @@
 
-
-
-    console.log('test');
-    
-    
+// import {} from './src/components/HelloWorld.vue';
+// import { coordinates } from './src/components/HelloWorld';
 
 /**
  * Get map points from backend
@@ -94,7 +91,12 @@ ymaps.ready(async function () {
     opacities = [0.4, 0.6, 0.8, 1];
 
     // let data = await fetchData();
-    let data = [62.134265, 77.458448];
+    
+    //  let data2 = [[62.13134, 77.457443], [62.130305, 77.45629], [62.13134, 77.45744], [62.12905, 77.45932], [62.130212, 77.456206], [62.127172, 77.452864], [62.127172, 77.452864], [62.127172, 77.452864], [62.13134, 77.457443]];
+      let data = coordinates;
+    // let data = data2;
+console.log("получаем в YaMap " + data);
+// console.log(globalVar);
 
     ymaps.modules.require(['Heatmap'], function (Heatmap) {
         var heatmap = new Heatmap(data, {
