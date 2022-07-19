@@ -22,7 +22,7 @@ ymaps.ready(async function () {
     var map = new ymaps.Map('YMapsID', {
         center: [62.134265, 77.458448],
         controls: ['zoomControl', 'typeSelector',  'fullscreenControl'],
-        zoom: 12, type: 'yandex#map'
+        zoom: 13, type: 'yandex#satellite'
         // 'yandex#map' - тип карты "схема";
         // 'yandex#satellite' - тип карты "спутник";
         // 'yandex#hybrid' - тип карты "гибрид".

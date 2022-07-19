@@ -24,14 +24,15 @@ async function getData() {
   // coordinates = "[";
 // let data = [62.134265, 77.458448];
 for (let i = 0; i < data.length; 	i++) { 
-  
-   coordinates += [parseFloat(data[i]['LOCATION_WIDTH']), parseFloat(data[i]['LOCATION_LONG'])];  
+   
+   coordinates.push([data[i]['LOCATION_WIDTH'], data[i]['LOCATION_LONG']]);  
   // $coordinates [] = [(float)$row["LOCATION_WIDTH"], (float)$row["LOCATION_LONG"]]; // наполняем многомерный массив   
+  
 }  
 // coordinates += "]";
 // coordinates = coordinates.slice(0, -2) + ']';
 
-console.log("Отправляем с HelloWorld" + coordinates);
+console.log("Отправляем с HelloWorld " + coordinates);
 //  window.globalVar = "I am global";
 
   setTimeout(() => {
@@ -54,7 +55,18 @@ onMounted(async () => {
 <template>
   <!-- <h1>{{ msg }}</h1> -->
 
+    <header class="d-flex flex-wrap justify-content-center py-3 border-bottom header">
+      <a href="#" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+        <img src = "logo.png" width="50px" >
+        <span class="fs-4">АИС "Тепловая карта"</span>
+      </a>
 
+      <ul class="nav nav-pills">
+        <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Home</a></li>
+        <li class="nav-item"><a href="#" class="nav-link">Features</a></li>
+      </ul>
+    </header>
+    
     <div class="row main-block">
       <div class="col-2 left-menu">
         Боковое меню
