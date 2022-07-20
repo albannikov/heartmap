@@ -16,15 +16,29 @@ app.use(bodyParser.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 // simple route
-app.get("/", (req, res) => {
-    // BD Connect -->
+
 const mysql = require('mysql');
+
 const conn = mysql.createConnection({
     host: "localhost",
     user: "root",
     database: "admin_heartmap",
     password: ""
-})
+});
+
+conn.connect(function(err){
+    if (err) {
+      return console.error("Ошибка: " + err.message);
+    }
+    else{
+      console.log("Подключение к серверу MySQL успешно установлено");
+    }
+ });
+ conn.query("SET SESSION wait_timeout = 604800"); // 7 days timeout
+ 
+app.get("/", (req, res) => {
+    // BD Connect -->
+
 
 
 let query = "SELECT * FROM points";
