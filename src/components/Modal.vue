@@ -1,14 +1,52 @@
-<script>
+<script setup>
+  import { ref } from 'vue';
 
- export default {
-    name: 'modal',
-    methods: {
-      close() {
-        this.$emit('close');
-      },
-    },
+  // Components
+  import Button from './Button.vue';
+
+  // Emits
+  const emit = defineEmits(['close']);
+
+  // Props
+  const props = defineProps({
+    title: {
+      type: String,
+      default: 'This is the default tile!',
+      reuired: false,
+    }
+  });
+
+  // Data
+  const coords = ref([
+    62.134265, 
+    77.458448
+  ]);
+
+  // Methods
+  /**
+   * 
+   */
+  const onClose = () => {
+    emit('close');
+  }
+
+  /**
+   * 
+   */
+  const onSave = () => {
+    console.log(`Сохраняю координаты ${coords.value[0]} ${coords.value[1]}`);
+  }
+
+  /**
+   * 
+   */
+  const onMapClick = (e) => {
+    if (e.originalEvent) {
+      coords.value = e.get('coords');
+    }
   };
 </script>
+
 <template>
   <transition name="modal-fade">
     <div class="modal-backdrop">
@@ -21,31 +59,49 @@
           class="modal-header"
           id="modalTitle"
         >
-          <slot name="header">
-            This is the default tile!
+          {{ title }}
+          <slot name="header" />
 
-            <button
-              type="button"
-              class="btn-close"
-              @click="close"
-              aria-label="Close modal"
-            >
-              x
-            </button>
-          </slot>
+          <button
+            type="button"
+            class="btn-close"
+            @click="onClose"
+            aria-label="Close modal"
+          >
+            x
+          </button>
         </header>
         <section
           class="modal-body"
           id="modalDescription"
         >
           <slot name="body">
-       
+            <yandex-map 
+              :coords="coords" 
+              :settings="settings" 
+              :zoom="14"
+              @click="(e) => onMapClick(e)"
+            >
+              <ymap-marker 
+                marker-id="123" 
+                :coords="coords"
+                hint-content="some hint"
+              ></ymap-marker>
+            </yandex-map>
 
-<div id="map" style="width: 500px; height: 370px;"></div>
-<input id="coordinates">
-
+            <div>
+              <input v-model="coords[0]">
+              <input v-model="coords[1]">
+            </div>
+            <div>
+              <Button @click="onSave">
+                Сохранить точку
+              </Button>
+            </div>
+           
           </slot>
         </section>
+
         <footer class="modal-footer">
           <slot name="footer">
             I'm the default footer!
@@ -53,7 +109,7 @@
             <button
               type="button"
               class="btn-green"
-              @click="close"
+              @click="onClose"
               aria-label="Close modal"
             >
               Close me!
@@ -64,7 +120,11 @@
     </div>
   </transition>
 </template>
+
 <style>
+  .ymap-container {
+    height: 600px;
+  }
   .modal-backdrop {
     position: fixed;
     top: 0;
