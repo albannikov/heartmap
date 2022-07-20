@@ -1,52 +1,100 @@
 <script setup>
-import { ref, onMounted } from 'vue';
-import Button from './Button.vue';
+  import { ref, reactive, onMounted } from 'vue';
+  import { yandexMap, ymapMarker } from 'vue-yandex-maps';
 
+  // Components
+  import Button from './Button.vue';
+  import Modal  from './Modal.vue';
 
-defineProps({
-  msg: String
-});
-//
-const count = ref(0);
-const name = ref("");
-const posts = ref([]);
-const loading = ref(false);
-// const db = await fetch('./server');
+  // Props
+  const props = defineProps({
+    msg: String
+  });
 
-window.coordinates = [];
+  // Data
+  const settings = {
+    // apiKey: '',
+    lang: 'ru_RU',
+    coordorder: 'latlong',
+    enterprise: false,
+    version: '2.1',
+  };
 
-async function getData() {
-  // coordinates = [];
-  loading.value = true;
-  const repsponse = await fetch('http://localhost:8081/');
-  const data = await repsponse.json();
-  console.log(data);
-  posts.value = data;
-  // coordinates = "[";
-// let data = [62.134265, 77.458448];
-coordinates = [];
-for (let i = 0; i < data.length; 	i++) {    
-   coordinates.push([data[i]['LOCATION_WIDTH'], data[i]['LOCATION_LONG']]);  
-}  
+  const coords = [
+    54.82896654088406,
+    39.831893822753904,
+  ];
 
+  const count = ref(0);
+  const name = ref("");
+  const posts = ref([]);
+  const loading = ref(false);
+  const modalState = reactive({
+    loading: false,
+    isVisible: false,
+  })
 
-console.log("Отправляем с HelloWorld " + coordinates);
+  // const db = await fetch('./server');
 
-  setTimeout(() => {
-    loading.value = false;
-  }, 300);
-}
+  window.coordinates = [];
 
+  // Methods
+  /**
+   * Get server data
+   * 
+   */
+  async function getData() {
+    // coordinates = [];
+    loading.value = true;
+    const repsponse = await fetch('http://localhost:8081/');
+    const data = await repsponse.json();
+    console.log(data);
+    posts.value = data;
+    // coordinates = "[";
+    // let data = [62.134265, 77.458448];
+    coordinates = [];
+    
+    for (let i = 0; i < data.length; 	i++) {    
+      coordinates.push([data[i]['LOCATION_WIDTH'], data[i]['LOCATION_LONG']]);  
+    }  
 
-function onClick() {
-  console.log("Click");
-}
+    console.log("Отправляем с HelloWorld " + coordinates);
+      setTimeout(() => {
+        loading.value = false;
+      }, 300);
+  }
 
-onMounted(async () => {
-  await getData();
-})
+  /**
+   * 
+   */
+  const toggleModal = () =>  {
+    modalState.isVisible = !modalState.isVisible;
+  }
 
+  /**
+   * 
+   */
+  const showModal = () =>  {
+    modalState.isVisible = true;
+  }
 
+  /**
+   * 
+   */
+  const closeModal = () => {
+    modalState.isVisible = false;
+  }
+
+  /**
+   * 
+   */
+  function onClick() {
+    console.log("Click");
+  }
+
+  onMounted(async () => {
+    await getData();
+  });
 </script>
 
 <template>
@@ -78,19 +126,39 @@ onMounted(async () => {
   </Button>
 
 
+ <div id="app">
+    <button
+      type="button"
+      class="btn"
+      @click="showModal"
+    >
+      Open Modal!
+    </button>
 
+    <Modal
+      v-show="modalState.isVisible"
+      @close="closeModal"
+    />
+  </div>
   
       </div>
 
 
       <div class="col-10 hero-unit">      
-      <div class="container">   
+      <div class="container">
+
+        <yandexMap 
+          :settings="settings" 
+          :zoom="13"
+        >
+          <ymapMarker 
+            :coords="coords" 
+            marker-id="123" 
+            hint-content="some hint" 
+          />
+        </yandexMap>
         <div id="YMapsID"></div>  
 
-  
- 
-
-  
 
   <div v-if="loading"> 
     <br><div class="spinner-border text-primary" role="status">
@@ -138,28 +206,7 @@ onMounted(async () => {
     </div>
     <!-- Left -->
 
-    <!-- Right -->
-    <div>
-      <a href="" class="me-4 text-reset">
-        <i class="fab fa-facebook-f"></i>
-      </a>
-      <a href="" class="me-4 text-reset">
-        <i class="fab fa-twitter"></i>
-      </a>
-      <a href="" class="me-4 text-reset">
-        <i class="fab fa-google"></i>
-      </a>
-      <a href="" class="me-4 text-reset">
-        <i class="fab fa-instagram"></i>
-      </a>
-      <a href="" class="me-4 text-reset">
-        <i class="fab fa-linkedin"></i>
-      </a>
-      <a href="" class="me-4 text-reset">
-        <i class="fab fa-github"></i>
-      </a>
-    </div>
-    <!-- Right -->
+
   </section>
   <!-- Section: Social media -->
 
@@ -168,18 +215,7 @@ onMounted(async () => {
     <div class="container text-center text-md-start mt-5">
       <!-- Grid row -->
       <div class="row mt-3">
-        <!-- Grid column -->
-        <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
-          <!-- Content -->
-          <h6 class="text-uppercase fw-bold mb-4">
-            <i class="fas fa-gem me-3"></i>Company name
-          </h6>
-          <p>
-            Here you can use rows and columns to organize your footer content. Lorem ipsum
-            dolor sit amet, consectetur adipisicing elit.
-          </p>
-        </div>
-        <!-- Grid column -->
+  
 
         <!-- Grid column -->
         <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
@@ -205,21 +241,8 @@ onMounted(async () => {
         <!-- Grid column -->
         <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
           <!-- Links -->
-          <h6 class="text-uppercase fw-bold mb-4">
-            Useful links
-          </h6>
-          <p>
-            <a href="#!" class="text-reset">Pricing</a>
-          </p>
-          <p>
-            <a href="#!" class="text-reset">Settings</a>
-          </p>
-          <p>
-            <a href="#!" class="text-reset">Orders</a>
-          </p>
-          <p>
-            <a href="#!" class="text-reset">Help</a>
-          </p>
+        
+         <img src = "bear.png" width="150px" >
         </div>
         <!-- Grid column -->
 
