@@ -13,9 +13,8 @@ async function fetchData() {
 }
 
 async function fetchNewData() {
-    const response = await fetch('datacopy.php');
-    const json = await response.json();
-    return json;
+    let data = coordinates;
+    return data;
 }
 
 ymaps.ready(async function () {
@@ -95,7 +94,7 @@ ymaps.ready(async function () {
     //  let data2 = [[62.13134, 77.457443], [62.130305, 77.45629], [62.13134, 77.45744], [62.12905, 77.45932], [62.130212, 77.456206], [62.127172, 77.452864], [62.127172, 77.452864], [62.127172, 77.452864], [62.13134, 77.457443]];
       let data = coordinates;
     // let data = data2;
-console.log("получаем в YaMap " + data);
+    console.log("получаем в YaMap " + data);
 // console.log(globalVar);
 
     ymaps.modules.require(['Heatmap'], function (Heatmap) {

@@ -16,6 +16,7 @@ const loading = ref(false);
 window.coordinates = [];
 
 async function getData() {
+  // coordinates = [];
   loading.value = true;
   const repsponse = await fetch('http://localhost:8081/');
   const data = await repsponse.json();
@@ -23,21 +24,17 @@ async function getData() {
   posts.value = data;
   // coordinates = "[";
 // let data = [62.134265, 77.458448];
-for (let i = 0; i < data.length; 	i++) { 
-   
+coordinates = [];
+for (let i = 0; i < data.length; 	i++) {    
    coordinates.push([data[i]['LOCATION_WIDTH'], data[i]['LOCATION_LONG']]);  
-  // $coordinates [] = [(float)$row["LOCATION_WIDTH"], (float)$row["LOCATION_LONG"]]; // наполняем многомерный массив   
-  
 }  
-// coordinates += "]";
-// coordinates = coordinates.slice(0, -2) + ']';
+
 
 console.log("Отправляем с HelloWorld " + coordinates);
-//  window.globalVar = "I am global";
 
   setTimeout(() => {
     loading.value = false;
-  }, 500);
+  }, 300);
 }
 
 
@@ -57,8 +54,8 @@ onMounted(async () => {
 
     <header class="d-flex flex-wrap justify-content-center py-3 border-bottom header">
       <a href="#" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
-        <img src = "logo.png" width="50px" >
-        <span class="fs-4">АИС "Тепловая карта"</span>
+        <img src = "logo.png" width="250px" >
+        
       </a>
 
       <ul class="nav nav-pills">
@@ -101,32 +98,27 @@ onMounted(async () => {
 </div>
   </div>
   <div v-else>
-    <table class="table table-bordered">
+
+<table class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
       <thead>
         <tr>
-          <th>id</th>
-          <th>Дата</th>
-          <th>Тип</th>
-          <th>Описание</th>
+           <th>id</th>
+           <th>Дата</th>
+           <th>Тип</th>
+           <th>Описание</th>
         </tr>
-      </thead>
+      </thead>            
       <tbody>
-        <tr v-for="post in posts" :key="post.id">
+         <tr v-for="post in posts" :key="post.id">
           <td>{{ post.id }}</td>
           <td>{{ post.DATE }}</td>
           <td>{{ post.TIPE }}</td>
           <td>{{ post.DESCRIPTION }}</td>
         </tr>
-<!-- DATE: "16.05.2022"
-DESCRIPTION: "5 мкр"
-LOCATION_LONG: 77.457443
-LOCATION_WIDTH: 62.13134
-TIPE: "Trash"
-id: 1 -->
       </tbody>
     </table>
-  </div>
-  
+
+</div>
 
 </div>
 </div>
@@ -260,6 +252,8 @@ id: 1 -->
   <!-- Copyright -->
 </footer>
 <!-- Footer -->
+
+
 
 
 </template>
