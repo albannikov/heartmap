@@ -98,7 +98,7 @@
   }
 
   onMounted(async () => {
-    // await getData();
+     await getData();
   });
 </script>
 
