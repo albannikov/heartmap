@@ -44,6 +44,10 @@
 <div id="map" style="width: 500px; height: 370px;"></div>
 <input id="coordinates">
 
+<!-- <iframe src="./src/components/coordinates.html" width="468" height="60" align="left">
+    Ваш браузер не поддерживает плавающие фреймы!
+ </iframe> -->
+
           </slot>
         </section>
         <footer class="modal-footer">

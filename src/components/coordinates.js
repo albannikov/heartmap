@@ -55,4 +55,5 @@ function save (){
     document.getElementById("coordinates").value = new_coords;
 }
 
+
 ymaps.ready(init);

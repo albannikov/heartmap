@@ -1,6 +1,7 @@
 <script setup>
+
   import { ref, reactive, onMounted } from 'vue';
-  import { yandexMap, ymapMarker } from 'vue-yandex-maps';
+  // import { yandexMap, ymapMarker } from 'vue-yandex-maps';
 
   // Components
   import Button from './Button.vue';
@@ -47,6 +48,27 @@
     // coordinates = [];
     loading.value = true;
     const repsponse = await fetch('http://localhost:8081/');
+    const data = await repsponse.json();
+    console.log(data);
+    posts.value = data;
+    // coordinates = "[";
+    // let data = [62.134265, 77.458448];
+    coordinates = [];
+    
+    for (let i = 0; i < data.length; 	i++) {    
+      coordinates.push([data[i]['LOCATION_WIDTH'], data[i]['LOCATION_LONG']]);  
+    }  
+
+    console.log("Отправляем с HelloWorld " + coordinates);
+      setTimeout(() => {
+        loading.value = false;
+      }, 300);
+  }
+
+    async function getSnow() {
+    // coordinates = [];
+    loading.value = true;
+    const repsponse = await fetch('http://localhost:8081/snow');
     const data = await repsponse.json();
     console.log(data);
     posts.value = data;
@@ -125,6 +147,14 @@
     Get data
   </Button>
 
+ <Button id="buttonFiltrSnow"
+    @click="getSnow" 
+    :variant="'success'" 
+    :disabled="loading"
+  >
+    Get snow
+  </Button>
+
 
  <div id="app">
     <button
@@ -147,16 +177,7 @@
       <div class="col-10 hero-unit">      
       <div class="container">
 
-        <yandexMap 
-          :settings="settings" 
-          :zoom="13"
-        >
-          <ymapMarker 
-            :coords="coords" 
-            marker-id="123" 
-            hint-content="some hint" 
-          />
-        </yandexMap>
+      
         <div id="YMapsID"></div>  
 
 

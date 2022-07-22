@@ -38,9 +38,6 @@ conn.connect(function(err){
  
 app.get("/", (req, res) => {
     // BD Connect -->
-
-
-
 let query = "SELECT * FROM points";
 conn.query(query, (err, result, field) => {
     // console.log(err); Ошибки если есть
@@ -52,6 +49,21 @@ conn.query(query, (err, result, field) => {
 });
   
 });
+app.get("/snow", (req, res) => {
+    // BD Connect -->
+let query = "SELECT * FROM points WHERE TIPE = 'snow'";
+conn.query(query, (err, result, field) => {
+    // console.log(err); Ошибки если есть
+    //  console.log(result); //вывод всего запроса 
+    //console.log(result[1]['DATE']);
+    // let a = result[1]['DATE'];
+    res.json(result);
+    // console.log(fields);
+});
+  
+});
+
+
 // set port, listen for requests
 const PORT = process.env.PORT || 8081;
 app.listen(PORT, () => {
