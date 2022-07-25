@@ -2,6 +2,7 @@
 
   import { ref, reactive, onMounted } from 'vue';
   // import { yandexMap, ymapMarker } from 'vue-yandex-maps';
+    //  import { Ymap } from 'vue-yandex-maps';
 
   // Components
   import Button from './Button.vue';
@@ -124,7 +125,7 @@
 
     <header class="d-flex flex-wrap justify-content-center py-3 border-bottom header">
       <a href="#" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
-        <img src = "logo.png" width="250px" >
+        <img src = "logo.png" width="290px" >
         
       </a>
 
@@ -157,10 +158,9 @@
 
 
  <div id="app">
-    <button
-      type="button"
-      class="btn"
+    <button      
       @click="showModal"
+      :variant="'success'"
     >
       Open Modal!
     </button>
@@ -170,7 +170,7 @@
       @close="closeModal"
     />
   </div>
-  
+
       </div>
 
 

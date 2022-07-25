@@ -52,7 +52,11 @@ html, body {
     width: 880px;
 } 
 
-
+#map {
+	border-radius: 15px 15px 0 0;
+	overflow: hidden;
+	box-shadow: 0 0 5px rgba(41, 41, 41, 0.5);
+}
 
 .table {
 	border-radius: 0 0 15px 15px;

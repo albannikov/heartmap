@@ -7,9 +7,15 @@
         this.$emit('close');
       },
     },
+    
   };
+// import { yandexMap, ymapMarker } from 'vue-yandex-maps'
+
+
 </script>
 <template>
+
+
   <transition name="modal-fade">
     <div class="modal-backdrop">
       <div class="modal"
@@ -26,7 +32,7 @@
 
             <button
               type="button"
-              class="btn-close"
+              class="btn-close-window"
               @click="close"
               aria-label="Close modal"
             >
@@ -39,10 +45,22 @@
           id="modalDescription"
         >
           <slot name="body">
-       
 
-<div id="map" style="width: 500px; height: 370px;"></div>
+ <div class="container">
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong>Пожалуйста,</strong> увеличьте карту до масштаба, позволяющего точно нанести координаты добавляемой геолокации
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+</div>
+
+ <div class="container">
+   
+<div id="map" style="width: 100%; height: 470px;"></div>
+</div>
+
 <input id="coordinates">
+
+
 
 <!-- <iframe src="./src/components/coordinates.html" width="468" height="60" align="left">
     Ваш браузер не поддерживает плавающие фреймы!
@@ -111,13 +129,13 @@
     padding: 20px 10px;
   }
 
-  .btn-close {
+  .btn-close-window {
     border: none;
-    font-size: 20px;
+    /* font-size: 20px; */
     padding: 20px;
     cursor: pointer;
     font-weight: bold;
-    color: #4AAE9B;
+    color: #0f5132;
     background: transparent;
   }
 
