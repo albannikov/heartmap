@@ -12,7 +12,7 @@ async function fetchData() {
     return json;
 }
 
-async function fetchNewData() {
+export async function fetchNewData() {
     let data = await coordinates;
     return data;
 }
@@ -109,20 +109,22 @@ ymaps.ready(async function () {
 
         
        
-buttonFiltr.onclick = async function() {    
-     let newData = await fetchNewData();
-     console.log("получаем в YaMap " + data);
+buttonFiltr.onclick = async function() {   
+    setTimeout(() => {   
+     let newData = coordinates;
+     console.log("получаем в YaMap НАЖАВ КНОПКУ 1: " + newData);
      heatmap.setData(newData);    
+    }, 10);
   };
 
   buttonFiltrSnow.onclick = async function() {    
-    let newData = await fetchNewData();
-    let data = coordinates;
-    console.log("получаем в YaMap НАЖАВ КНОПКУ " + data);
-    heatmap.setData(newData);    
-    ymaps.ready();
-    heatmap.setMap(map);
- };
+    setTimeout(() => {             
+        let newData = coordinates;
+        console.log("получаем в YaMap НАЖАВ КНОПКУ 2: " + newData);
+        heatmap.setData(newData);  
+        
+    }, 10);      
+  };
   
 
 

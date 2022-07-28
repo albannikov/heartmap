@@ -11,10 +11,8 @@
   };
 // import { yandexMap, ymapMarker } from 'vue-yandex-maps'
 
-
 </script>
 <template>
-
 
   <transition name="modal-fade">
     <div class="modal-backdrop">

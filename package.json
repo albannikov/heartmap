@@ -14,14 +14,17 @@
     "cors": "^2.8.5",
     "express": "^4.18.1",
     "mdb-ui-kit": "^4.3.0",
+    "moment": "^2.29.4",
     "mysql": "^2.18.1",
     "node-sass": "^7.0.1",
     "vue": "^3.2.25",
+    "vue-hotel-datepicker": "^4.5.1",
     "vue-yandex-maps": "^0.12.3",
     "vue3-datepicker-lite": "^1.9.6"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.3.3",
+    "@vue/compiler-sfc": "^3.2.37",
     "sass": "^1.53.0",
     "vite": "^2.9.9"
   }

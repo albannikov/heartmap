@@ -1,12 +1,10 @@
 <script setup>
 
+import { fetchNewData } from '/Develop/heartmap-v2-4/yaheartmap';
   import { ref, reactive, onMounted } from 'vue';
-  // import { yandexMap, ymapMarker } from 'vue-yandex-maps';
-    //  import { Ymap } from 'vue-yandex-maps';
-
-  // Components
   import Button from './Button.vue';
   import Modal  from './Modal.vue';
+  
 
   // Props
   const props = defineProps({
@@ -22,11 +20,7 @@
     version: '2.1',
   };
 
-  const coords = [
-    54.82896654088406,
-    39.831893822753904,
-  ];
-
+  
   const count = ref(0);
   const name = ref("");
   const posts = ref([]);
@@ -47,6 +41,7 @@
    */
   async function getData() {
     // coordinates = [];
+    
     loading.value = true;
     const repsponse = await fetch('http://localhost:8081/');
     const data = await repsponse.json();
@@ -63,7 +58,7 @@
     console.log("Отправляем с HelloWorld " + coordinates);
       setTimeout(() => {
         loading.value = false;
-      }, 300);
+      }, 50);
   }
 
     async function getSnow() {
@@ -72,6 +67,7 @@
     const repsponse = await fetch('http://localhost:8081/snow');
     const data = await repsponse.json();
     console.log(data);
+    // console.log(date.value);
     posts.value = data;
     // coordinates = "[";
     // let data = [62.134265, 77.458448];
@@ -84,9 +80,9 @@
     console.log("Отправляем с HelloWorld " + coordinates);
       setTimeout(() => {
         loading.value = false;
-      }, 300);
+      }, 50);
+      
   }
-
   /**
    * 
    */
@@ -118,10 +114,89 @@
   onMounted(async () => {
     await getData();
   });
+
+
+</script>
+
+<script type="text/javascript">
+
+// -BEGIN- Получаем значение из Datepicker
+$(function() { //для ДатаПикера используем библиотеку daterangepicker.com
+
+  $('input[name="datefilter"]').daterangepicker({
+       "showDropdowns": true,
+      autoUpdateInput: false,
+      locale: {
+          "format": "DD.MM.YYYY",
+        "separator": " - ",
+        "applyLabel": "Выбрать",
+        "cancelLabel": "Отмена",
+        "fromLabel": "от",
+        "toLabel": "до",
+        "customRangeLabel": "Custom",
+        "weekLabel": "н",
+        "daysOfWeek": [
+            "ВС",
+            "ПН",
+            "ВТ",
+            "СР",
+            "ЧТ",
+            "ПТ",
+            "СБ"
+        ],
+        "monthNames": [
+            "Январь",
+            "Февраль",
+            "Март",
+            "Апрель",
+            "Май",
+            "Июнь",
+            "Июль",
+            "Август",
+            "Сентябрь",
+            "Октябрь",
+            "Ноябрь",
+            "Декабрь"
+        ],
+           "firstDay": 1
+      }
+  });
+
+  $('input[name="datefilter"]').on('apply.daterangepicker', function(ev, picker) {
+      $(this).val(picker.startDate.format('DD.MM.YYYY') + ' - ' + picker.endDate.format('DD.MM.YYYY'));
+      window.DateStart = picker.startDate.format('DD.MM.YYYY');
+      window.DateEnd = picker.endDate.format('DD.MM.YYYY');
+  });
+
+  $('input[name="datefilter"]').on('cancel.daterangepicker', function(ev, picker) {
+      $(this).val('');
+  });
+
+});
+// -END- Получаем значение из Datepicker
+
+// -BEGIN- Получаем значение из Select
+window.tipeEvent = "all"; //По умолчанию (до выбора) пусть выбирается всё
+document.addEventListener("DOMContentLoaded", function() {
+  document.getElementById("tipes").onchange = function() {
+    tipeEvent = document.getElementById("tipes").value;
+  };
+});
+// -END- Получаем значение из Select
+
+
+function ShowDate() {
+  console.log(DateStart); //от
+  console.log(DateEnd);   //до
+  console.log(tipeEvent)  //тип инцидента
+  };
+
+
+
 </script>
 
 <template>
-  <!-- <h1>{{ msg }}</h1> -->
+
 
     <header class="d-flex flex-wrap justify-content-center py-3 border-bottom header">
       <a href="#" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
@@ -165,16 +240,53 @@
       Open Modal!
     </button>
 
+ <Button
+    @click="ShowDate" 
+    :variant="'success'" 
+    :disabled="loading"
+  >
+    ShowDate
+  </Button>
+
+
+
+  
+
     <Modal
       v-show="modalState.isVisible"
       @close="closeModal"
     />
   </div>
 
+<div class="container">
+ <div class="row">
+  <div class="hint">Период</div>
+
+<input type="text" name="datefilter" class="datefilter" value="" />
+
+
+<!-- BEGIN Выбор типа инцидента -->
+<select name="tipes" id="tipes" class="tipes">
+            <option selected disabled>Выберите тип</option>
+            <option value="Snow">Снег</option>
+            <option value="Trash">Мусор</option>          
+</select>
+<!-- END Выбор типа инцидента -->
+
+
+
+
+
+</div>
+
+
+
+</div>
+
       </div>
 
 
-      <div class="col-10 hero-unit">      
+      <div class="col-10 hero-unit">   
       <div class="container">
 
       
@@ -191,17 +303,20 @@
 <table class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
       <thead>
         <tr>
-           <th>id</th>
-           <th>Дата</th>
            <th>Тип</th>
+           <th>Дата</th>
            <th>Описание</th>
         </tr>
       </thead>            
       <tbody>
          <tr v-for="post in posts" :key="post.id">
-          <td>{{ post.id }}</td>
+          <!-- <td>{{ post.id }}</td> -->
+          <td v-bind:class="post.TIPE"><img v-bind:src="'/src/assets/' + post.TIPE + '.png'" width="20"></td>   
           <td>{{ post.DATE }}</td>
-          <td>{{ post.TIPE }}</td>
+          <!-- "'users/' + item.slug" -->
+          <!-- <img v-bind:src="'/src/assets/' + post.TIPE + '.png'" width="20"> -->
+          <!-- {{post.TIPE == 'Snow'?'Снег':'Мусор'}} -->
+          <!-- <td v-bind:class="post.TIPE"><img v-bind:src="'/src/assets/' + post.TIPE + '.png'" width="20"></td>           -->
           <td>{{ post.DESCRIPTION }}</td>
         </tr>
       </tbody>

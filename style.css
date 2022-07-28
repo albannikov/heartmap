@@ -58,6 +58,33 @@ html, body {
 	box-shadow: 0 0 5px rgba(41, 41, 41, 0.5);
 }
 
+.hint {
+	color: white;
+	font-size:small;
+	text-align: left;
+}
+/* .Snow {
+	color: red;
+}
+
+.Trash {
+	color: green;
+} */
+
+.tipes {
+	margin: 20px 0;
+	height: 30px;
+	border-radius: 5px;
+
+}
+
+.datefilter {
+	margin: 0;
+	height: 30px;
+	border-radius: 5px;
+
+}
+
 .table {
 	border-radius: 0 0 15px 15px;
 }
