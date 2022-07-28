@@ -83,6 +83,31 @@ import { fetchNewData } from '/Develop/heartmap-v2-4/yaheartmap';
       }, 50);
       
   }
+
+
+      async function getQuery() {
+
+    loading.value = true;
+    let queryParams = "http://localhost:8081/query?tipe=" + tipeEvent + "&dateFrom=" + DateStart + "&dateTo=" + DateEnd;
+    console.log("Запрос по адресу" + queryParams);
+    const repsponse = await fetch('queryParams');
+    const data = await repsponse.json();
+    console.log("Получили ответ Json" + data);
+    posts.value = data;
+    coordinates = [];
+
+    for (let i = 0; i < data.length; 	i++) {    
+      coordinates.push([data[i]['LOCATION_WIDTH'], data[i]['LOCATION_LONG']]);  
+    }  
+
+    console.log("Отправляем с HelloWorld " + coordinates);
+      setTimeout(() => {
+        loading.value = false;
+      }, 50);
+      
+  }
+
+
   /**
    * 
    */
@@ -189,6 +214,8 @@ function ShowDate() {
   console.log(DateStart); //от
   console.log(DateEnd);   //до
   console.log(tipeEvent)  //тип инцидента
+    // let queryParams = "http://localhost:8081/query?tipe=" + tipeEvent + "&dateFrom=" + DateStart + "&dateTo=" + DateEnd;
+    // console.log(queryParams);
   };
 
 
@@ -273,7 +300,13 @@ function ShowDate() {
 </select>
 <!-- END Выбор типа инцидента -->
 
-
+<Button
+    @click="getQuery" 
+    :variant="'success'" 
+    :disabled="loading"
+  >
+    getQuery
+  </Button>
 
 
 
