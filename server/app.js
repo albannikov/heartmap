@@ -41,10 +41,11 @@ conn.connect(function(err){
 
  
 app.get("/", (req, res) => {
-let query = "SELECT * FROM points";
+let query = "SELECT * FROM points ORDER BY DATE DESC";
 conn.query(query, (err, result, field) => {
     //console.log("возвращаем - " + result);
     res.json(result);
+    res.end();
 });
   
 // Обработчик запросов
@@ -55,7 +56,16 @@ app.get("/query", function(request, res){
     let tipe = request.query.tipe;          //тип инцидента
     let dateFrom = request.query.dateFrom;  //Дата От
     let dateTo = request.query.dateTo;      //Дата До
-    let sql = "SELECT * FROM points WHERE TIPE = '" + tipe + "' AND DATE BETWEEN'" + dateFrom + "' AND '" + dateTo + "'"; //Формируем строку запроса
+    
+    console.log ("ТИП =====" + tipe);
+    let sql = "";
+    if (tipe == 'all') {
+      sql = "SELECT * FROM points WHERE DATE BETWEEN'" + dateFrom + "' AND '" + dateTo + "' ORDER BY DATE DESC"; //Формируем строку запроса
+    }
+    else {
+      sql = "SELECT * FROM points WHERE TIPE = '" + tipe + "' AND DATE BETWEEN'" + dateFrom + "' AND '" + dateTo + "' ORDER BY DATE DESC"; //Формируем строку запроса
+    };
+    
     console.log("Пришел запрос на бэк");
     console.log("Выполняем такой запрос:");
     console.log(sql);
@@ -63,6 +73,7 @@ app.get("/query", function(request, res){
 conn.query(sql, (err, result, field) => {
     console.log("возвращаем - " + result);
     res.json(result); // Взвращаем ответ
+    res.end();
 });
 // result = [{"id":1,"TIPE":"Snow","DATE":"10.05.2022","LOCATION_WIDTH":62.13134,"LOCATION_LONG":77.457443,"DESCRIPTION":"5 мкр"},{"id":3,"TIPE":"Snow","DATE":"12.05.2022","LOCATION_WIDTH":62.13134,"LOCATION_LONG":77.45744,"DESCRIPTION":"Гора снега в 6 мкр"},{"id":6,"TIPE":"Snow","DATE":"15.05.2022","LOCATION_WIDTH":62.127172,"LOCATION_LONG":77.452864,"DESCRIPTION":"Центр5"},{"id":8,"TIPE":"Snow","DATE":"17.05.2022","LOCATION_WIDTH":62.127172,"LOCATION_LONG":77.452864,"DESCRIPTION":"Центр5"}];
 // res.json(result); // Взвращаем ответ

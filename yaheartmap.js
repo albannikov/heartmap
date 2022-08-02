@@ -127,6 +127,15 @@ buttonFiltr.onclick = async function() {
   };
   
 
+  buttonFiltrQuery.onclick = async function() {    
+    setTimeout(() => {             
+        let newData = coordinates;
+        console.log("получаем в YaMap НАЖАВ КНОПКУ 3: " + newData);
+        heatmap.setData(newData);  
+        
+    }, 10);      
+  };
+
 
 
 

@@ -4,12 +4,16 @@ import { fetchNewData } from '/Develop/heartmap-v2-4/yaheartmap';
   import { ref, reactive, onMounted } from 'vue';
   import Button from './Button.vue';
   import Modal  from './Modal.vue';
-  
+
+
+
 
   // Props
   const props = defineProps({
     msg: String
   });
+
+
 
   // Data
   const settings = {
@@ -62,15 +66,11 @@ import { fetchNewData } from '/Develop/heartmap-v2-4/yaheartmap';
   }
 
     async function getSnow() {
-    // coordinates = [];
+
     loading.value = true;
     const repsponse = await fetch('http://localhost:8081/snow');
     const data = await repsponse.json();
-    console.log(data);
-    // console.log(date.value);
     posts.value = data;
-    // coordinates = "[";
-    // let data = [62.134265, 77.458448];
     coordinates = [];
     
     for (let i = 0; i < data.length; 	i++) {    
@@ -84,15 +84,21 @@ import { fetchNewData } from '/Develop/heartmap-v2-4/yaheartmap';
       
   }
 
+window.DatePickerState = 0;
 
       async function getQuery() {
+        if (DatePickerState == 0) {
+          // alert ('Укажите диапазон дат');
+            document.getElementById("demo").innerHTML = '<div class="alert alert-danger" role="alert">This is a light alert—check it out!</div>';
+
+          return;
+        };
 
     loading.value = true;
     let queryParams = "http://localhost:8081/query?tipe=" + tipeEvent + "&dateFrom=" + DateStart + "&dateTo=" + DateEnd;
-    console.log("Запрос по адресу" + queryParams);
-    const repsponse = await fetch('queryParams');
-    const data = await repsponse.json();
-    console.log("Получили ответ Json" + data);
+    const response = await fetch(queryParams);      
+    const data = await response.json();
+
     posts.value = data;
     coordinates = [];
 
@@ -145,9 +151,24 @@ import { fetchNewData } from '/Develop/heartmap-v2-4/yaheartmap';
 
 <script type="text/javascript">
 
+export default {
+    methods: {    
+/*
+* Метод для форматирования даты, которую получаю из базы и вывожу в таблицу,
+* взял от сюда https://jerickson.net/how-to-format-dates-in-vue-3/
+*/
+
+        formatDate(dateString) {      
+            const date = new Date(dateString);
+                // Then specify how you want your dates to be formatted
+            return new Intl.DateTimeFormat('default', {dateStyle: 'long'}).format(date);
+        }
+    }
+}
+
 // -BEGIN- Получаем значение из Datepicker
 $(function() { //для ДатаПикера используем библиотеку daterangepicker.com
-
+// [moment(), moment()]
   $('input[name="datefilter"]').daterangepicker({
        "showDropdowns": true,
       autoUpdateInput: false,
@@ -189,8 +210,9 @@ $(function() { //для ДатаПикера используем библиот
 
   $('input[name="datefilter"]').on('apply.daterangepicker', function(ev, picker) {
       $(this).val(picker.startDate.format('DD.MM.YYYY') + ' - ' + picker.endDate.format('DD.MM.YYYY'));
-      window.DateStart = picker.startDate.format('DD.MM.YYYY');
-      window.DateEnd = picker.endDate.format('DD.MM.YYYY');
+      window.DateStart = picker.startDate.format('YYYY-MM-DD');
+      window.DateEnd = picker.endDate.format('YYYY-MM-DD');
+      DatePickerState = 1; // Ставим флаг, что значение получено
   });
 
   $('input[name="datefilter"]').on('cancel.daterangepicker', function(ev, picker) {
@@ -210,13 +232,6 @@ document.addEventListener("DOMContentLoaded", function() {
 // -END- Получаем значение из Select
 
 
-function ShowDate() {
-  console.log(DateStart); //от
-  console.log(DateEnd);   //до
-  console.log(tipeEvent)  //тип инцидента
-    // let queryParams = "http://localhost:8081/query?tipe=" + tipeEvent + "&dateFrom=" + DateStart + "&dateTo=" + DateEnd;
-    // console.log(queryParams);
-  };
 
 
 
@@ -232,8 +247,8 @@ function ShowDate() {
       </a>
 
       <ul class="nav nav-pills">
-        <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Home</a></li>
-        <li class="nav-item"><a href="#" class="nav-link">Features</a></li>
+        <!-- <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Home</a></li> -->
+        <li class="nav-item"><a href="#" class="nav-link">Профиль</a></li>
       </ul>
     </header>
     
@@ -241,7 +256,7 @@ function ShowDate() {
 
 
       <div class="col-2 left-menu">
-        
+<!--         
  <Button id="buttonFiltr"
     @click="getData" 
     :variant="'success'" 
@@ -257,24 +272,12 @@ function ShowDate() {
   >
     Get snow
   </Button>
-
+ -->
 
  <div id="app">
-    <button      
-      @click="showModal"
-      :variant="'success'"
-    >
-      Open Modal!
-    </button>
 
- <Button
-    @click="ShowDate" 
-    :variant="'success'" 
-    :disabled="loading"
-  >
-    ShowDate
-  </Button>
 
+ 
 
 
   
@@ -293,24 +296,39 @@ function ShowDate() {
 
 
 <!-- BEGIN Выбор типа инцидента -->
+<div class="hint">Категория</div>
 <select name="tipes" id="tipes" class="tipes">
-            <option selected disabled>Выберите тип</option>
+            <option value="all">Все</option>
             <option value="Snow">Снег</option>
             <option value="Trash">Мусор</option>          
 </select>
 <!-- END Выбор типа инцидента -->
 
-<Button
+
+
+<Button id="buttonFiltrQuery"
     @click="getQuery" 
     :variant="'success'" 
     :disabled="loading"
   >
-    getQuery
+    Фильтр
   </Button>
 
-
-
+      <Button      
+      @click="showModal"
+      :variant="'warning'"
+    >
+      Добавить
+    </button>
 </div>
+
+
+<p id="demo">Click me to change my HTML content (innerHTML).</p>
+
+
+
+
+
 
 
 
@@ -319,15 +337,16 @@ function ShowDate() {
       </div>
 
 
-      <div class="col-10 hero-unit">   
+      <div class="col-10 hero-unit ">   
       <div class="container">
 
-      
+     
         <div id="YMapsID"></div>  
 
 
   <div v-if="loading"> 
     <br><div class="spinner-border text-primary" role="status">
+      
   <span class="sr-only"></span>
 </div>
   </div>
@@ -345,7 +364,7 @@ function ShowDate() {
          <tr v-for="post in posts" :key="post.id">
           <!-- <td>{{ post.id }}</td> -->
           <td v-bind:class="post.TIPE"><img v-bind:src="'/src/assets/' + post.TIPE + '.png'" width="20"></td>   
-          <td>{{ post.DATE }}</td>
+          <td> {{ formatDate(post.DATE) }}</td>         
           <!-- "'users/' + item.slug" -->
           <!-- <img v-bind:src="'/src/assets/' + post.TIPE + '.png'" width="20"> -->
           <!-- {{post.TIPE == 'Snow'?'Снег':'Мусор'}} -->

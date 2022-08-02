@@ -26,7 +26,7 @@
           id="modalTitle"
         >
           <slot name="header">
-            This is the default tile!
+            Добавление записи о новом инциденте
 
             <button
               type="button"
@@ -68,7 +68,7 @@
         </section>
         <footer class="modal-footer">
           <slot name="footer">
-            I'm the default footer!
+            <!-- I'm the default footer! -->
 
             <button
               type="button"
@@ -76,7 +76,7 @@
               @click="close"
               aria-label="Close modal"
             >
-              Close me!
+              Закрыть без сохранения
             </button>
           </slot>
         </footer>

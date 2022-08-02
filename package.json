@@ -8,6 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@kyvg/vue3-notification": "^2.3.6",
     "@vuepic/vue-datepicker": "^3.3.1",
     "body-parser": "^1.20.0",
     "bootstrap": "^5.2.0",
@@ -19,6 +20,7 @@
     "node-sass": "^7.0.1",
     "vue": "^3.2.25",
     "vue-hotel-datepicker": "^4.5.1",
+    "vue-moment": "^4.1.0",
     "vue-yandex-maps": "^0.12.3",
     "vue3-datepicker-lite": "^1.9.6"
   },
