@@ -32,10 +32,9 @@ html, body {
     padding: 20px 0 0 0;
 }
 
-.table {
-	border-radius: 0;
-	overflow: hidden;	
-}
+
+
+
 
 #YMapsID > ymaps {
 	border-radius: 15px 15px 0 0;
@@ -53,9 +52,9 @@ html, body {
 } 
 
 #map {
-	border-radius: 15px 15px 0 0;
+	/* border-radius: 15px 15px 0 0; */
 	overflow: hidden;
-	box-shadow: 0 0 5px rgba(41, 41, 41, 0.5);
+	/* box-shadow: 0 0 5px rgba(41, 41, 41, 0.5); */
 }
 
 .hint {
@@ -94,6 +93,8 @@ html, body {
 
 }
 
+
+
 .table {
 	border-radius: 0 0 15px 15px;
 }
@@ -129,4 +130,58 @@ html, body {
 	background: #F8F8F8;
 }
 
+.alert-danger {
+	position:fixed;
+	right: 20px;
+	bottom: 20px;
+}
 
+
+.coordinates {
+	border: 0;
+	font-size:12px;
+	margin: 0 0 5px 0;
+}
+
+.add-form {
+	/* background-color: rgb(231, 231, 231); */
+	padding: 20px;
+	border-radius: 10px;
+	background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);
+	box-shadow: 0 0 5px rgba(41, 41, 41, 0.5);
+}
+
+.tipes-add {
+	font-size: 18px;
+	width: 100%;
+	padding: 5px;
+	border-radius: 5px;
+	height: 38px;
+	border: 0;
+}
+
+.hint-add {
+	color: rgb(97, 97, 97);
+	font-size:small;
+	text-align: left;
+
+}
+
+.datefilter-add-point {
+	/* margin: 0 0 20px 0; */
+	height: 38px;
+	border-radius: 5px;
+	border: 0;
+	width: 100%;	
+	font-size: 18px;
+}
+
+
+.incNumber {
+	/* margin: 0 0 20px 0; */
+	height: 38px;
+	border-radius: 5px;
+	border: 0;
+	width: 100%;
+	font-size: 18px;	
+}

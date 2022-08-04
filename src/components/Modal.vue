@@ -9,8 +9,25 @@
     },
     
   };
-// import { yandexMap, ymapMarker } from 'vue-yandex-maps'
 
+
+
+/*
+* для ДатаПикера используем библиотеку daterangepicker.com
+* -BEGIN- Получаем значение из Datepicker
+*/
+
+$(function() {
+  $('input[name="datefilter-add-point"]').daterangepicker({
+    singleDatePicker: true,
+    showDropdowns: true,
+    minYear: 1901,
+    maxYear: parseInt(moment().format('YYYY'),10)
+  }, function(start, end, label) {
+    var years = moment().diff(start, 'years');
+    alert("You are " + years + " years old!");
+  });
+});
 </script>
 <template>
 
@@ -51,13 +68,35 @@
 </div>
 </div>
 
- <div class="container">
-   
-<div id="map" style="width: 100%; height: 470px;"></div>
-</div>
+ <div class="container">   
+    <div id="map" style="width: 100%; height: 470px;"></div>
+ </div>
 
-<input id="coordinates">
+<input id="coordinates" class="coordinates">
 
+  <div class="container">
+  <div class="row add-form align-items-end">
+    <div class="col-sm-3">
+       <div class="hint-add">Категория</div>
+      <select name="tipes-add" id="tipes-add" class="tipes-add">
+            <option value="Snow">Снег</option>
+            <option value="Trash">Мусор</option>          
+      </select>
+    </div>
+    <div class="col-sm-3">
+      <div class="hint-add">Дата</div>
+      <input type="text" name="datefilter-add-point" class="datefilter-add-point" value="" />
+    </div>
+    <div class="col-sm-3">
+      <div class="hint-add">Номер инцидента</div>
+      <input id="incNumber" class="incNumber">
+    </div>
+    <div class="col-sm-3 d-grid">
+         <!-- <button type="button" class="btn btn-primary btn-lg">Добавить запись</button> -->
+         <button class="btn btn-primary" type="button">Добавить запись</button>
+    </div>
+  </div>
+  </div>
 
 
 <!-- <iframe src="./src/components/coordinates.html" width="468" height="60" align="left">
@@ -69,7 +108,7 @@
         <footer class="modal-footer">
           <slot name="footer">
             <!-- I'm the default footer! -->
-
+<!-- 
             <button
               type="button"
               class="btn-green"
@@ -77,7 +116,7 @@
               aria-label="Close modal"
             >
               Закрыть без сохранения
-            </button>
+            </button> -->
           </slot>
         </footer>
       </div>
@@ -113,7 +152,7 @@
 
   .modal-header {
     border-bottom: 1px solid #eeeeee;
-    color: #4AAE9B;
+    color: #0f5132;
     justify-content: space-between;
   }
 

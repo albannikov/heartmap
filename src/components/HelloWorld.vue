@@ -88,10 +88,12 @@ window.DatePickerState = 0;
 
       async function getQuery() {
         if (DatePickerState == 0) {
-          // alert ('Укажите диапазон дат');
-            document.getElementById("demo").innerHTML = '<div class="alert alert-danger" role="alert">This is a light alert—check it out!</div>';
 
+            document.getElementById("demo").innerHTML = '<div class="alert alert-danger alert-dismissible fade show" role="alert">Укажите диапазон дат<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Закрыть"></button></div>';
+            
           return;
+        } else {
+          document.getElementById("demo").innerHTML = '';
         };
 
     loading.value = true;
@@ -109,7 +111,7 @@ window.DatePickerState = 0;
     console.log("Отправляем с HelloWorld " + coordinates);
       setTimeout(() => {
         loading.value = false;
-      }, 50);
+      }, 500);
       
   }
 
@@ -166,11 +168,25 @@ export default {
     }
 }
 
-// -BEGIN- Получаем значение из Datepicker
-$(function() { //для ДатаПикера используем библиотеку daterangepicker.com
+
+/*
+* для ДатаПикера используем библиотеку daterangepicker.com
+* -BEGIN- Получаем значение из Datepicker
+*/
+
+$(function() { 
 // [moment(), moment()]
   $('input[name="datefilter"]').daterangepicker({
        "showDropdowns": true,
+          ranges: {
+        'Сегодня': [moment(), moment()],
+        'Вчера': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+        '7 дней': [moment().subtract(6, 'days'), moment()],
+        '30 дней': [moment().subtract(29, 'days'), moment()],
+        'Этот месяц': [moment().startOf('month'), moment().endOf('month')],
+        'Прошлый месяц': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+    },
+         "alwaysShowCalendars": true,
       autoUpdateInput: false,
       locale: {
           "format": "DD.MM.YYYY",
@@ -179,7 +195,7 @@ $(function() { //для ДатаПикера используем библиот
         "cancelLabel": "Отмена",
         "fromLabel": "от",
         "toLabel": "до",
-        "customRangeLabel": "Custom",
+        "customRangeLabel": "Вручную",
         "weekLabel": "н",
         "daysOfWeek": [
             "ВС",
@@ -242,7 +258,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     <header class="d-flex flex-wrap justify-content-center py-3 border-bottom header">
       <a href="#" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
-        <img src = "logo.png" width="290px" >
+        <img src = "logo.png" width="240px" >
         
       </a>
 
@@ -271,8 +287,8 @@ document.addEventListener("DOMContentLoaded", function() {
     :disabled="loading"
   >
     Get snow
-  </Button>
- -->
+  </Button> -->
+
 
  <div id="app">
 
@@ -311,19 +327,19 @@ document.addEventListener("DOMContentLoaded", function() {
     :variant="'success'" 
     :disabled="loading"
   >
-    Фильтр
+ Фильтр
   </Button>
 
       <Button      
       @click="showModal"
       :variant="'warning'"
     >
-      Добавить
+     <i class="fa fa-plus" aria-hidden="true"></i> Добавить
     </button>
 </div>
 
 
-<p id="demo">Click me to change my HTML content (innerHTML).</p>
+<p id="demo"></p>
 
 
 
@@ -356,19 +372,16 @@ document.addEventListener("DOMContentLoaded", function() {
       <thead>
         <tr>
            <th>Тип</th>
-           <th>Дата</th>
+           <th width="15%">Дата</th>
+           <th>инцидент</th>
            <th>Описание</th>
         </tr>
       </thead>            
       <tbody>
          <tr v-for="post in posts" :key="post.id">
-          <!-- <td>{{ post.id }}</td> -->
-          <td v-bind:class="post.TIPE"><img v-bind:src="'/src/assets/' + post.TIPE + '.png'" width="20"></td>   
-          <td> {{ formatDate(post.DATE) }}</td>         
-          <!-- "'users/' + item.slug" -->
-          <!-- <img v-bind:src="'/src/assets/' + post.TIPE + '.png'" width="20"> -->
-          <!-- {{post.TIPE == 'Snow'?'Снег':'Мусор'}} -->
-          <!-- <td v-bind:class="post.TIPE"><img v-bind:src="'/src/assets/' + post.TIPE + '.png'" width="20"></td>           -->
+          <td v-bind:class="post.TIPE"><img v-bind:src="'/src/assets/' + post.TIPE + '.png'" width="20"></td>   <!-- Соответствующая иконка  -->
+          <td> {{ formatDate(post.DATE) }}</td>   
+          <td>{{ post.INCIDENT }}</td>      
           <td>{{ post.DESCRIPTION }}</td>
         </tr>
       </tbody>
@@ -389,9 +402,9 @@ document.addEventListener("DOMContentLoaded", function() {
     class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom"
   >
     <!-- Left -->
-    <div class="me-5 d-none d-lg-block">
+    <!-- <div class="me-5 d-none d-lg-block">
       <span>Get connected with us on social networks:</span>
-    </div>
+    </div> -->
     <!-- Left -->
 
 
@@ -408,7 +421,7 @@ document.addEventListener("DOMContentLoaded", function() {
         <!-- Grid column -->
         <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
           <!-- Links -->
-          <h6 class="text-uppercase fw-bold mb-4">
+          <!-- <h6 class="text-uppercase fw-bold mb-4">
             Products
           </h6>
           <p>
@@ -422,7 +435,7 @@ document.addEventListener("DOMContentLoaded", function() {
           </p>
           <p>
             <a href="#!" class="text-reset">Laravel</a>
-          </p>
+          </p> -->
         </div>
         <!-- Grid column -->
 
@@ -430,14 +443,14 @@ document.addEventListener("DOMContentLoaded", function() {
         <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
           <!-- Links -->
         
-         <img src = "bear.png" width="150px" >
+         <img src = "logo-footer.png" width="180px" >
         </div>
         <!-- Grid column -->
 
         <!-- Grid column -->
         <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
           <!-- Links -->
-          <h6 class="text-uppercase fw-bold mb-4">
+          <!-- <h6 class="text-uppercase fw-bold mb-4">
             Contact
           </h6>
           <p><i class="fas fa-home me-3"></i> New York, NY 10012, US</p>
@@ -446,7 +459,7 @@ document.addEventListener("DOMContentLoaded", function() {
             info@example.com
           </p>
           <p><i class="fas fa-phone me-3"></i> + 01 234 567 88</p>
-          <p><i class="fas fa-print me-3"></i> + 01 234 567 89</p>
+          <p><i class="fas fa-print me-3"></i> + 01 234 567 89</p> -->
         </div>
         <!-- Grid column -->
       </div>
@@ -456,10 +469,10 @@ document.addEventListener("DOMContentLoaded", function() {
   <!-- Section: Links  -->
 
   <!-- Copyright -->
-  <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
+  <!-- <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
     © 2021 Copyright:
     <a class="text-reset fw-bold" href="https://mdbootstrap.com/">MDBootstrap.com</a>
-  </div>
+  </div> -->
   <!-- Copyright -->
 </footer>
 <!-- Footer -->
