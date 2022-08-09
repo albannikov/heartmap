@@ -34,7 +34,7 @@ import { fetchNewData } from '/Develop/heartmap-v2-4/yaheartmap';
     isVisible: false,
   })
 
-  // const db = await fetch('./server');
+ 
 
   window.coordinates = [];
 

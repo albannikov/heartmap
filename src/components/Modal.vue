@@ -1,5 +1,43 @@
-<script>
+<script setup >
+/*
+* Получаем широту и долготу из координат
+*/
+// function getCoords() {
+//   let coords = document.getElementById("coordinates").value.split( "," ); // Получили координаты точки
+//   let width = coords[0]; 
+//   let long = coords[1]; 
+//   let tipe = document.getElementById("tipes-add").value; // Получили категорию
+//   let incNumber = document.getElementById("incNumber").value; // Получили номер инцидента
 
+// }
+  
+
+async function insertPoint() {
+  let coords = document.getElementById("coordinates").value.split( "," ); // Получили координаты точки
+  let width = coords[0]; 
+  let long = coords[1]; 
+  let tipe = document.getElementById("tipes-add").value; // Получили категорию
+  let incNumber = document.getElementById("incNumber").value; // Получили номер инцидента
+    
+    let queryParams = "http://localhost:8081/ins?tipe=" + tipe + "&number=" + incNumber + "&date=" + DateAdd + "&width=" + width + "&long=" + long + "&alt=TEST";
+                    // http://localhost:8081/ins?tipe=Snow&number=123&date=2022-08-09&width=62.131244&long=77.462228&alt=test
+            
+    const response = await fetch(queryParams);      
+    const data = await response.json();
+    
+  }
+
+
+  
+  
+
+
+
+
+
+</script>
+
+<script>
  export default {
     name: 'modal',
     methods: {
@@ -17,17 +55,63 @@
 * -BEGIN- Получаем значение из Datepicker
 */
 
-$(function() {
+$(function() { 
   $('input[name="datefilter-add-point"]').daterangepicker({
-    singleDatePicker: true,
-    showDropdowns: true,
-    minYear: 1901,
-    maxYear: parseInt(moment().format('YYYY'),10)
-  }, function(start, end, label) {
-    var years = moment().diff(start, 'years');
-    alert("You are " + years + " years old!");
+       singleDatePicker: true,
+       "drops": "up",
+       "showDropdowns": true,
+       "alwaysShowCalendars": true,
+      autoUpdateInput: false,
+      locale: {
+          "format": "DD.MM.YYYY",
+        "separator": " - ",
+        "applyLabel": "Выбрать",
+        "cancelLabel": "Отмена",
+        "fromLabel": "от",
+        "toLabel": "до",
+        "customRangeLabel": "Вручную",
+        "weekLabel": "н",
+        "daysOfWeek": [
+            "ВС",
+            "ПН",
+            "ВТ",
+            "СР",
+            "ЧТ",
+            "ПТ",
+            "СБ"
+        ],
+        "monthNames": [
+            "Январь",
+            "Февраль",
+            "Март",
+            "Апрель",
+            "Май",
+            "Июнь",
+            "Июль",
+            "Август",
+            "Сентябрь",
+            "Октябрь",
+            "Ноябрь",
+            "Декабрь"
+        ],
+           "firstDay": 1
+      }
   });
+
+  $('input[name="datefilter-add-point"]').on('apply.daterangepicker', function(ev, picker) {
+      $(this).val(picker.startDate.format('DD.MM.YYYY'));
+       window.DateAdd = picker.startDate.format('YYYY-MM-DD'); 
+  });
+
+  $('input[name="datefilter-add-point"]').on('cancel.daterangepicker', function(ev, picker) {
+      $(this).val('');
+  });
+
 });
+// -END- Получаем значение из Datepicker
+
+
+
 </script>
 <template>
 
@@ -93,7 +177,9 @@ $(function() {
     </div>
     <div class="col-sm-3 d-grid">
          <!-- <button type="button" class="btn btn-primary btn-lg">Добавить запись</button> -->
-         <button class="btn btn-primary" type="button">Добавить запись</button>
+         <button id="getCoords" @click="insertPoint" class="btn btn-primary">Добавить запись</button>
+
+
     </div>
   </div>
   </div>
