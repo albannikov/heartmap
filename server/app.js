@@ -41,7 +41,9 @@ conn.connect(function(err){
 
  
 app.get("/", (req, res) => {
-let query = "SELECT * FROM points ORDER BY DATE DESC";
+// let query = "SELECT * FROM points ORDER BY DATE DESC";
+let query = "SELECT * FROM points ORDER BY DATE DESC LIMIT 20";
+
 conn.query(query, (err, result, field) => {
     //console.log("возвращаем - " + result);
     res.json(result);
@@ -86,6 +88,20 @@ app.get("/ins", function(request, res){
   let sql = "";  
     sql = "INSERT INTO points (TIPE, INCIDENT, DATE, LOCATION_WIDTH, LOCATION_LONG, DESCRIPTION) VALUES ('" + tipe + "','" + number + "','" + date + "','" + width + "','" + long + "','" + alt + "')"; //Формируем строку запроса
            
+// Коннектимся -->
+conn.query(sql, (err, result, field) => {
+  console.log("возвращаем - " + result);
+  res.json(result); // Взвращаем ответ
+  res.end();
+});
+});
+
+
+app.get("/del", function(request, res){
+  let id = request.query.id;            //тип инцидента 
+  let sql = "";  
+    sql = "DELETE FROM points WHERE id = " + id; //Формируем строку запроса
+        console.log('Вот такой вот запрос - ' + sql);   
 // Коннектимся -->
 conn.query(sql, (err, result, field) => {
   console.log("возвращаем - " + result);

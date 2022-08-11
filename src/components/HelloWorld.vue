@@ -4,6 +4,8 @@ import { fetchNewData } from '/Develop/heartmap-v2-4/yaheartmap';
   import { ref, reactive, onMounted } from 'vue';
   import Button from './Button.vue';
   import Modal  from './Modal.vue';
+ import { useSnackbar } from "vue3-snackbar"; //Библиотека уведомлений, взял тут: https://craigrileyuk.github.io/vue3-snackbar/
+ import VueTableLite from 'vue3-table-lite' //Библиотека таблицы, взял тут:  https://linmasahiro.github.io/vue3-table-lite/dist/#include
 
 
 
@@ -65,36 +67,39 @@ import { fetchNewData } from '/Develop/heartmap-v2-4/yaheartmap';
       }, 50);
   }
 
-    async function getSnow() {
+  //   async function getSnow() {
 
-    loading.value = true;
-    const repsponse = await fetch('http://localhost:8081/snow');
-    const data = await repsponse.json();
-    posts.value = data;
-    coordinates = [];
+  //   loading.value = true;
+  //   const repsponse = await fetch('http://localhost:8081/snow');
+  //   const data = await repsponse.json();
+  //   posts.value = data;
+  //   coordinates = [];
     
-    for (let i = 0; i < data.length; 	i++) {    
-      coordinates.push([data[i]['LOCATION_WIDTH'], data[i]['LOCATION_LONG']]);  
-    }  
+  //   for (let i = 0; i < data.length; 	i++) {    
+  //     coordinates.push([data[i]['LOCATION_WIDTH'], data[i]['LOCATION_LONG']]);  
+  //   }  
 
-    console.log("Отправляем с HelloWorld " + coordinates);
-      setTimeout(() => {
-        loading.value = false;
-      }, 50);
+  //   console.log("Отправляем с HelloWorld " + coordinates);
+  //     setTimeout(() => {
+  //       loading.value = false;
+  //     }, 50);
       
-  }
+  // }
 
 window.DatePickerState = 0;
 
       async function getQuery() {
-        if (DatePickerState == 0) {
-
-            document.getElementById("demo").innerHTML = '<div class="alert alert-danger alert-dismissible fade show" role="alert">Укажите диапазон дат<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Закрыть"></button></div>';
-            
+        if (DatePickerState == 0) {           
+            snackbar.add({
+            "type": "warning",
+            "title": "Ошибка",
+            "text": "Укажите диапазон дат",
+            "group": "5bfb7ed",
+            "duration": 7000,
+            "count": 1
+          })
           return;
-        } else {
-          document.getElementById("demo").innerHTML = '';
-        };
+        } 
 
     loading.value = true;
     let queryParams = "http://localhost:8081/query?tipe=" + tipeEvent + "&dateFrom=" + DateStart + "&dateTo=" + DateEnd;
@@ -133,8 +138,10 @@ window.DatePickerState = 0;
   /**
    * 
    */
-  const closeModal = () => {
+  async function closeModal() {
+      await getData();
     modalState.isVisible = false;
+  
   }
 
   /**
@@ -144,14 +151,41 @@ window.DatePickerState = 0;
     console.log("Click");
   }
 
+
   onMounted(async () => {
     await getData();
   });
+const snackbar = useSnackbar();
 
+
+async function delPoint(clicked_id) {
+   console.log(clicked_id); //пол
+ 
+    let queryParams = "http://localhost:8081/del?id=" + clicked_id;
+            
+    const response = await fetch(queryParams);      
+    const data = await response.json();
+    if (data.affectedRows == 1) {
+      snackbar.add({
+            "type": "success",
+            "title": "Успешно",
+            "text": "запись успешно удалена",
+            "group": "5bfb7ed",
+            "duration": 7000,
+            "count": 1
+          }) 
+    }   
+    
+    //
+    
+  }
 
 </script>
 
 <script type="text/javascript">
+
+
+
 
 export default {
     methods: {    
@@ -251,6 +285,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
+
+
+
+
 </script>
 
 <template>
@@ -272,15 +310,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
       <div class="col-2 left-menu">
-<!--         
- <Button id="buttonFiltr"
-    @click="getData" 
-    :variant="'success'" 
-    :disabled="loading"
-  >
-    Get data
-  </Button>
 
+<!--      
  <Button id="buttonFiltrSnow"
     @click="getSnow" 
     :variant="'success'" 
@@ -289,14 +320,12 @@ document.addEventListener("DOMContentLoaded", function() {
     Get snow
   </Button> -->
 
-
- <div id="app">
-
-
- 
+<teleport to="body">
+    <vue3-snackbar bottom right :duration="4000"></vue3-snackbar>
+</teleport>
 
 
-  
+ <div id="app">  
 
     <Modal
       v-show="modalState.isVisible"
@@ -339,13 +368,10 @@ document.addEventListener("DOMContentLoaded", function() {
 </div>
 
 
+
+
+
 <p id="demo"></p>
-
-
-
-
-
-
 
 
 </div>
@@ -360,6 +386,9 @@ document.addEventListener("DOMContentLoaded", function() {
         <div id="YMapsID"></div>  
 
 
+                  
+
+
   <div v-if="loading"> 
     <br><div class="spinner-border text-primary" role="status">
       
@@ -371,18 +400,20 @@ document.addEventListener("DOMContentLoaded", function() {
 <table class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
       <thead>
         <tr>
-           <th>Тип</th>
-           <th width="15%">Дата</th>
-           <th>инцидент</th>
-           <th>Описание</th>
+           <th> </th>
+           <th>Дата</th>
+           <th>Номер</th>
+           <th width="50%">Описание</th>
+           <th> </th>
         </tr>
       </thead>            
       <tbody>
-         <tr v-for="post in posts" :key="post.id">
+         <tr v-for="post in posts" :key="post.id">          
           <td v-bind:class="post.TIPE"><img v-bind:src="'/src/assets/' + post.TIPE + '.png'" width="20"></td>   <!-- Соответствующая иконка  -->
           <td> {{ formatDate(post.DATE) }}</td>   
           <td>{{ post.INCIDENT }}</td>      
           <td>{{ post.DESCRIPTION }}</td>
+          <td width="20" > <button type="button" :id="post.id" @click="delPoint(post.id)" class="btn btn-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></button></td>  
         </tr>
       </tbody>
     </table>

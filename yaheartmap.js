@@ -6,11 +6,11 @@
  * Get map points from backend
  * @returns {Promise}
  */
-async function fetchData() {
-    const response = await fetch('data.php');
-    const json = await response.json();
-    return json;
-}
+// async function fetchData() {
+//     const response = await fetch('data.php');
+//     const json = await response.json();
+//     return json;
+// }
 
 export async function fetchNewData() {
     let data = await coordinates;
@@ -105,35 +105,25 @@ ymaps.ready(async function () {
         heatmap.setMap(map);
         
 
-        
-       
-// buttonFiltr.onclick = async function() {   
-//     setTimeout(() => {   
-//      let newData = coordinates;
-//      console.log("получаем в YaMap НАЖАВ КНОПКУ 1: " + newData);
-//      heatmap.setData(newData);    
-//     }, 10);
-//   };
-
-//   buttonFiltrSnow.onclick = async function() {    
-//     setTimeout(() => {             
-//         let newData = coordinates;
-//         console.log("получаем в YaMap НАЖАВ КНОПКУ 2: " + newData);
-//         heatmap.setData(newData);  
-        
-//     }, 10);      
-//   };
-  
 
   buttonFiltrQuery.onclick = async function() {    
     setTimeout(() => {             
         let newData = coordinates;
-        console.log("получаем в YaMap НАЖАВ КНОПКУ 3: " + newData);
+        // console.log("получаем в YaMap НАЖАВ КНОПКУ 3: " + newData);
         heatmap.setData(newData);  
         
     }, 100);      
   };
 
+
+  buttonFiltr.onclick = async function() {    
+    setTimeout(() => {             
+        let newData = coordinates;
+        // console.log("получаем в YaMap НАЖАВ КНОПКУ 3: " + newData);
+        heatmap.setData(newData);  
+        
+    }, 100);      
+  };
 
 
 

@@ -22,7 +22,10 @@
     "vue-hotel-datepicker": "^4.5.1",
     "vue-moment": "^4.1.0",
     "vue-yandex-maps": "^0.12.3",
-    "vue3-datepicker-lite": "^1.9.6"
+    "vue3-datepicker-lite": "^1.9.6",
+    "vue3-snackbar": "^1.1.2",
+    "vue3-table-component": "^0.0.19",
+    "vue3-table-lite": "^1.2.4"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.3.3",

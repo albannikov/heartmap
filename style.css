@@ -145,7 +145,7 @@ html, body {
 
 .add-form {
 	/* background-color: rgb(231, 231, 231); */
-	padding: 20px;
+	padding: 5px 10px 20px 10px;
 	border-radius: 10px;
 	background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);
 	box-shadow: 0 0 5px rgba(41, 41, 41, 0.5);
@@ -164,6 +164,7 @@ html, body {
 	color: rgb(97, 97, 97);
 	font-size:small;
 	text-align: left;
+	margin: 10px 0 0 0;
 
 }
 
@@ -184,4 +185,9 @@ html, body {
 	border: 0;
 	width: 100%;
 	font-size: 18px;	
+}
+
+
+.form-control{
+	font-size: 18px;
 }

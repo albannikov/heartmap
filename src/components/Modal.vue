@@ -1,4 +1,6 @@
 <script setup >
+ import { useSnackbar } from "vue3-snackbar"; //Библиотека уведомлений, взял тут: https://craigrileyuk.github.io/vue3-snackbar/
+ const snackbar = useSnackbar();
 /*
 * Получаем широту и долготу из координат
 */
@@ -11,6 +13,10 @@
 
 // }
   
+var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+var toastList = toastElList.map(function (toastEl) {
+  return new bootstrap.Toast(toastEl, option)
+})
 
 async function insertPoint() {
   let coords = document.getElementById("coordinates").value.split( "," ); // Получили координаты точки
@@ -18,31 +24,90 @@ async function insertPoint() {
   let long = coords[1]; 
   let tipe = document.getElementById("tipes-add").value; // Получили категорию
   let incNumber = document.getElementById("incNumber").value; // Получили номер инцидента
-    
-    let queryParams = "http://localhost:8081/ins?tipe=" + tipe + "&number=" + incNumber + "&date=" + DateAdd + "&width=" + width + "&long=" + long + "&alt=TEST";
-                    // http://localhost:8081/ins?tipe=Snow&number=123&date=2022-08-09&width=62.131244&long=77.462228&alt=test
+  let alt = document.getElementById("Textarea").value; // Описание
+  let error = 0;
+
+if (coords == '') {
+           snackbar.add({
+            "type": "warning",
+            "title": "Ошибка",
+            "text": "Укажите координаты",
+            "group": "5bfb7ed",
+            "duration": 7000,
+            "count": 1
+          })
+          error = 1;
+          
+}
+
+if (document.getElementById("datefilter-add-point").value == '') {
+     snackbar.add({
+            "type": "warning",
+            "title": "Ошибка",
+            "text": "Укажите дату",
+            "group": "5bfb7ed",
+            "duration": 7000,
+            "count": 1
+          })
+          error = 1;
+}
+
+if (incNumber == '') {
+     snackbar.add({
+            "type": "warning",
+            "title": "Ошибка",
+            "text": "Укажите номер инцидента",
+            "group": "5bfb7ed",
+            "duration": 7000,
+            "count": 1
+          })
+          error = 1;
+}
+
+if (alt == '') {
+     snackbar.add({
+            "type": "warning",
+            "title": "Ошибка",
+            "text": "Укажите описание",
+            "group": "5bfb7ed",
+            "duration": 7000,
+            "count": 1
+          })
+          error = 1;
+}
+
+if (error == 1) {return;}
+
+    let queryParams = "http://localhost:8081/ins?tipe=" + tipe + "&number=" + incNumber + "&date=" + DateAdd + "&width=" + width + "&long=" + long + "&alt=" + alt;
             
     const response = await fetch(queryParams);      
     const data = await response.json();
-    
+    if (data.affectedRows == 1) {
+      snackbar.add({
+            "type": "success",
+            "title": "Успешно",
+            "text": "Новая запись успешно добавлена",
+            "group": "5bfb7ed",
+            "duration": 7000,
+            "count": 1
+          })
+  document.getElementById("incNumber").value = ''; // номер инцидента
+  document.getElementById("Textarea").value = '';  // Описание
+  document.getElementById("datefilter-add-point").value = '';  // Датапикер  
+    }    
   }
-
-
-  
-  
-
-
-
 
 
 </script>
 
 <script>
+
  export default {
     name: 'modal',
     methods: {
       close() {
         this.$emit('close');
+        
       },
     },
     
@@ -115,6 +180,7 @@ $(function() {
 </script>
 <template>
 
+
   <transition name="modal-fade">
     <div class="modal-backdrop">
       <div class="modal"
@@ -129,7 +195,7 @@ $(function() {
           <slot name="header">
             Добавление записи о новом инциденте
 
-            <button
+            <button id="buttonFiltr"         
               type="button"
               class="btn-close-window"
               @click="close"
@@ -169,40 +235,33 @@ $(function() {
     </div>
     <div class="col-sm-3">
       <div class="hint-add">Дата</div>
-      <input type="text" name="datefilter-add-point" class="datefilter-add-point" value="" />
+      <input type="text" id="datefilter-add-point" name="datefilter-add-point" class="datefilter-add-point" value="" />
     </div>
     <div class="col-sm-3">
       <div class="hint-add">Номер инцидента</div>
       <input id="incNumber" class="incNumber">
     </div>
     <div class="col-sm-3 d-grid">
-         <!-- <button type="button" class="btn btn-primary btn-lg">Добавить запись</button> -->
+ 
          <button id="getCoords" @click="insertPoint" class="btn btn-primary">Добавить запись</button>
 
 
     </div>
-  </div>
+  
+ <div class="col-sm-9">
+   <div class="hint-add">Описание инцидента</div>
+ <textarea class="form-control" id="Textarea" rows="2"></textarea>
   </div>
 
-
-<!-- <iframe src="./src/components/coordinates.html" width="468" height="60" align="left">
-    Ваш браузер не поддерживает плавающие фреймы!
- </iframe> -->
+  </div>
+  
+  </div>
 
           </slot>
         </section>
         <footer class="modal-footer">
           <slot name="footer">
-            <!-- I'm the default footer! -->
-<!-- 
-            <button
-              type="button"
-              class="btn-green"
-              @click="close"
-              aria-label="Close modal"
-            >
-              Закрыть без сохранения
-            </button> -->
+        
           </slot>
         </footer>
       </div>
