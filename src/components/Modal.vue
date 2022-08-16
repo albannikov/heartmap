@@ -29,7 +29,7 @@ async function insertPoint() {
 
 if (coords == '') {
            snackbar.add({
-            "type": "warning",
+            "type": "error",
             "title": "Ошибка",
             "text": "Укажите координаты",
             "group": "5bfb7ed",
@@ -42,7 +42,7 @@ if (coords == '') {
 
 if (document.getElementById("datefilter-add-point").value == '') {
      snackbar.add({
-            "type": "warning",
+            "type": "error",
             "title": "Ошибка",
             "text": "Укажите дату",
             "group": "5bfb7ed",
@@ -54,7 +54,7 @@ if (document.getElementById("datefilter-add-point").value == '') {
 
 if (incNumber == '') {
      snackbar.add({
-            "type": "warning",
+            "type": "error",
             "title": "Ошибка",
             "text": "Укажите номер инцидента",
             "group": "5bfb7ed",
@@ -66,7 +66,7 @@ if (incNumber == '') {
 
 if (alt == '') {
      snackbar.add({
-            "type": "warning",
+            "type": "error",
             "title": "Ошибка",
             "text": "Укажите описание",
             "group": "5bfb7ed",

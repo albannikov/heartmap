@@ -1,9 +1,10 @@
 <script setup>
 
-import { fetchNewData } from '/Develop/heartmap-v2-4/yaheartmap';
-  import { ref, reactive, onMounted } from 'vue';
-  import Button from './Button.vue';
-  import Modal  from './Modal.vue';
+ import { fetchNewData } from '/Develop/heartmap-v2-4/yaheartmap';
+ import { ref, reactive, onMounted } from 'vue';
+ import Button from './Button.vue';
+ import Modal  from './Modal.vue';
+ import Comfirm  from './Comfirm.vue';
  import { useSnackbar } from "vue3-snackbar"; //Библиотека уведомлений, взял тут: https://craigrileyuk.github.io/vue3-snackbar/
  import VueTableLite from 'vue3-table-lite' //Библиотека таблицы, взял тут:  https://linmasahiro.github.io/vue3-table-lite/dist/#include
 
@@ -34,7 +35,11 @@ import { fetchNewData } from '/Develop/heartmap-v2-4/yaheartmap';
   const modalState = reactive({
     loading: false,
     isVisible: false,
-  })
+  });
+    const ComfirmState = reactive({
+    loading: false,
+    isVisible: false,
+  });
 
  
 
@@ -91,7 +96,7 @@ window.DatePickerState = 0;
       async function getQuery() {
         if (DatePickerState == 0) {           
             snackbar.add({
-            "type": "warning",
+            "type": "error",
             "title": "Ошибка",
             "text": "Укажите диапазон дат",
             "group": "5bfb7ed",
@@ -126,6 +131,7 @@ window.DatePickerState = 0;
    */
   const toggleModal = () =>  {
     modalState.isVisible = !modalState.isVisible;
+   ComfirmState.isVisible = !ComfirmState.isVisible;
   }
 
   /**
@@ -135,7 +141,7 @@ window.DatePickerState = 0;
     modalState.isVisible = true;
   }
 
-  /**
+   /**
    * 
    */
   async function closeModal() {
@@ -144,13 +150,40 @@ window.DatePickerState = 0;
   
   }
 
+
+
+
   /**
    * 
    */
-  function onClick() {
-    console.log("Click");
+  // const ComfirmModal = () =>  {
+  //   ComfirmState.isVisible = !ComfirmState.isVisible;
+  // }
+
+  /**
+   * 
+   */
+  window.click_id = '';
+
+  const showComfirm = (clicked_id) =>  {
+    ComfirmState.isVisible = true;
+    console.log(clicked_id);
+    click_id = clicked_id;
   }
 
+
+  /**
+   * 
+   */
+  async function closeComfirm() {
+      await getData();
+    ComfirmState.isVisible = false;     
+  }
+
+  /**
+   * 
+   */
+  
 
   onMounted(async () => {
     await getData();
@@ -158,27 +191,7 @@ window.DatePickerState = 0;
 const snackbar = useSnackbar();
 
 
-async function delPoint(clicked_id) {
-   console.log(clicked_id); //пол
- 
-    let queryParams = "http://localhost:8081/del?id=" + clicked_id;
-            
-    const response = await fetch(queryParams);      
-    const data = await response.json();
-    if (data.affectedRows == 1) {
-      snackbar.add({
-            "type": "success",
-            "title": "Успешно",
-            "text": "запись успешно удалена",
-            "group": "5bfb7ed",
-            "duration": 7000,
-            "count": 1
-          }) 
-    }   
-    
-    //
-    
-  }
+
 
 </script>
 
@@ -283,12 +296,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-
-
-
-
-
-
 </script>
 
 <template>
@@ -331,6 +338,11 @@ document.addEventListener("DOMContentLoaded", function() {
       v-show="modalState.isVisible"
       @close="closeModal"
     />
+
+      <Comfirm
+      v-show="ComfirmState.isVisible"
+      @close="closeComfirm"
+    />
   </div>
 
 <div class="container">
@@ -365,9 +377,8 @@ document.addEventListener("DOMContentLoaded", function() {
     >
      <i class="fa fa-plus" aria-hidden="true"></i> Добавить
     </button>
+
 </div>
-
-
 
 
 
@@ -377,7 +388,6 @@ document.addEventListener("DOMContentLoaded", function() {
 </div>
 
       </div>
-
 
       <div class="col-10 hero-unit ">   
       <div class="container">
@@ -413,7 +423,7 @@ document.addEventListener("DOMContentLoaded", function() {
           <td> {{ formatDate(post.DATE) }}</td>   
           <td>{{ post.INCIDENT }}</td>      
           <td>{{ post.DESCRIPTION }}</td>
-          <td width="20" > <button type="button" :id="post.id" @click="delPoint(post.id)" class="btn btn-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></button></td>  
+          <td width="20" > <button title="Удалить" type="button" :id="post.id" @click="showComfirm(post.id)" class="btn btn-outline-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></button></td>  
         </tr>
       </tbody>
     </table>
