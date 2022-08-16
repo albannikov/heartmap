@@ -75,6 +75,10 @@ ymaps.ready(async function () {
         })
     },
 
+
+    
+
+
     gradients = [{
         0.1: 'rgba(128, 255, 0, 0.7)',
         0.2: 'rgba(255, 255, 0, 0.8)',
