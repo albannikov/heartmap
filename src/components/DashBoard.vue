@@ -423,7 +423,7 @@ document.addEventListener("DOMContentLoaded", function() {
           <td> {{ formatDate(post.DATE) }}</td>   
           <td>{{ post.INCIDENT }}</td>      
           <td>{{ post.DESCRIPTION }}</td>
-          <td width="20" > <button title="Удалить" type="button" :id="post.id" @click="showComfirm(post.id)" class="btn btn-outline-danger btn-sm"><i class="fa fa-trash" aria-hidden="true">    </i></button></td>  
+          <td width="20" > <button title="Удалить" type="button" :id="post.id" @click="showComfirm(post.id)" class="btn btn-outline-secondary btn-sm"><i class="fa fa-trash" aria-hidden="true">    </i></button></td>  
         </tr>
       </tbody>
     </table>
