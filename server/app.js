@@ -34,46 +34,102 @@ conn.connect(function(err){
       console.log("Подключение к серверу MySQL успешно установлено");
     }
  });
- conn.query("SET SESSION wait_timeout = 604800"); // 7 days timeout
+ conn.query("SET SESSION wait_timeout = 604800"); // Чтобы не ложилось соединение поставим таймаут
+ 
+
+
+
  
 app.get("/", (req, res) => {
-    // BD Connect -->
+// let query = "SELECT * FROM points ORDER BY DATE DESC";
+let query = "SELECT * FROM points ORDER BY DATE DESC LIMIT 20";
 
-
-
-let query = "SELECT * FROM points";
 conn.query(query, (err, result, field) => {
-    // console.log(err); Ошибки если есть
-    //  console.log(result); //вывод всего запроса 
-    //console.log(result[1]['DATE']);
-    // let a = result[1]['DATE'];
+    //console.log("возвращаем - " + result);
     res.json(result);
-    // console.log(fields);
+    res.end();
+});
+  
+// Обработчик запросов
+app.get("/query", function(request, res){
+    let tipe = request.query.tipe;          //тип инцидента
+    let dateFrom = request.query.dateFrom;  //Дата От
+    let dateTo = request.query.dateTo;      //Дата До
+    
+    console.log ("ТИП =====" + tipe);
+    let sql = "";
+    if (tipe == 'all') {
+      sql = "SELECT * FROM points WHERE DATE BETWEEN'" + dateFrom + "' AND '" + dateTo + "' ORDER BY DATE DESC"; //Формируем строку запроса
+    }
+    else {
+      sql = "SELECT * FROM points WHERE TIPE = '" + tipe + "' AND DATE BETWEEN'" + dateFrom + "' AND '" + dateTo + "' ORDER BY DATE DESC"; //Формируем строку запроса
+    };
+    
+    console.log("Пришел запрос на бэк");
+    console.log("Выполняем такой запрос:");
+    console.log(sql);
+      // Коннектимся -->
+conn.query(sql, (err, result, field) => {
+    console.log("возвращаем - " + result);
+    res.json(result); // Взвращаем ответ
+    res.end();
+});
+});
+
+// Обработчик запросов
+app.get("/ins", function(request, res){
+  let tipe = request.query.tipe;            //тип инцидента
+  let number = request.query.number;        //Номер инцидента
+  let date = request.query.date;            //Дата инцидента
+  let width = request.query.width;          //Широта
+  let long = request.query.long;            //Долгота
+  let alt = request.query.alt;              //Описание
+ 
+  let sql = "";  
+    sql = "INSERT INTO points (TIPE, INCIDENT, DATE, LOCATION_WIDTH, LOCATION_LONG, DESCRIPTION) VALUES ('" + tipe + "','" + number + "','" + date + "','" + width + "','" + long + "','" + alt + "')"; //Формируем строку запроса
+           
+// Коннектимся -->
+conn.query(sql, (err, result, field) => {
+  console.log("возвращаем - " + result);
+  res.json(result); // Взвращаем ответ
+  res.end();
+});
+});
+
+
+app.get("/del", function(request, res){
+  let id = request.query.id;            //тип инцидента 
+  let sql = "";  
+    sql = "DELETE FROM points WHERE id = " + id; //Формируем строку запроса
+        console.log('Вот такой вот запрос - ' + sql);   
+// Коннектимся -->
+conn.query(sql, (err, result, field) => {
+  console.log("возвращаем - " + result);
+  res.json(result); // Взвращаем ответ
+  res.end();
+});
+});
+
+
+
+
+
+});
+
+//тестовый, потом уберу
+app.get("/snow", (req, res) => {
+    // BD Connect -->
+let query = "SELECT * FROM points WHERE TIPE = 'snow'";
+conn.query(query, (err, result, field) => {
+    res.json(result);
 });
   
 });
+
+
 // set port, listen for requests
 const PORT = process.env.PORT || 8081;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
 
-/*
-// BD Connect -->
-const mysql = require('mysql');
-const conn = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    database: "admin_heartmap",
-    password: ""
-})
-
-
-let query = "SELECT * FROM points";
-conn.query(query, (err, result, field) => {
-    // console.log(err); Ошибки если есть
-     console.log(result); //вывод всего запроса 
-    //console.log(result[1]['DATE']);
-    // console.log(fields);
-});
-*/

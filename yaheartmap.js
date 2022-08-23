@@ -6,14 +6,14 @@
  * Get map points from backend
  * @returns {Promise}
  */
-async function fetchData() {
-    const response = await fetch('data.php');
-    const json = await response.json();
-    return json;
-}
+// async function fetchData() {
+//     const response = await fetch('data.php');
+//     const json = await response.json();
+//     return json;
+// }
 
-async function fetchNewData() {
-    let data = coordinates;
+export async function fetchNewData() {
+    let data = await coordinates;
     return data;
 }
 
@@ -75,11 +75,18 @@ ymaps.ready(async function () {
         })
     },
 
+
+    // 0.1: 'rgba(128, 255, 0, 0.7)', //#FFF
+    // 0.2: 'rgba(255, 255, 0, 0.8)',
+    // 0.7: 'rgba(234, 72, 58, 0.9)',
+    // 1.0: 'rgba(255, 0, 0, 1)'         // 1.0: 'rgba(255, 36, 25, 1)'   
+
+
     gradients = [{
-        0.1: 'rgba(128, 255, 0, 0.7)',
-        0.2: 'rgba(255, 255, 0, 0.8)',
-        0.7: 'rgba(234, 72, 58, 0.9)',
-        1.0: 'rgba(162, 36, 25, 1)'
+    0.1: 'rgba(128, 255, 0, 0.7)', 
+    0.2: 'rgba(255, 255, 0, 0.8)',
+    0.7: 'rgba(234, 72, 58, 0.9)',
+    1.0: 'rgba(255, 0, 0, 1)'         // 1.0: 'rgba(255, 36, 25, 1)' 
     }, {
         0.1: 'rgba(162, 36, 25, 0.7)',
         0.2: 'rgba(234, 72, 58, 0.8)',
@@ -89,13 +96,11 @@ ymaps.ready(async function () {
     radiuses = [5, 10, 20, 30],
     opacities = [0.4, 0.6, 0.8, 1];
 
-    // let data = await fetchData();
     
-    //  let data2 = [[62.13134, 77.457443], [62.130305, 77.45629], [62.13134, 77.45744], [62.12905, 77.45932], [62.130212, 77.456206], [62.127172, 77.452864], [62.127172, 77.452864], [62.127172, 77.452864], [62.13134, 77.457443]];
       let data = coordinates;
-    // let data = data2;
+    
     console.log("получаем в YaMap " + data);
-// console.log(globalVar);
+
 
     ymaps.modules.require(['Heatmap'], function (Heatmap) {
         var heatmap = new Heatmap(data, {
@@ -107,15 +112,25 @@ ymaps.ready(async function () {
         heatmap.setMap(map);
         
 
+
+  buttonFiltrQuery.onclick = async function() {    
+    setTimeout(() => {             
+        let newData = coordinates;
+        // console.log("получаем в YaMap НАЖАВ КНОПКУ 3: " + newData);
+        heatmap.setData(newData);  
         
-       
-buttonFiltr.onclick = async function() {    
-     let newData = await fetchNewData();
-     heatmap.setData(newData); 
-   
+    }, 100);      
   };
 
 
+  buttonFiltr.onclick = async function() {    
+    setTimeout(() => {             
+        let newData = coordinates;
+        // console.log("получаем в YaMap НАЖАВ КНОПКУ 3: " + newData);
+        heatmap.setData(newData);  
+        
+    }, 100);      
+  };
 
 
 
@@ -158,6 +173,5 @@ buttonFiltr.onclick = async function() {
         }
     });
 });
-
 
 
