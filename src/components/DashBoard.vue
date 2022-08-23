@@ -303,7 +303,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     <header class="d-flex flex-wrap justify-content-center py-3 border-bottom header">
       <a href="#" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
-        <img src = "logo.png" width="240px" >
+        <img src = "/src/img/logo.png" width="240px" >
         
       </a>
 
@@ -419,7 +419,7 @@ document.addEventListener("DOMContentLoaded", function() {
       </thead>            
       <tbody>
          <tr v-for="post in posts" :key="post.id">          
-          <td v-bind:class="post.TIPE"><img v-bind:src="'/src/assets/' + post.TIPE + '.png'" width="20"></td>   <!-- Соответствующая иконка  -->
+          <td v-bind:class="post.TIPE"><img v-bind:src="'/src/img/' + post.TIPE + '.png'" width="20"></td>   <!-- Соответствующая иконка  -->
           <td> {{ formatDate(post.DATE) }}</td>   
           <td>{{ post.INCIDENT }}</td>      
           <td>{{ post.DESCRIPTION }}</td>
@@ -484,7 +484,7 @@ document.addEventListener("DOMContentLoaded", function() {
         <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
           <!-- Links -->
         
-         <img src = "logo-footer.png" width="180px" >
+         <img src = "/src/img/logo-footer.png" width="180px" >
         </div>
         <!-- Grid column -->
 
