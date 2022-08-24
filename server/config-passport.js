@@ -3,12 +3,13 @@ const LocalStrategy = require('passport-local').Strategy;
 
 const userDB = {
   id: 136345,
-  email: 'test@mail.ru',
+  email: '123',
   password: '123',
 };
 
 passport.serializeUser(function(user, done) {
   console.log('Сериализация: ', user);
+
   done(null, user.id);
 });
 

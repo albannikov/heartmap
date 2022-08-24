@@ -10,10 +10,22 @@ async function Auth(){
   let password = document.getElementById("password").value;
   console.log(password);
 
-    let queryParams = "http://localhost:3000/login?email=test@mail.ru&password=123";
-    const response = await fetch(queryParams);      
-    const data = await response.json();
 
+  let response = await fetch('http://localhost:3000/login?email=' + login + '&password=' + password, {
+  method: 'POST'
+});
+
+let result = await response.json();
+
+
+
+  console.log(result.status);
+  if (result.status == 'authYes') {
+    alert(result.email);
+    window.location.replace("http://localhost:4000/");
+  } else {
+    alert('логин ' + login + 'не верный!!!');
+  }
 
 
       

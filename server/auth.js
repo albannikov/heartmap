@@ -37,12 +37,28 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.get('/', (req, res) => {
-  console.log(req.session);
-  res.send('Hello World!');
-});
+  // console.log(req.session);
+  // console.log(session.passport.user);
+  res.json(currentUser);
 
-app.get('/login', (req, res, next) => {
+});
+// window.email = '';
+
+globalThis.currentUser = {
+  email: null,
+  status: 'authNone'
+};
+
+
+
+
+app.post('/login', (req, res, next) => {   
+
   passport.authenticate('local', function(err, user) {
+    if (user) {                                       //Если все нормально
+      currentUser.email = req.query.email;
+      currentUser.status = 'authYes';
+    }
     if (err) {
       return next(err);
     }
@@ -52,6 +68,7 @@ app.get('/login', (req, res, next) => {
     req.logIn(user, function(err) {
       if (err) {
         return next(err);
+       
       }
       return res.redirect('/admin');
     });
@@ -62,7 +79,7 @@ const auth = (req, res, next) => {
   if (req.isAuthenticated()) {
     next();
   } else {
-    return res.redirect('/admin');
+    return res.redirect('/');
   }
 };
 
@@ -76,3 +93,23 @@ app.get('/logOut', (req, res) => {
 });
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+
+
+
+// Passport также предоставляет возможность защитить доступ к маршруту, 
+// доступ к которому необходимо ограничить для анонимных пользователей. 
+// Это означает, что если какой-то пользователь пытается получить доступ 
+// к http://localhost:3000/home без прохождения аутентификации в приложении, 
+// то он будет перенаправлен на начальную страницу при помощи:
+// /* GET Home Page */
+// router.get('/home', isAuthenticated, function(req, res){
+//   res.render('home', { user: req.user });
+// });
+ 
+// // As with any middleware it is quintessential to call next()
+// // if the user is authenticated
+// var isAuthenticated = function (req, res, next) {
+//   if (req.isAuthenticated())
+//     return next();
+//   res.redirect('/');
+// }
