@@ -296,6 +296,19 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
+async function getAuthStatus(){
+  let response = await fetch('http://localhost:3000/login', {
+  method: 'POST'
+});
+
+let result = await response.json();
+console.log(result);
+  // console.log(result.status);
+  if (result.status == 'authNone') {
+    // alert('Успешно ' + result.email);
+    window.location.replace("http://localhost:4000/login.html");
+  }       
+  }
 </script>
 
 <template>
@@ -377,6 +390,15 @@ document.addEventListener("DOMContentLoaded", function() {
     >
      <i class="fa fa-plus" aria-hidden="true"></i> Добавить
     </button>
+
+
+<Button 
+    @click="getAuthStatus" 
+    :variant="'success'" 
+  >
+ аувтори
+  </Button>
+
 
 </div>
 

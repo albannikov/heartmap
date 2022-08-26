@@ -9,7 +9,6 @@ const userDB = {
 
 passport.serializeUser(function(user, done) {
   console.log('Сериализация: ', user);
-
   done(null, user.id);
 });
 

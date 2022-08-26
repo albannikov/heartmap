@@ -1,14 +1,16 @@
 <script setup>
- import Button from './Button.vue';
-</script>
+import Button from './Button.vue';
+import { useSnackbar } from "vue3-snackbar"; //Библиотека уведомлений, взял тут: https://craigrileyuk.github.io/vue3-snackbar/
+ 
+ const snackbar = useSnackbar();
 
-<script>
+
 
 async function Auth(){
   let login = document.getElementById("userName").value;
-  console.log(login);
+  // console.log(login);
   let password = document.getElementById("password").value;
-  console.log(password);
+  // console.log(password);
 
 
   let response = await fetch('http://localhost:3000/login?email=' + login + '&password=' + password, {
@@ -17,22 +19,32 @@ async function Auth(){
 
 let result = await response.json();
 
-
-
-  console.log(result.status);
+  // console.log(result.status);
   if (result.status == 'authYes') {
-    alert(result.email);
+    // alert('Успешно ' + result.email);
     window.location.replace("http://localhost:4000/");
-  } else {
-    alert('логин ' + login + 'не верный!!!');
+  } 
+  
+  if (result.status == 'authNone') {
+     snackbar.add({
+            "type": "error",
+            "title": "Ошибка",
+            "text": "Не верный логин или пароль",
+            "group": "5bfb7ed",
+            "duration": 7000,
+            "count": 1
+          });
+    return;
   }
 
 
       
   }
 
-
+  
 </script>
+
+
 
 <template>
     <body align='center'>
@@ -48,7 +60,9 @@ let result = await response.json();
 			<input type="password" id ="password" name="password" required>
 			<br><br>
 
-
+<teleport to="body">
+    <vue3-snackbar bottom right :duration="4000"></vue3-snackbar>
+</teleport>
 		
       <Button id="buttonFiltrQuery"
         @click="Auth" 

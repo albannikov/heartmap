@@ -57,20 +57,22 @@ app.post('/login', (req, res, next) => {
   passport.authenticate('local', function(err, user) {
     if (user) {                                       //Если все нормально
       currentUser.email = req.query.email;
-      currentUser.status = 'authYes';
+      currentUser.status = 'authYes';   
+      // console.log(isAuthenticated.status);
     }
     if (err) {
       return next(err);
     }
     if (!user) {
-      return res.send('Укажите правильный email или пароль!');
+      currentUser.status = 'authNone';
+      res.json(currentUser);
     }
     req.logIn(user, function(err) {
       if (err) {
         return next(err);
        
       }
-      return res.redirect('/admin');
+      res.json(currentUser);
     });
   })(req, res, next);
 });
@@ -98,18 +100,16 @@ app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
 // Passport также предоставляет возможность защитить доступ к маршруту, 
 // доступ к которому необходимо ограничить для анонимных пользователей. 
-// Это означает, что если какой-то пользователь пытается получить доступ 
-// к http://localhost:3000/home без прохождения аутентификации в приложении, 
-// то он будет перенаправлен на начальную страницу при помощи:
-// /* GET Home Page */
-// router.get('/home', isAuthenticated, function(req, res){
-//   res.render('home', { user: req.user });
+/* Получение домашней страницы */
+// app.get('/admin', isAuthenticated, function(req, res){
+//   res.render('app.js', { user: req.user });
 // });
- 
-// // As with any middleware it is quintessential to call next()
-// // if the user is authenticated
+
+// Так как любое связующее программное обеспечение базируется
+// на вызовах next(), если пользователь аутентифицирован:
 // var isAuthenticated = function (req, res, next) {
 //   if (req.isAuthenticated())
 //     return next();
 //   res.redirect('/');
+//   console.log(isAuthenticated);
 // }
