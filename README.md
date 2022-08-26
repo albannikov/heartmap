@@ -5,8 +5,12 @@ This template should help get you started developing with Vue 3 in Vite. The tem
 ## Recommended IDE Setup:
 
 npm install --save express
-# установим фреймворк Express
+# установить фреймворк Express
 
 npm install passport-jwt
 # установить passport
+
+npm install vue3-snackbar
+# установить библиотеку уведомлений
+
 
