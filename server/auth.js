@@ -58,7 +58,7 @@ app.post('/login', (req, res, next) => {
     if (user) {                                       //Если все нормально
       currentUser.email = req.query.email;
       currentUser.status = 'authYes';   
-      // console.log(isAuthenticated.status);
+      console.log(currentUser);
     }
     if (err) {
       return next(err);
@@ -77,6 +77,21 @@ app.post('/login', (req, res, next) => {
   })(req, res, next);
 });
 
+
+
+
+
+app.post('/loginstatus', (req, res, next) => {   
+      console.log(req.user); 
+      if (req.user == undefined) {
+        res.json(0);} else {
+          res.json(req.user.id);
+        }
+});
+
+
+
+
 const auth = (req, res, next) => {
   if (req.isAuthenticated()) {
     next();
@@ -89,10 +104,14 @@ app.get('/admin', auth, (req, res) => {
   res.send('Admin page!');
 });
 
-app.get('/logOut', (req, res) => {
-  req.logOut;
-  res.redirect('/');
+app.get('/logout', function (req, res){
+  req.session.destroy(function (err) {
+    console.log("")
+    res.redirect('/'); //Inside a callback… bulletproof!
+  });
 });
+
+
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
