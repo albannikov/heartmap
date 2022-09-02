@@ -8,10 +8,7 @@ import { useSnackbar } from "vue3-snackbar"; //Библиотека уведом
 
 async function Auth(){
   let login = document.getElementById("userName").value;
-  // console.log(login);
   let password = document.getElementById("password").value;
-  // console.log(password);
-
 
   let response = await fetch('http://localhost:3000/login?email=' + login + '&password=' + password, {
   method: 'POST'

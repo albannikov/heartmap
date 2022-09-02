@@ -7,9 +7,12 @@ const userDB = {
   password: '123',
 };
 
+globalThis.userID = '';
 passport.serializeUser(function(user, done) {
   console.log('Сериализация: ', user);
   done(null, user.id);
+  userID = user;
+
 });
 
 passport.deserializeUser(function(id, done) {

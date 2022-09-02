@@ -297,18 +297,19 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 async function getAuthStatus(){
-  let response = await fetch('http://localhost:3000/login', {
+  let response = await fetch('http://localhost:3000/loginstatus', {
   method: 'POST'
 });
-
 let result = await response.json();
 console.log(result);
-  // console.log(result.status);
-  if (result.status == 'authNone') {
-    // alert('Успешно ' + result.email);
-    window.location.replace("http://localhost:4000/login.html");
-  }       
-  }
+if (result == 0) {
+  console.log("Empty");
+  // window.location.replace("http://localhost:4000/login.html");
+} else {
+  console.log("user isAuth");
+}
+};
+
 </script>
 
 <template>
