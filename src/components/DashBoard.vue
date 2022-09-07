@@ -185,6 +185,7 @@ window.DatePickerState = 0;
    */
   
 
+
   onMounted(async () => {
     await getData();
   });
@@ -296,37 +297,54 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
+/* 
+* Функция разлогинить
+*/
+async function AuthExit(){
+  let response = await fetch('http://localhost:3000/logout');
+  let result = await response.json();
+// console.log(result);
+if (result == 0) {  
+   window.location.replace("http://localhost:4000/login.html");
+} else {
+  console.log("Результ 1 (Вход выполнен)");
+}
+}
+/* 
+* Функция проверки авторизован ли пользователь
+*/
 async function getAuthStatus(){
-  let response = await fetch('http://localhost:3000/loginstatus', {
-  method: 'POST'
-});
+  let response = await fetch('http://localhost:3000/loginstatus');
 let result = await response.json();
-console.log(result);
-if (result == 0) {
-  console.log("Empty");
-  // window.location.replace("http://localhost:4000/login.html");
+// console.log(result);
+if (result == 0) {  
+   window.location.replace("http://localhost:4000/login.html");
 } else {
   console.log("user isAuth");
 }
 };
 
+// window.onload = getAuthStatus();
 </script>
 
 <template>
-
+ <!-- <img src="/src/img/logo.png" width="180px"> -->
 
     <header class="d-flex flex-wrap justify-content-center py-3 border-bottom header">
+      
       <a href="#" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
-        <img src = "/src/img/logo.png" width="240px" >
-        
+        <!-- <img src="/src/img/logo.png" width="240px" >   -->
+        <div class="logo"></div>     
       </a>
+      
 
       <ul class="nav nav-pills">
         <!-- <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Home</a></li> -->
-        <li class="nav-item"><a href="#" class="nav-link">Профиль</a></li>
+        <li class="nav-item" @click="AuthExit"><a href="" class="nav-link">Выход</a></li>
+         
       </ul>
     </header>
-    
+   
     <div class="row main-block">
 
 
@@ -361,6 +379,7 @@ if (result == 0) {
 
 <div class="container">
  <div class="row">
+  
   <div class="hint">Период</div>
 
 <input type="text" name="datefilter" class="datefilter" value="" />
@@ -392,13 +411,6 @@ if (result == 0) {
      <i class="fa fa-plus" aria-hidden="true"></i> Добавить
     </button>
 
-
-<Button 
-    @click="getAuthStatus" 
-    :variant="'success'" 
-  >
- аувтори
-  </Button>
 
 
 </div>

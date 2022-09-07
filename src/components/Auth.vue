@@ -9,8 +9,7 @@ import { useSnackbar } from "vue3-snackbar"; //Библиотека уведом
 async function Auth(){
   let login = document.getElementById("userName").value;
   let password = document.getElementById("password").value;
-
-  let response = await fetch('http://localhost:3000/login?email=' + login + '&password=' + password, {
+  let response = await fetch('http://localhost:3000/login?username=' + login + '&password=' + password, {
   method: 'POST'
 });
 
@@ -18,7 +17,7 @@ let result = await response.json();
 
   // console.log(result.status);
   if (result.status == 'authYes') {
-    // alert('Успешно ' + result.email);
+    // console.log('Успешно ' + result.email);
     window.location.replace("http://localhost:4000/");
   } 
   
@@ -34,8 +33,7 @@ let result = await response.json();
     return;
   }
 
-
-      
+     
   }
 
   
@@ -44,32 +42,41 @@ let result = await response.json();
 
 
 <template>
-    <body align='center'>
-        <header>
-		<h1>Авторизация</h1>
-	</header>	
-				
-			<label>Логин</label>
-			<input type ="login" id="userName" name="login" required>
-			<br><br>
+    <body class="authBody">
+      <div class="authBodyBack">
+      
 
-			<label>Пароль</label>
-			<input type="password" id ="password" name="password" required>
-			<br><br>
-
+ 
 <teleport to="body">
     <vue3-snackbar bottom right :duration="4000"></vue3-snackbar>
 </teleport>
 		
-      <Button id="buttonFiltrQuery"
+
+</div>
+      <div class="loginForm">
+
+	<center><div class="logo"></div></center>
+				
+			<label>Логин</label>
+			<p><input class="loginInput" type ="login" id="userName" name="login" required></p>
+		
+
+			<label>Пароль</label>
+			<p><input class="loginInput" type="password" id ="password" name="password" required></p>
+
+
+<center>
+      <Button class="loginButton"
         @click="Auth" 
-        :variant="'success'" 
+        :variant="'btn btn-primary btn-lg'" 
         >
         Войти в систему
       </Button>
-
-
- 
+</center>
+<div class="copyright">
+  Аналитическая информационная система "Умные карты"
+  </div>
+      </div>
 
 
 </body>

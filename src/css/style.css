@@ -192,3 +192,62 @@ html, body {
 .form-control{
 	font-size: 18px;
 }
+
+.logo {
+/* background-color: aqua; */
+width: 240px;
+height: 80px;
+background-image: url(../img/logo.png);
+background-size: 240px;
+background-repeat: no-repeat;
+
+}
+.authBody {
+	margin: 0;
+	padding: 0;
+	height: 100vh;
+	background:url(../img/fon.jpg) 100% no-repeat;
+	/* background:url(https://catherineasquithgallery.com/uploads/posts/2021-02/1613677083_55-p-fon-dlya-prezentatsii-sever-63.jpg) 100% no-repeat;	 */
+	background-size: 100% auto;		   
+}
+
+.authBodyBack {
+	height: 100vh;
+	background:url(../img/bearback.png) top right no-repeat;
+	background-size: 100% auto;
+	/* -webkit-filter: drop-shadow(3px 5px 5px #000); */
+	/* filter: drop-shadow(5px -5px 5px rgb(255, 255, 255)); */
+	backdrop-filter: blur(15px);	
+	
+	opacity: 0.7;
+	/* filter: brightness(0); */
+}
+
+.loginForm {
+	border: 1px solid;
+	border-color: rgb(136, 136, 136);
+width: fit-content;
+padding: 40px 90px 5px 90px;
+border-radius: 10px;
+background-color: rgba(255, 255, 255, 0.9);
+backdrop-filter: blur(150px);
+position: fixed;
+left: 15%;
+top: 30%;
+box-shadow: 0 0 5px rgba(41, 41, 41, 0.7);
+}
+
+.loginInput {
+	/* margin: 0 0 20px 0; */
+	height: 38px;
+	border-radius: 5px;
+	border: 1px solid;
+	border-color: rgb(136, 136, 136);
+	width: 100%;	
+	font-size: 18px;
+	margin-bottom: 20px;
+}
+
+.loginButton {
+	margin-bottom: 30px;
+}

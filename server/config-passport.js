@@ -3,7 +3,7 @@ const LocalStrategy = require('passport-local').Strategy;
 
 const userDB = {
   id: 136345,
-  email: '123',
+  username: '123',
   password: '123',
 };
 
@@ -22,12 +22,12 @@ passport.deserializeUser(function(id, done) {
 });
 
 passport.use(
-  new LocalStrategy({ usernameField: 'email' }, function(
-    email,
+  new LocalStrategy({ usernameField: 'username' }, function(
+    username,
     password,
     done
   ) {
-    if (email === userDB.email && password === userDB.password) {
+    if (username === userDB.username && password === userDB.password) {
       return done(null, userDB);
     } else {
       return done(null, false);
