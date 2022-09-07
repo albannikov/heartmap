@@ -45,7 +45,7 @@ app.get('/', (req, res) => {
 // window.email = '';
 
 globalThis.currentUser = {
-  email: null,
+  username: null,
   status: 'authNone'
 };
 
@@ -56,9 +56,10 @@ app.post('/login', (req, res, next) => {
 
   passport.authenticate('local', function(err, user) {
     if (user) {                                       //Если все нормально
-      currentUser.email = req.query.email;
+      currentUser.username = req.query.username;
       currentUser.status = 'authYes';   
-      console.log(currentUser);
+      // console.log(currentUser);
+      console.log(req.user);
     }
     if (err) {
       return next(err);
@@ -81,11 +82,10 @@ app.post('/login', (req, res, next) => {
 
 
 
-app.post('/loginstatus', (req, res, next) => {   
-      console.log(req.user); 
-      if (req.user == undefined) {
+app.get('/loginstatus', (req, res, next) => {   
+       if (currentUser.username == null) {
         res.json(0);} else {
-          res.json(req.user.id);
+          res.json(currentUser);
         }
 });
 
@@ -105,10 +105,9 @@ app.get('/admin', auth, (req, res) => {
 });
 
 app.get('/logout', function (req, res){
-  req.session.destroy(function (err) {
-    console.log("")
-    res.redirect('/'); //Inside a callback… bulletproof!
-  });
+  currentUser.username = null;
+  req.session.destroy();
+  res.json(0);  
 });
 
 
