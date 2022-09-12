@@ -1,11 +1,36 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const fetch = require('cross-fetch');
+// Or just: import 'cross-fetch/polyfill';
+
+(async () => {
+  try {
+    const res = await fetch('http://localhost:8081/users');
+
+    if (res.status >= 400) {
+      throw new Error("Сервер не ответил");
+    }
+    const user = await res.json();
+
+    console.log(user);
+  } catch (err) {
+    console.error(err);
+  }
+})();
+
 
 const userDB = {
   id: 136345,
   username: '123',
   password: '123',
 };
+
+async function getUsers() {
+const repsponse = await fetch('http://localhost:8081/users');
+const data = await repsponse.json();
+console.log (data);
+};
+
 
 globalThis.userID = '';
 passport.serializeUser(function(user, done) {

@@ -13,4 +13,5 @@ npm install passport-jwt
 npm install vue3-snackbar
 # установить библиотеку уведомлений
 
-
+npm install --save cross-fetch
+# чтобы на бэке обмениваться запросами

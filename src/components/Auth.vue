@@ -55,8 +55,9 @@ let result = await response.json();
 </div>
       <div class="loginForm">
 
-	<center><div class="logo"></div></center>
-				
+
+	<div class="logo"></div>
+	
 			<label>Логин</label>
 			<p><input class="loginInput" type ="login" id="userName" name="login" required></p>
 		
@@ -65,14 +66,14 @@ let result = await response.json();
 			<p><input class="loginInput" type="password" id ="password" name="password" required></p>
 
 
-<center>
+<div class="div_center">
       <Button class="loginButton"
         @click="Auth" 
         :variant="'btn btn-primary btn-lg'" 
         >
         Войти в систему
       </Button>
-</center>
+</div>
 <div class="copyright">
   Аналитическая информационная система "Умные карты"
   </div>

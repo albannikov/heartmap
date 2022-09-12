@@ -251,3 +251,8 @@ box-shadow: 0 0 5px rgba(41, 41, 41, 0.7);
 .loginButton {
 	margin-bottom: 30px;
 }
+
+
+.div_center {
+	text-align: center;
+}

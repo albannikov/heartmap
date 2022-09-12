@@ -1,3 +1,8 @@
+/* 
+* Функция проверки авторизован ли пользователь
+* выносим её в отдельный скрипт, чтобы вызвать его в самом начале index файла
+*/
+
 async function getAuthStatus(){
     let response = await fetch('http://localhost:3000/loginstatus');
     let result = await response.json();

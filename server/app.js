@@ -127,6 +127,19 @@ conn.query(query, (err, result, field) => {
 });
 
 
+app.get("/users", (req, res) => {
+  // BD Connect -->
+let query = "SELECT * FROM users";
+conn.query(query, (err, result, field) => {
+  res.json(result);
+});
+
+});
+
+
+
+
+
 // set port, listen for requests
 const PORT = process.env.PORT || 8081;
 app.listen(PORT, () => {

@@ -25,7 +25,8 @@ app.use(
     cookie: {
       path: '/',
       httpOnly: true,
-      maxAge: 60 * 60 * 1000,
+      // maxAge: 60 * 60 * 1000,
+      maxAge: 1,
     },
     resave: false,
     saveUninitialized: false,
@@ -37,12 +38,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.get('/', (req, res) => {
-  // console.log(req.session);
-  // console.log(session.passport.user);
   res.json(currentUser);
 
 });
-// window.email = '';
 
 globalThis.currentUser = {
   username: null,
@@ -59,7 +57,7 @@ app.post('/login', (req, res, next) => {
       currentUser.username = req.query.username;
       currentUser.status = 'authYes';   
       // console.log(currentUser);
-      console.log(req.user);
+      // console.log(req.user);
     }
     if (err) {
       return next(err);
@@ -85,7 +83,8 @@ app.post('/login', (req, res, next) => {
 app.get('/loginstatus', (req, res, next) => {   
        if (currentUser.username == null) {
         res.json(0);} else {
-          res.json(currentUser);
+          // res.json(currentUser);
+          res.json(req.session);          
         }
 });
 
@@ -104,10 +103,26 @@ app.get('/admin', auth, (req, res) => {
   res.send('Admin page!');
 });
 
-app.get('/logout', function (req, res){
-  currentUser.username = null;
-  req.session.destroy();
-  res.json(0);  
+
+app.get('/logout', function(req, res, next) {
+
+ console.log('iD: ' + req.session.id);
+ console.log('Seccion' + req.session);
+
+
+
+  req.logout(function(err) {
+    if (err) { 
+      console.log(err);
+    }
+    req.session = null;
+    currentUser.username = null;
+    
+    // console.log('iD: ' + req.session.id);
+    console.log('Session - ' + req.session);
+
+    res.json(0);  
+  });
 });
 
 

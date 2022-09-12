@@ -151,15 +151,6 @@ window.DatePickerState = 0;
   }
 
 
-
-
-  /**
-   * 
-   */
-  // const ComfirmModal = () =>  {
-  //   ComfirmState.isVisible = !ComfirmState.isVisible;
-  // }
-
   /**
    * 
    */
@@ -298,50 +289,27 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 /* 
-* Функция разлогинить
+* Функция разлогинивания
 */
 async function AuthExit(){
   let response = await fetch('http://localhost:3000/logout');
   let result = await response.json();
-// console.log(result);
 if (result == 0) {  
    window.location.replace("http://localhost:4000/login.html");
-} else {
-  console.log("Результ 1 (Вход выполнен)");
+} 
 }
-}
-/* 
-* Функция проверки авторизован ли пользователь
-*/
-async function getAuthStatus(){
-  let response = await fetch('http://localhost:3000/loginstatus');
-let result = await response.json();
-// console.log(result);
-if (result == 0) {  
-   window.location.replace("http://localhost:4000/login.html");
-} else {
-  console.log("user isAuth");
-}
-};
 
-// window.onload = getAuthStatus();
+
 </script>
 
 <template>
- <!-- <img src="/src/img/logo.png" width="180px"> -->
-
-    <header class="d-flex flex-wrap justify-content-center py-3 border-bottom header">
-      
+    <header class="d-flex flex-wrap justify-content-center py-3 border-bottom header">      
       <a href="#" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
-        <!-- <img src="/src/img/logo.png" width="240px" >   -->
         <div class="logo"></div>     
-      </a>
-      
+      </a>      
 
       <ul class="nav nav-pills">
-        <!-- <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Home</a></li> -->
-        <li class="nav-item" @click="AuthExit"><a href="" class="nav-link">Выход</a></li>
-         
+        <li class="nav-item" @click="AuthExit"><a href="" class="nav-link">Выход</a></li>         
       </ul>
     </header>
    
@@ -350,14 +318,7 @@ if (result == 0) {
 
       <div class="col-2 left-menu">
 
-<!--      
- <Button id="buttonFiltrSnow"
-    @click="getSnow" 
-    :variant="'success'" 
-    :disabled="loading"
-  >
-    Get snow
-  </Button> -->
+
 
 <teleport to="body">
     <vue3-snackbar bottom right :duration="4000"></vue3-snackbar>
@@ -410,6 +371,10 @@ if (result == 0) {
     >
      <i class="fa fa-plus" aria-hidden="true"></i> Добавить
     </button>
+
+<br>
+
+
 
 
 
