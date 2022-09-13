@@ -1,35 +1,24 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const fetch = require('cross-fetch');
-// Or just: import 'cross-fetch/polyfill';
+
+globalThis.usersData = '';                                          // Переменная, в которой будет храниться список логинов и паролей из БД
 
 (async () => {
   try {
-    const res = await fetch('http://localhost:8081/users');
+    const res = await fetch('http://localhost:8081/users');         // Получим все записи
 
     if (res.status >= 400) {
       throw new Error("Сервер не ответил");
     }
-    const user = await res.json();
-
-    console.log(user);
+    usersData = await res.json();
+    console.log(usersData);   
+    console.log('кол-во строк - ' + usersData.length); 
   } catch (err) {
     console.error(err);
   }
 })();
 
-
-const userDB = {
-  id: 136345,
-  username: '123',
-  password: '123',
-};
-
-async function getUsers() {
-const repsponse = await fetch('http://localhost:8081/users');
-const data = await repsponse.json();
-console.log (data);
-};
 
 
 globalThis.userID = '';
@@ -51,11 +40,21 @@ passport.use(
     username,
     password,
     done
-  ) {
-    if (username === userDB.username && password === userDB.password) {
-      return done(null, userDB);
-    } else {
-      return done(null, false);
-    }
+  ) { 
+/*
+Проверяем введённые данные совпадения
+*/
+    globalThis.agreement = '0';                                                                   // Флаг успешности проверки
+    for (let i = 0; i <= usersData.length-1; i++) {
+      console.log(usersData[i]['login']);
+          if (username === usersData[i]['login'] && password === usersData[i]['password']) {      // Если совпало - вернули i-пользователя
+            agreement = 1;                                                                        // установили флаг, что всё Ок
+            return done(null, usersData[i]);
+          } else {
+            continue;            
+          }  
+  }  
+  if (agreement == 0) {return done(null, false);}                                                 // После цикла проверим, если флаг успеха не взведён - вернём false 
+
   })
 );

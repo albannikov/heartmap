@@ -36,6 +36,16 @@ let result = await response.json();
      
   }
 
+
+
+(function() {
+  document.addEventListener('keydown', function(e) {
+ if (event.keyCode == 13) {
+      Auth();
+    }
+  });
+})();
+
   
 </script>
 
