@@ -1,21 +1,16 @@
- const req = require('express/lib/request');
+const req = require('express/lib/request');
 const http = require('http');
 const url = require('url');
-// 
-
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const app = express();
-var corsOptions = {
-  origin: "http://localhost:4000"
+var corsOptions = { 
+  origin: "http://localhost:4000"   // Разрешаем запросы с этого порта
 };
  app.use(cors(corsOptions));
-// parse requests of content-type - application/json
 app.use(bodyParser.json());
-// parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
-// simple route
 
 const mysql = require('mysql');
 
@@ -37,46 +32,34 @@ conn.connect(function(err){
  conn.query("SET SESSION wait_timeout = 604800"); // Чтобы не ложилось соединение поставим таймаут
  
 
-
-
- 
 app.get("/", (req, res) => {
-// let query = "SELECT * FROM points ORDER BY DATE DESC";
-let query = "SELECT * FROM points ORDER BY DATE DESC LIMIT 20";
-
-conn.query(query, (err, result, field) => {
-    //console.log("возвращаем - " + result);
-    res.json(result);
-    res.end();
-});
+  let query = "SELECT * FROM points ORDER BY DATE DESC LIMIT 20";
+  conn.query(query, (err, result, field) => {
+      res.json(result);
+      res.end();
+    }
+ );
   
 // Обработчик запросов
 app.get("/query", function(request, res){
     let tipe = request.query.tipe;          //тип инцидента
     let dateFrom = request.query.dateFrom;  //Дата От
     let dateTo = request.query.dateTo;      //Дата До
-    
-    console.log ("ТИП =====" + tipe);
     let sql = "";
+
     if (tipe == 'all') {
       sql = "SELECT * FROM points WHERE DATE BETWEEN'" + dateFrom + "' AND '" + dateTo + "' ORDER BY DATE DESC"; //Формируем строку запроса
     }
     else {
       sql = "SELECT * FROM points WHERE TIPE = '" + tipe + "' AND DATE BETWEEN'" + dateFrom + "' AND '" + dateTo + "' ORDER BY DATE DESC"; //Формируем строку запроса
-    };
-    
-    console.log("Пришел запрос на бэк");
-    console.log("Выполняем такой запрос:");
-    console.log(sql);
-      // Коннектимся -->
-conn.query(sql, (err, result, field) => {
-    console.log("возвращаем - " + result);
+    };            
+    conn.query(sql, (err, result, field) => { 
     res.json(result); // Взвращаем ответ
     res.end();
 });
 });
 
-// Обработчик запросов
+// Добавление записей в БД
 app.get("/ins", function(request, res){
   let tipe = request.query.tipe;            //тип инцидента
   let number = request.query.number;        //Номер инцидента
@@ -85,10 +68,9 @@ app.get("/ins", function(request, res){
   let long = request.query.long;            //Долгота
   let alt = request.query.alt;              //Описание
  
-  let sql = "";  
-    sql = "INSERT INTO points (TIPE, INCIDENT, DATE, LOCATION_WIDTH, LOCATION_LONG, DESCRIPTION) VALUES ('" + tipe + "','" + number + "','" + date + "','" + width + "','" + long + "','" + alt + "')"; //Формируем строку запроса
+  let sql = "";                             //Сначала объявим переменную, только потом наполним, иначе не работает
+  sql = "INSERT INTO points (TIPE, INCIDENT, DATE, LOCATION_WIDTH, LOCATION_LONG, DESCRIPTION) VALUES ('" + tipe + "','" + number + "','" + date + "','" + width + "','" + long + "','" + alt + "')"; //Формируем строку запроса
            
-// Коннектимся -->
 conn.query(sql, (err, result, field) => {
   console.log("возвращаем - " + result);
   res.json(result); // Взвращаем ответ
@@ -96,18 +78,18 @@ conn.query(sql, (err, result, field) => {
 });
 });
 
-
+// Удаляем запись
 app.get("/del", function(request, res){
-  let id = request.query.id;            //тип инцидента 
+  let id = request.query.id;             
   let sql = "";  
-    sql = "DELETE FROM points WHERE id = " + id; //Формируем строку запроса
-        console.log('Вот такой вот запрос - ' + sql);   
-// Коннектимся -->
-conn.query(sql, (err, result, field) => {
-  console.log("возвращаем - " + result);
-  res.json(result); // Взвращаем ответ
-  res.end();
-});
+  sql = "DELETE FROM points WHERE id = " + id; //Формируем строку запроса
+
+
+  conn.query(sql, (err, result, field) => {
+    console.log("возвращаем - " + result);
+    res.json(result); // Взвращаем ответ
+    res.end();
+  });
 });
 
 
