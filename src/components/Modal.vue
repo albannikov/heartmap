@@ -1,23 +1,14 @@
 <script setup >
- import { useSnackbar } from "vue3-snackbar"; //Библиотека уведомлений, взял тут: https://craigrileyuk.github.io/vue3-snackbar/
- const snackbar = useSnackbar();
-/*
-* Получаем широту и долготу из координат
-*/
-// function getCoords() {
-//   let coords = document.getElementById("coordinates").value.split( "," ); // Получили координаты точки
-//   let width = coords[0]; 
-//   let long = coords[1]; 
-//   let tipe = document.getElementById("tipes-add").value; // Получили категорию
-//   let incNumber = document.getElementById("incNumber").value; // Получили номер инцидента
-
-// }
-  
+import { useSnackbar } from "vue3-snackbar"; //Библиотека уведомлений, взял тут: https://craigrileyuk.github.io/vue3-snackbar/
+const snackbar = useSnackbar(); 
 var toastElList = [].slice.call(document.querySelectorAll('.toast'))
 var toastList = toastElList.map(function (toastEl) {
   return new bootstrap.Toast(toastEl, option)
 })
 
+/**
+ * Функция добавления новой записи
+ */
 async function insertPoint() {
   let coords = document.getElementById("coordinates").value.split( "," ); // Получили координаты точки
   let width = coords[0]; 
@@ -27,8 +18,9 @@ async function insertPoint() {
   let alt = document.getElementById("Textarea").value; // Описание
   let error = 0;
 
-if (coords == '') {
-           snackbar.add({
+// Если не получили координаты
+if (coords == '') { 
+          snackbar.add({
             "type": "error",
             "title": "Ошибка",
             "text": "Укажите координаты",
@@ -36,12 +28,12 @@ if (coords == '') {
             "duration": 7000,
             "count": 1
           })
-          error = 1;
-          
+          error = 1;              
 }
 
-if (document.getElementById("datefilter-add-point").value == '') {
-     snackbar.add({
+// Если не получили даты
+if (document.getElementById("datefilter-add-point").value == '') { 
+    snackbar.add({
             "type": "error",
             "title": "Ошибка",
             "text": "Укажите дату",
@@ -52,7 +44,8 @@ if (document.getElementById("datefilter-add-point").value == '') {
           error = 1;
 }
 
-if (incNumber == '') {
+// Если не получили номер
+if (incNumber == '') {        
      snackbar.add({
             "type": "error",
             "title": "Ошибка",
@@ -64,6 +57,7 @@ if (incNumber == '') {
           error = 1;
 }
 
+// Если не получили описание
 if (alt == '') {
      snackbar.add({
             "type": "error",
@@ -76,13 +70,13 @@ if (alt == '') {
           error = 1;
 }
 
+// Если получили хоть одну из ошибок прекращаем выполнение на этом месте
 if (error == 1) {return;}
 
-    let queryParams = "http://localhost:8081/ins?tipe=" + tipe + "&number=" + incNumber + "&date=" + DateAdd + "&width=" + width + "&long=" + long + "&alt=" + alt;
-            
+    let queryParams = "http://localhost:8081/ins?tipe=" + tipe + "&number=" + incNumber + "&date=" + DateAdd + "&width=" + width + "&long=" + long + "&alt=" + alt;            
     const response = await fetch(queryParams);      
-    const data = await response.json();
-    if (data.affectedRows == 1) {
+    const data = await response.json(); // Получим статус выполнения запроса
+    if (data.affectedRows == 1) {       // Если затронута 1 строка 
       snackbar.add({
             "type": "success",
             "title": "Успешно",
@@ -91,17 +85,14 @@ if (error == 1) {return;}
             "duration": 7000,
             "count": 1
           })
-  document.getElementById("incNumber").value = ''; // номер инцидента
-  document.getElementById("Textarea").value = '';  // Описание
-  document.getElementById("datefilter-add-point").value = '';  // Датапикер  
+          document.getElementById("incNumber").value = ''; // номер инцидента
+          document.getElementById("Textarea").value = '';  // Описание
+          document.getElementById("datefilter-add-point").value = '';  // Датапикер  
     }    
   }
-
-
 </script>
 
 <script>
-
  export default {
     name: 'modal',
     methods: {
@@ -113,16 +104,13 @@ if (error == 1) {return;}
     
   };
 
-
-
 /*
 * для ДатаПикера используем библиотеку daterangepicker.com
 * -BEGIN- Получаем значение из Datepicker
 */
-
 $(function() { 
   $('input[name="datefilter-add-point"]').daterangepicker({
-       singleDatePicker: true,
+      singleDatePicker: true,
        "drops": "up",
        "showDropdowns": true,
        "alwaysShowCalendars": true,
@@ -174,13 +162,9 @@ $(function() {
 
 });
 // -END- Получаем значение из Datepicker
-
-
-
 </script>
+
 <template>
-
-
   <transition name="modal-fade">
     <div class="modal-backdrop">
       <div class="modal"
@@ -210,64 +194,52 @@ $(function() {
           id="modalDescription"
         >
           <slot name="body">
-
- <div class="container">
-<div class="alert alert-success alert-dismissible fade show" role="alert">
-  <strong>Пожалуйста,</strong> увеличьте карту до масштаба, позволяющего точно нанести координаты добавляемой геолокации
-  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-</div>
-
- <div class="container">   
-    <div id="map" style="width: 100%; height: 470px;"></div>
- </div>
-
-<input id="coordinates" class="coordinates">
-
-  <div class="container">
-  <div class="row add-form align-items-end">
-    <div class="col-sm-3">
-       <div class="hint-add">Категория</div>
-      <select name="tipes-add" id="tipes-add" class="tipes-add">
+      <div class="container">
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <strong>Пожалуйста,</strong> увеличьте карту до масштаба, позволяющего точно нанести координаты добавляемой геолокации
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      </div>
+      <div class="container">   
+          <div id="map" style="width: 100%; height: 470px;"></div>
+      </div>
+      <input id="coordinates" class="coordinates">
+      <div class="container">
+      <div class="row add-form align-items-end">
+        <div class="col-sm-3">
+        <div class="hint-add">Категория</div>
+          <select name="tipes-add" id="tipes-add" class="tipes-add">
             <option value="Snow">Снег</option>
             <option value="Trash">Мусор</option>          
-      </select>
-    </div>
-    <div class="col-sm-3">
-      <div class="hint-add">Дата</div>
-      <input type="text" id="datefilter-add-point" name="datefilter-add-point" class="datefilter-add-point" value="" />
-    </div>
-    <div class="col-sm-3">
-      <div class="hint-add">Номер инцидента</div>
-      <input id="incNumber" class="incNumber">
-    </div>
-    <div class="col-sm-3 d-grid">
- 
-         <button id="getCoords" @click="insertPoint" class="btn btn-primary">Добавить запись</button>
-
-
-    </div>
-  
- <div class="col-sm-9">
-   <div class="hint-add">Описание инцидента</div>
- <textarea class="form-control" id="Textarea" rows="2"></textarea>
-  </div>
-
-  </div>
-  
-  </div>
-
-          </slot>
-        </section>
-        <footer class="modal-footer">
-          <slot name="footer">
-        
-          </slot>
-        </footer>
+          </select>
+        </div>
+        <div class="col-sm-3">
+         <div class="hint-add">Дата</div>
+          <input type="text" id="datefilter-add-point" name="datefilter-add-point" class="datefilter-add-point" value="" />
+         </div>
+         <div class="col-sm-3">
+          <div class="hint-add">Номер инцидента</div>
+          <input id="incNumber" class="incNumber">
+         </div>
+         <div class="col-sm-3 d-grid"> 
+          <button id="getCoords" @click="insertPoint" class="btn btn-primary">Добавить запись</button>
+        </div>  
+        <div class="col-sm-9">
+            <div class="hint-add">Описание инцидента</div>
+            <textarea class="form-control" id="Textarea" rows="2"></textarea>
+        </div>
+      </div>  
       </div>
-    </div>
-  </transition>
+     </slot>
+    </section>
+    <footer class="modal-footer">
+      <slot name="footer"></slot>
+    </footer>
+  </div>
+ </div>
+</transition>
 </template>
+
 <style>
   .modal-backdrop {
     position: fixed;

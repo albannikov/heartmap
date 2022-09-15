@@ -1,19 +1,15 @@
 <script>
+/*
+* Этот модуль организует всплывающее окно подтверждения 
+*/
  export default {
     name: 'ComfirmModal',
     methods: {
       closeComfirm() {
-        this.$emit('close');
-    
-        console.log("Close");
-        
+        this.$emit('close');        
       },
-    },
-    
+    },    
   };
-
-
-
 </script>
 
 <script setup>
@@ -21,10 +17,7 @@
  const snackbar = useSnackbar();
 
   async function delPoint() {
-   console.log("КликИд = " + click_id); //получаем id нажатой кнопки
-
-    let queryParams = "http://localhost:8081/del?id=" + click_id;
-            
+    let queryParams = "http://localhost:8081/del?id=" + click_id;            
     const response = await fetch(queryParams);      
     const data = await response.json();
     if (data.affectedRows == 1) {
@@ -36,8 +29,7 @@
             "duration": 7000,
             "count": 1
           }) 
-    }  
-      
+    }       
   }
 </script>
 
@@ -62,30 +54,27 @@
           id="comfirmDescription"
         >
           <slot name="body">
- <div class="d-grid gap-2 col-6 mx-auto">   
-
-     <button id="buttonFiltr"         
-              type="button"
-              class="btn btn-danger"
-              @click="delPoint(), closeComfirm()"
-            >Удалить
-              </button>
-      
-    <button id="buttonFiltr"         
-              type="button"
-              class="btn btn-outline-primary"
-              @click="closeComfirm"
-            >Отменить
-              </button>
-
- </div>
+            <div class="d-grid gap-2 col-6 mx-auto">   
+            <button id="buttonFiltr"         
+                      type="button"
+                      class="btn btn-danger"
+                      @click="delPoint(), closeComfirm()"
+                    >Удалить
+                      </button>      
+            <button id="buttonFiltr"         
+                      type="button"
+                      class="btn btn-outline-primary"
+                      @click="closeComfirm"
+                    >Отменить
+                      </button>
+              </div>
           </slot>
         </section>
-
       </div>
     </div>
   </transition>
 </template>
+
 <style>
   .comfirm-backdrop {
     position: fixed;

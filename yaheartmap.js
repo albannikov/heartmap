@@ -1,30 +1,27 @@
-
-// import {} from './src/components/HelloWorld.vue';
-// import { coordinates } from './src/components/HelloWorld';
-
 /**
- * Get map points from backend
+ * Получаем и рисуем на карте точки
  * @returns {Promise}
  */
-// async function fetchData() {
-//     const response = await fetch('data.php');
-//     const json = await response.json();
-//     return json;
-// }
+
 
 export async function fetchNewData() {
     let data = await coordinates;
     return data;
 }
 
+
+/**
+ * Создаем карту и задаем значения параметров
+ * Можно по разному отображать карту, например: 
+ * 'yandex#map' - тип карты "схема";
+ * 'yandex#satellite' - тип карты "спутник";
+ * 'yandex#hybrid' - тип карты "гибрид".
+ */
 ymaps.ready(async function () {
     var map = new ymaps.Map('YMapsID', {
         center: [62.134265, 77.458448],
         controls: ['zoomControl', 'typeSelector',  'fullscreenControl'],
         zoom: 13, type: 'yandex#satellite'
-        // 'yandex#map' - тип карты "схема";
-        // 'yandex#satellite' - тип карты "спутник";
-        // 'yandex#hybrid' - тип карты "гибрид".
     }),
 
     buttons = {
@@ -75,18 +72,11 @@ ymaps.ready(async function () {
         })
     },
 
-
-    // 0.1: 'rgba(128, 255, 0, 0.7)', //#FFF
-    // 0.2: 'rgba(255, 255, 0, 0.8)',
-    // 0.7: 'rgba(234, 72, 58, 0.9)',
-    // 1.0: 'rgba(255, 0, 0, 1)'         // 1.0: 'rgba(255, 36, 25, 1)'   
-
-
     gradients = [{
     0.1: 'rgba(128, 255, 0, 0.7)', 
     0.2: 'rgba(255, 255, 0, 0.8)',
     0.7: 'rgba(234, 72, 58, 0.9)',
-    1.0: 'rgba(255, 0, 0, 1)'         // 1.0: 'rgba(255, 36, 25, 1)' 
+    1.0: 'rgba(255, 0, 0, 1)'        
     }, {
         0.1: 'rgba(162, 36, 25, 0.7)',
         0.2: 'rgba(234, 72, 58, 0.8)',
@@ -94,14 +84,10 @@ ymaps.ready(async function () {
         1.0: 'rgba(128, 255, 0, 1)'
     }],
     radiuses = [5, 10, 20, 30],
-    opacities = [0.4, 0.6, 0.8, 1];
-
+    opacities = [0.4, 0.6, 0.8, 1];    
     
-      let data = coordinates;
+    let data = coordinates;    
     
-    console.log("получаем в YaMap " + data);
-
-
     ymaps.modules.require(['Heatmap'], function (Heatmap) {
         var heatmap = new Heatmap(data, {
             gradient: gradients[0],
@@ -116,7 +102,6 @@ ymaps.ready(async function () {
   buttonFiltrQuery.onclick = async function() {    
     setTimeout(() => {             
         let newData = coordinates;
-        // console.log("получаем в YaMap НАЖАВ КНОПКУ 3: " + newData);
         heatmap.setData(newData);  
         
     }, 100);      
@@ -126,14 +111,10 @@ ymaps.ready(async function () {
   buttonFiltr.onclick = async function() {    
     setTimeout(() => {             
         let newData = coordinates;
-        // console.log("получаем в YaMap НАЖАВ КНОПКУ 3: " + newData);
         heatmap.setData(newData);  
         
     }, 100);      
   };
-
-
-
 
         buttons.dissipating.events.add('press', function () {
             heatmap.options.set(
