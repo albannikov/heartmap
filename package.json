@@ -31,6 +31,7 @@
     "vue": "^3.2.25",
     "vue-hotel-datepicker": "^4.5.1",
     "vue-moment": "^4.1.0",
+    "vue-router": "^4.1.5",
     "vue-yandex-maps": "^0.12.3",
     "vue3-datepicker-lite": "^1.9.6",
     "vue3-snackbar": "^1.1.2",

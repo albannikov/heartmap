@@ -5,7 +5,9 @@
  import Modal  from './Modal.vue';
  import Comfirm  from './Comfirm.vue';
  import { useSnackbar } from "vue3-snackbar"; //Библиотека уведомлений, взял тут: https://craigrileyuk.github.io/vue3-snackbar/
- import VueTableLite from 'vue3-table-lite' //Библиотека таблицы, взял тут:  https://linmasahiro.github.io/vue3-table-lite/dist/#include
+ import VueTableLite from 'vue3-table-lite'   //Библиотека таблицы, взял тут:  https://linmasahiro.github.io/vue3-table-lite/dist/#include
+ import router from '../router.js'
+
 
   // Props
   const props = defineProps({
@@ -35,6 +37,7 @@
   /*
   * Функция получает список записей и передает координаты обработчику карты 
   */
+
 async function getData() {   
   loading.value = true;
   const repsponse = await fetch('http://localhost:8081/');
@@ -47,7 +50,7 @@ async function getData() {
   }    
     setTimeout(() => {
       loading.value = false;
-    }, 10);
+    }, 300);
 }
 /*
 * Функция фиольтрации записей
@@ -61,7 +64,7 @@ async function getQuery() {
       "title": "Ошибка",
       "text": "Укажите диапазон дат",
       "group": "5bfb7ed",
-      "duration": 7000,
+      "duration": 70000,
       "count": 1
     })
     return;
@@ -125,6 +128,8 @@ const showComfirm = (clicked_id) =>  {
 /*
 * При нажатии приложения выполяем getData и получаем последние 20 записей из базы
 */
+
+
 onMounted(async () => {
   await getData();
 });
@@ -226,11 +231,14 @@ $(function() {
 /* 
 * Функция разлогинивания
 */
+
+
+
 async function AuthExit(){
   let response = await fetch('http://localhost:3000/logout');
   let result = await response.json();
-if (result == 0) {  
-   window.location.replace("http://localhost:4000/login.html");
+if (result == 0) {    
+  router.push('login');
 } 
 }
 </script>
@@ -241,14 +249,12 @@ if (result == 0) {
           <div class="logo"></div>     
         </a>      
         <ul class="nav nav-pills">
-          <li class="nav-item" @click="AuthExit"><a href="" class="nav-link">Выход</a></li>         
+          <li class="nav-item" @click="AuthExit"><button class="btn btn-outline-primary">Выход</button></li>         
         </ul>
     </header>   
     <div class="row main-block">
       <div class="col-2 left-menu">
-        <teleport to="body">
-            <vue3-snackbar bottom right :duration="4000"></vue3-snackbar>
-        </teleport>
+      
         <div id="app">  
           <Modal
             v-show="modalState.isVisible"
@@ -341,3 +347,107 @@ if (result == 0) {
 </footer>
 <!-- Footer -->
 </template>
+
+<style>
+.error {
+  overflow: hidden;
+  max-height: 100vh;
+}
+@media (max-width: 1400px) { 
+  .lamp {
+    zoom: .5;
+  }
+  .error__content {
+    top: 55%;
+  }
+  .message__title {
+    font-size: 3.5rem;
+  }
+}
+@media (max-width: 900px) {
+
+  .message__title {
+    font-size: 34px;
+
+  }
+  .error__content {
+    top: 55%;
+  }
+  }
+@media (max-width: 950px) {
+  .lamp__wrap {
+    max-height: 100vh;
+    overflow: hidden;
+    max-width: 100vw;
+  }
+  .error__social {
+    bottom: 30px;
+    top: auto;
+    transform: none;
+    width: 100%;
+    position: fixed;
+    left: 0;
+  }
+  .e-social__icon {
+    display: inline-block;
+    padding-right: 30px;
+  }
+  .e-social__icon:last-child {
+    padding-right: 0;
+  }
+  .e-social__icon {
+    padding-bottom: 0;
+  }
+}
+@media (max-width: 750px) {
+  body, html {
+    max-height: 100vh;
+  }
+   .error__content {
+    position: static;
+    margin: 0 auto;
+    transform: none;
+    padding-top: 300px;
+  }
+  .error {
+    padding-top: 0;
+    padding-bottom: 100px;
+    height: 100vh;
+  }
+  }
+@media (max-width: 650px) {
+  .message__title {
+    font-size: 36px;
+    padding-bottom: 20px;
+  }
+  .message__text {
+    font-size: 16px;
+    line-height: 2;
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+  .lamp {
+    zoom: .6;
+  }
+  .error__content {
+    padding-top: 180px;
+  }
+  }
+@media (max-width: 480px) {
+
+  .message__title {
+    font-size: 30px;
+  }
+  .message__text {
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 15px;
+  }
+  .error__nav {
+    margin-top: 20px;
+  }
+}
+
+
+
+</style>

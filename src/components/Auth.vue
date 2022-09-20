@@ -1,7 +1,9 @@
 <script setup>
 import Button from './Button.vue';
 import { useSnackbar } from "vue3-snackbar"; //Библиотека уведомлений, взял тут: https://craigrileyuk.github.io/vue3-snackbar/ 
+import router from '../router';
 const snackbar = useSnackbar();
+
 
 /*
 * Функция аутентификации
@@ -15,7 +17,8 @@ async function Auth(){
 });
 let result = await response.json();
   if (result.status == 'authYes') {
-    window.location.replace("http://localhost:4000/");
+      // window.location.replace("http://localhost:4000/");
+    router.replace({ path: '/' })
   }   
   if (result.status == 'authNone') {
      snackbar.add({
@@ -42,9 +45,7 @@ let result = await response.json();
 <template>
     <body class="authBody">
       <div class="authBodyBack">    
-        <teleport to="body">
-            <vue3-snackbar bottom right :duration="4000"></vue3-snackbar>
-        </teleport>
+   
       </div>
       <div class="loginForm">
         <div class="logo"></div>	

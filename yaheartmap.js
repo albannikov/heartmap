@@ -4,7 +4,7 @@
  */
 
 
-export async function fetchNewData() {
+export async function fetchNewData() {    
     let data = await coordinates;
     return data;
 }
@@ -17,8 +17,10 @@ export async function fetchNewData() {
  * 'yandex#satellite' - тип карты "спутник";
  * 'yandex#hybrid' - тип карты "гибрид".
  */
+
+
 ymaps.ready(async function () {
-    var map = new ymaps.Map('YMapsID', {
+    let map = new ymaps.Map('YMapsID', {
         center: [62.134265, 77.458448],
         controls: ['zoomControl', 'typeSelector',  'fullscreenControl'],
         zoom: 13, type: 'yandex#satellite'
@@ -94,8 +96,14 @@ ymaps.ready(async function () {
             radius: radiuses[1],
             opacity: opacities[2]
         });
-        heatmap.getData(map);
-        heatmap.setMap(map);
+        setTimeout(() => {             
+            heatmap.getData(map);                 
+        }, 100); 
+
+        setTimeout(() => {          
+            heatmap.setMap(map);            
+        }, 300); 
+   
         
 
 

@@ -1,9 +1,14 @@
 <script setup>
+import router from './router';
 import Main from './components/DashBoard.vue'
+
+
 </script>
 
 <template>  
-  <Main msg="Dashboard" />
+<router-view></router-view>
+<vue3-snackbar bottom right></vue3-snackbar>
+  <!-- <Main msg="Dashboard" /> -->
 </template>
 
 <style>

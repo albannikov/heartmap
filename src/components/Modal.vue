@@ -285,11 +285,11 @@ $(function() {
 
   .btn-close-window {
     border: none;
-    /* font-size: 20px; */
+    font-size: 20px;
     padding: 20px;
     cursor: pointer;
     font-weight: bold;
-    color: #0f5132;
+    color: black;
     background: transparent;
   }
 
