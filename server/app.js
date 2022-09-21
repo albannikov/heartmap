@@ -16,10 +16,10 @@ const mysql = require('mysql');
 
 //Параметры БД -->
 const conn = mysql.createConnection({
-    host: "localhost",
-    user: "root",
+    host: "127.0.0.1",
+    user: "admin_admin",
     database: "admin_heartmap",
-    password: ""
+    password: "VDqJh5KGrX"
 });
 
 conn.connect(function(err){

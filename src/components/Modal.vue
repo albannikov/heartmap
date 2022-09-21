@@ -196,8 +196,7 @@ $(function() {
           <slot name="body">
       <div class="container">
         <div class="alert alert-success alert-dismissible fade show" role="alert">
-          <strong>Пожалуйста,</strong> увеличьте карту до масштаба, позволяющего точно нанести координаты добавляемой геолокации
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          <strong>Пожалуйста,</strong> увеличьте карту до масштаба, позволяющего точно нанести координаты добавляемой геолокации          
         </div>
       </div>
       <div class="container">   

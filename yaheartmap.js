@@ -4,10 +4,12 @@
  */
 
 
-export async function fetchNewData() {    
+export async function fetchNewData() {
     let data = await coordinates;
     return data;
 }
+
+
 
 
 /**
@@ -17,10 +19,8 @@ export async function fetchNewData() {
  * 'yandex#satellite' - тип карты "спутник";
  * 'yandex#hybrid' - тип карты "гибрид".
  */
-
-
 ymaps.ready(async function () {
-    let map = new ymaps.Map('YMapsID', {
+    var map = new ymaps.Map('YMapsID', {
         center: [62.134265, 77.458448],
         controls: ['zoomControl', 'typeSelector',  'fullscreenControl'],
         zoom: 13, type: 'yandex#satellite'
@@ -97,12 +97,9 @@ ymaps.ready(async function () {
             opacity: opacities[2]
         });
         setTimeout(() => {             
-            heatmap.getData(map);                 
-        }, 100); 
-
-        setTimeout(() => {          
+            heatmap.getData(map);
             heatmap.setMap(map);            
-        }, 300); 
+        }, 100); 
    
         
 
@@ -110,19 +107,10 @@ ymaps.ready(async function () {
   buttonFiltrQuery.onclick = async function() {    
     setTimeout(() => {             
         let newData = coordinates;
-        heatmap.setData(newData);  
-        
+        heatmap.setData(newData);         
     }, 100);      
   };
 
-
-  buttonFiltr.onclick = async function() {    
-    setTimeout(() => {             
-        let newData = coordinates;
-        heatmap.setData(newData);  
-        
-    }, 100);      
-  };
 
         buttons.dissipating.events.add('press', function () {
             heatmap.options.set(

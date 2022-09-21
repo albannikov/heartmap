@@ -1,12 +1,21 @@
 <script setup>
- import { fetchNewData } from '/Develop/heartmap-v2-4/yaheartmap';
+//  import { fetchNewData } from '/Develop/heartmap-v2-4/yaheartmap'; 
  import { ref, reactive, onMounted } from 'vue';
  import Button from './Button.vue';
  import Modal  from './Modal.vue';
  import Comfirm  from './Comfirm.vue';
  import { useSnackbar } from "vue3-snackbar"; //Библиотека уведомлений, взял тут: https://craigrileyuk.github.io/vue3-snackbar/
- import VueTableLite from 'vue3-table-lite'   //Библиотека таблицы, взял тут:  https://linmasahiro.github.io/vue3-table-lite/dist/#include
  import router from '../router.js'
+
+
+ async function getAuthStatus(){
+    let response = await fetch('http://localhost:3000/loginstatus'); // Получим статус авторизации пользователя
+    let result = await response.json();
+    if (result == 0) {                                               // Если не авторизован, отправим его на страницу логина
+        window.location.replace("http://localhost:4000/#/login");        
+    } 
+  };
+getAuthStatus();
 
 
   // Props
@@ -131,7 +140,7 @@ const showComfirm = (clicked_id) =>  {
 
 
 onMounted(async () => {
-  await getData();
+  await getData();  
 });
 
 const snackbar = useSnackbar(); // Подключаем всплывающие сообщения
@@ -290,7 +299,7 @@ if (result == 0) {
                   >
                   <i class="fa fa-plus" aria-hidden="true"></i> 
                   Добавить
-                  </button>
+                  </button>                  
             </div>
           </div>
 

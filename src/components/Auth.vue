@@ -16,9 +16,12 @@ async function Auth(){
   method: 'POST'
 });
 let result = await response.json();
-  if (result.status == 'authYes') {
-      // window.location.replace("http://localhost:4000/");
-    router.replace({ path: '/' })
+  if (result.status == 'authYes') {   
+    router.replace({ path: '/' });    
+    setTimeout(() => {
+      window.location.reload(true);
+    }, 500);     
+    
   }   
   if (result.status == 'authNone') {
      snackbar.add({

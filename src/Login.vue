@@ -1,12 +1,9 @@
 <script setup>
-import router from './router';
-import Main from './components/DashBoard.vue'
+import Login from './components/Auth.vue'
 </script>
 
 <template>  
-<router-view></router-view>
-<vue3-snackbar bottom right></vue3-snackbar>
-  <!-- <Main msg="Dashboard" /> -->
+  <Login msg="login" />
 </template>
 
 <style>
