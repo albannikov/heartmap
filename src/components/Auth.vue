@@ -9,21 +9,24 @@ const snackbar = useSnackbar();
 * Функция аутентификации
 * Получим статус переменной с бэкенда и обработаем
 */
+
 async function Auth(){
   let login = document.getElementById("userName").value;
   let password = document.getElementById("password").value;
-  let response = await fetch('http://localhost:3000/login?username=' + login + '&password=' + password, {
-  method: 'POST'
+  let response = await fetch('https://auth.умныекарты.рф/login?username=' + login + '&password=' + password, {
+  method: 'POST',
+  credentials: "include"
 });
 let result = await response.json();
-  if (result.status == 'authYes') {   
-    router.replace({ path: '/' });    
+// console.log('сервер ответил - ' + result);
+  if (result != 'authNone') {   
+     router.replace({ path: '/' });    
+    console.log('Успешно');
     setTimeout(() => {
       window.location.reload(true);
-    }, 500);     
-    
+    }, 500);         
   }   
-  if (result.status == 'authNone') {
+  if (result == 'authNone') {
      snackbar.add({
             "type": "error",
             "title": "Ошибка",
@@ -32,6 +35,7 @@ let result = await response.json();
             "duration": 7000,
             "count": 1
           });
+
     return;
   }    
   }
@@ -64,7 +68,8 @@ let result = await response.json();
             </Button>
           </div>
           <div class="copyright">
-            Аналитическая информационная система "Умные карты"
+            Аналитическая информационная система "Умные карты"<br>
+            г. Радужный, ХМАО-Югра
           </div>
       </div>
     </body>

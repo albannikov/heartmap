@@ -1,22 +1,42 @@
 const req = require('express/lib/request');
 const http = require('http');
+const https = require('https');
 const url = require('url');
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const app = express();
-var corsOptions = { 
-  origin: "http://localhost:4000"   // Разрешаем запросы с этого порта
-};
-app.use(cors(corsOptions));
+// var corsOptions = { 
+//   origin: "http://xn--80ajpgfvob8ef.xn--p1ai"   // Разрешаем запросы от сюда
+// };
+// app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(function (req, res, next) {
+
+  // Website you wish to allow to connect
+  res.setHeader('Access-Control-Allow-Origin', 'https://xn--80ajpgfvob8ef.xn--p1ai');
+
+  // Request methods you wish to allow
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+  // Request headers you wish to allow
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+  // Set to true if you need the website to include cookies in the requests sent
+  // to the API (e.g. in case you use sessions)
+  res.setHeader('Access-Control-Allow-Credentials', true);
+
+  // Pass to next layer of middleware
+  next();
+});
 
 const mysql = require('mysql');
 
 //Параметры БД -->
 const conn = mysql.createConnection({
-    host: "127.0.0.1",
+    host: "localhost",
     user: "admin_admin",
     database: "admin_heartmap",
     password: "VDqJh5KGrX"
@@ -37,6 +57,7 @@ conn.connect(function(err){
 * по умолчанию выводим последние 20 записей
 */
 app.get("/", (req, res) => {
+  console.error("получили гет");
   let query = "SELECT * FROM points ORDER BY DATE DESC LIMIT 20";
   conn.query(query, (err, result, field) => {
       res.json(result);
@@ -109,7 +130,7 @@ conn.query(query, (err, result, field) => {
 });
 });
 
-const PORT = process.env.PORT || 8081;
+const PORT = process.env.PORT || 8082;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });

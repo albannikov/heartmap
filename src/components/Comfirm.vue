@@ -17,7 +17,7 @@
  const snackbar = useSnackbar();
 
   async function delPoint() {
-    let queryParams = "http://localhost:8081/del?id=" + click_id;            
+    let queryParams = "https://api.умныекарты.рф/del?id=" + click_id;            
     const response = await fetch(queryParams);      
     const data = await response.json();
     if (data.affectedRows == 1) {

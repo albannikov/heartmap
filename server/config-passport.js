@@ -8,11 +8,11 @@ globalThis.usersData = '';                                          // Пере�
 */
 (async () => {
   try {
-    const res = await fetch('http://localhost:8081/users');         // Получим все записи
+    const res = await fetch('http://localhost:8082/users');         // Получим все записи
     if (res.status >= 400) {
       throw new Error("Сервер не ответил");
     }
-    usersData = await res.json();
+    usersData = await res.json();    
   } catch (err) {
     console.error(err);
   }
@@ -20,7 +20,8 @@ globalThis.usersData = '';                                          // Пере�
 
 globalThis.userID = '';
 passport.serializeUser(function(user, done) {  // console.log('Сериализация: ', user);
-  done(null, user.id);
+  console.log('Сериализация: ', user);
+  done(null, user);
   userID = user;
 });
 

@@ -7,15 +7,33 @@
  import { useSnackbar } from "vue3-snackbar"; //Библиотека уведомлений, взял тут: https://craigrileyuk.github.io/vue3-snackbar/
  import router from '../router.js'
 
+// console.log(import.meta.env.VITE_API_URL);
+// async function getAuthStatus(){
+//     let response = await fetch('https://auth.умныекарты.рф/loginstatus'); // Получим статус авторизации пользователя
+//     let result = await response.json();
+//     console.log('Результат выполнения authStatus = ' + result);
+//     if (result == false) {                                               // Если не авторизован, отправим его на страницу логина
+//         window.location.replace("https://умныекарты.рф/#login");        
+//     } 
+//   };
+// getAuthStatus();
 
- async function getAuthStatus(){
-    let response = await fetch('http://localhost:3000/loginstatus'); // Получим статус авторизации пользователя
+async function getAuthStatus(){
+    let response = await fetch('https://auth.умныекарты.рф/loginstatus', {  
+  credentials: "include"
+}); // Получим статус авторизации пользователя
     let result = await response.json();
-    if (result == 0) {                                               // Если не авторизован, отправим его на страницу логина
-        window.location.replace("http://localhost:4000/#/login");        
+    // console.log('Результат выполнения loginstatus = ' + result);
+    if (result == false) {                                               // Если не авторизован, отправим его на страницу логина
+        window.location.replace("https://умныекарты.рф/#login");        
     } 
   };
 getAuthStatus();
+
+
+
+
+
 
 
   // Props
@@ -49,7 +67,7 @@ getAuthStatus();
 
 async function getData() {   
   loading.value = true;
-  const repsponse = await fetch('http://localhost:8081/');
+  const repsponse = await fetch('https://api.умныекарты.рф/');
   const data = await repsponse.json();
   posts.value = data;
   coordinates = [];
@@ -79,7 +97,7 @@ async function getQuery() {
     return;
   } 
   loading.value = true;
-  let queryParams = "http://localhost:8081/query?tipe=" + tipeEvent + "&dateFrom=" + DateStart + "&dateTo=" + DateEnd;
+  let queryParams = "https://api.умныекарты.рф/query?tipe=" + tipeEvent + "&dateFrom=" + DateStart + "&dateTo=" + DateEnd;
   const response = await fetch(queryParams);      
   const data = await response.json();
   posts.value = data;
@@ -244,7 +262,9 @@ $(function() {
 
 
 async function AuthExit(){
-  let response = await fetch('http://localhost:3000/logout');
+  let response = await fetch('https://auth.умныекарты.рф/logout', {  
+  credentials: "include"
+});
   let result = await response.json();
 if (result == 0) {    
   router.push('login');
@@ -283,7 +303,11 @@ if (result == 0) {
               <select name="tipes" id="tipes" class="tipes">
                           <option value="all">Все</option>
                           <option value="Snow">Снег</option>
-                          <option value="Trash">Мусор</option>          
+                          <option value="ice">Гололед</option>  
+                          <option value="Trash">Мусор</option>     
+                          <option value="Heart">Отопление</option>
+                          <option value="light">Уличное освещение</option>             
+                         
               </select>
               <Button id="buttonFiltrQuery"
                   @click="getQuery" 
@@ -456,7 +480,4 @@ if (result == 0) {
     margin-top: 20px;
   }
 }
-
-
-
 </style>

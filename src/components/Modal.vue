@@ -73,7 +73,7 @@ if (alt == '') {
 // Если получили хоть одну из ошибок прекращаем выполнение на этом месте
 if (error == 1) {return;}
 
-    let queryParams = "http://localhost:8081/ins?tipe=" + tipe + "&number=" + incNumber + "&date=" + DateAdd + "&width=" + width + "&long=" + long + "&alt=" + alt;            
+    let queryParams = "https://api.умныекарты.рф/ins?tipe=" + tipe + "&number=" + incNumber + "&date=" + DateAdd + "&width=" + width + "&long=" + long + "&alt=" + alt;            
     const response = await fetch(queryParams);      
     const data = await response.json(); // Получим статус выполнения запроса
     if (data.affectedRows == 1) {       // Если затронута 1 строка 
@@ -209,7 +209,10 @@ $(function() {
         <div class="hint-add">Категория</div>
           <select name="tipes-add" id="tipes-add" class="tipes-add">
             <option value="Snow">Снег</option>
-            <option value="Trash">Мусор</option>          
+            <option value="ice">Гололед</option>  
+            <option value="Trash">Мусор</option>      
+            <option value="Heart">Отопление</option>  
+            <option value="light">Уличное освещение</option>      
           </select>
         </div>
         <div class="col-sm-3">

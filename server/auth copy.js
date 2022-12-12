@@ -8,7 +8,6 @@ const app = express();
 const fetch = require('cross-fetch');
 
 
-
 // Add headers before the routes are defined
 app.use(function (req, res, next) {
 
@@ -58,22 +57,18 @@ const port = 3000;
 //   cookie: { maxAge : 3600000 }
 //   }));
 
-
-
-
-
-app.use(session({
+  app.use(
+    session({
       secret: 'hghtyNN23h',
       store: new FileStore(),
       cookie: {
         path: '/',
         secure: false,
-        httpOnly: false,
-        secure: false,
+        httpOnly: true,
         maxAge: 60 * 60 * 1000,
       },
-      resave: true,
-      saveUninitialized: true
+      resave: false,
+      saveUninitialized: false
     })
   );
 
@@ -110,13 +105,13 @@ passport.use(
 
 
 passport.serializeUser(function(user, done) {  // console.log('Сериализация: ', user);
-  // console.log('Сериализация: ', user);
+  console.log('Сериализация: ', user);
   done(null, user.id);
   // userID = user;
 });
 
 passport.deserializeUser(function(user, done) {
-  // console.log('Десериализация: ', user);
+  console.log('Десериализация: ', user);
   // const user = userDB.id === id ? userDB : false;
   done(null, user);
 });
@@ -137,7 +132,7 @@ globalThis.currentUser = {
 */
 
 app.get('/', (req, res) => {
-  // console.log(req.session);
+  console.log(req.session);
   res.send('Hello World!');
 });
 
@@ -159,11 +154,12 @@ app.post('/login', (req, res, next) => {
       }  
       currentUser.username = req.query.username;
       currentUser.status = 'authYes';  
-      // console.log('session.save -> статус авторизации ' + req.isAuthenticated());
-      req.session.username = currentUser.username;    
-      // console.log('пользователь' + req.session.username + 'залогинился');
-      res.json(req.session.username);
-        
+        console.log('session.save -> статус авторизации ' + req.isAuthenticated());
+        // req.session.loggedin = true;
+				// req.session.user = user;
+        // res.json(req.isAuthenticated());         
+        return res.redirect('/admin');
+        // res.redirect("/");     
     });
   })(req, res, next);
 });
@@ -174,15 +170,10 @@ app.post('/login', (req, res, next) => {
 /*
 * Роутер для проверки статуса аутентификации
 */
-app.get('/loginstatus', (req, res, next) => {     
-  if (req.session.username) {
-    // console.log('ЛОГИНСТАТУС статус авторизации ' + req.session.username);  
-    res.json(req.session.username); 
-  } else {
-    // console.log('ЛОГИНСТАТУС не авторизован !!!' + req.session.username);   
-    res.json(false);    
-  }  
-   
+app.get('/loginstatus', (req, res, next) => {       
+          console.log('статус авторизации ' + req.isAuthenticated());   
+          res.json(req.isAuthenticated());     
+          return;
 });
 
 const auth = (req, res, next) => {
