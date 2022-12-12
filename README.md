@@ -15,7 +15,7 @@ npm install --save cross-fetch
 ## Как это работает
 
 <img src="https://raw.githubusercontent.com/albannikov/heartmap-v2/branch/src/img/screen1.jpg">
-<img src="https://raw.githubusercontent.com/albannikov/heartmap-v2/branch/src/img/screen2.jpg">
+<img src="https://raw.githubusercontent.com/albannikov/heartmap-v2/branch/src/img/screen3.jpg">
 
 # Yandex Maps API Heatmap Module
 
