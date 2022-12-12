@@ -1,18 +1,17 @@
 # Vue 3 + Node.JS + Vite
 
-## Recommended IDE Setup:
-
+## установить фреймворк Express
 npm install --save express
-# установить фреймворк Express
 
+## установить passport
 npm install passport-jwt
-# установить passport
 
+## установить библиотеку уведомлений
 npm install vue3-snackbar
-# установить библиотеку уведомлений
 
+## чтобы на бэке обмениваться запросами
 npm install --save cross-fetch
-# чтобы на бэке обмениваться запросами
+
 
 
 # Yandex Maps API Heatmap Module
