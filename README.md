@@ -12,6 +12,9 @@ npm install vue3-snackbar
 ## чтобы на бэке обмениваться запросами
 npm install --save cross-fetch
 
+## Как это работает
+
+<img src="https://raw.githubusercontent.com/albannikov/heartmap-v2/branch/src/img/screen1.jpg">
 <img src="https://raw.githubusercontent.com/albannikov/heartmap-v2/branch/src/img/screen1.jpg">
 
 # Yandex Maps API Heatmap Module
