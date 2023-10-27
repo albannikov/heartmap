@@ -12,5 +12,5 @@ export default createRouter({
         { path: '/login', component: Auth },                
         { path: '/:pathMatch(.*)*', component: NotFound }
     ]
-})
+});
 

@@ -19,13 +19,13 @@
 // getAuthStatus();
 
 async function getAuthStatus(){
-    let response = await fetch('https://auth.умныекарты.рф/loginstatus', {  
+    let response = await fetch('http://localhost:3000/loginstatus', {  
   credentials: "include"
 }); // Получим статус авторизации пользователя
     let result = await response.json();
     // console.log('Результат выполнения loginstatus = ' + result);
     if (result == false) {                                               // Если не авторизован, отправим его на страницу логина
-        window.location.replace("https://умныекарты.рф/#login");        
+        window.location.replace("http://localhost:4000/#login");        
     } 
   };
 getAuthStatus();
@@ -67,7 +67,7 @@ getAuthStatus();
 
 async function getData() {   
   loading.value = true;
-  const repsponse = await fetch('https://api.умныекарты.рф/');
+  const repsponse = await fetch('http://localhost:8082/');
   const data = await repsponse.json();
   posts.value = data;
   coordinates = [];
@@ -97,7 +97,7 @@ async function getQuery() {
     return;
   } 
   loading.value = true;
-  let queryParams = "https://api.умныекарты.рф/query?tipe=" + tipeEvent + "&dateFrom=" + DateStart + "&dateTo=" + DateEnd;
+  let queryParams = "http://localhost:8082/query?tipe=" + tipeEvent + "&dateFrom=" + DateStart + "&dateTo=" + DateEnd;
   const response = await fetch(queryParams);      
   const data = await response.json();
   posts.value = data;
@@ -262,7 +262,7 @@ $(function() {
 
 
 async function AuthExit(){
-  let response = await fetch('https://auth.умныекарты.рф/logout', {  
+  let response = await fetch('http://localhost:3000/logout', {  
   credentials: "include"
 });
   let result = await response.json();

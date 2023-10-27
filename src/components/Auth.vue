@@ -1,7 +1,7 @@
 <script setup>
 import Button from './Button.vue';
 import { useSnackbar } from "vue3-snackbar"; //Библиотека уведомлений, взял тут: https://craigrileyuk.github.io/vue3-snackbar/ 
-import router from '../router';
+import router from '../router.js';
 const snackbar = useSnackbar();
 
 
@@ -13,7 +13,7 @@ const snackbar = useSnackbar();
 async function Auth(){
   let login = document.getElementById("userName").value;
   let password = document.getElementById("password").value;
-  let response = await fetch('https://auth.умныекарты.рф/login?username=' + login + '&password=' + password, {
+  let response = await fetch('http://localhost:3000/login?username=' + login + '&password=' + password, {
   method: 'POST',
   credentials: "include"
 });

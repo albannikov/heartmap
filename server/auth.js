@@ -13,7 +13,7 @@ const fetch = require('cross-fetch');
 app.use(function (req, res, next) {
 
   // Website you wish to allow to connect
-  res.setHeader('Access-Control-Allow-Origin', 'https://xn--80ajpgfvob8ef.xn--p1ai');
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4000');
 
 
   // Request methods you wish to allow
