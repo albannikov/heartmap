@@ -8,6 +8,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.4.2",
+    "@fortawesome/free-regular-svg-icons": "^6.4.2",
     "@kyvg/vue3-notification": "^2.3.6",
     "@vuepic/vue-datepicker": "^3.3.1",
     "bcryptjs": "^2.4.3",

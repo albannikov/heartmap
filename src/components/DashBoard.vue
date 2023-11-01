@@ -18,6 +18,8 @@
 //   };
 // getAuthStatus();
 
+
+
 async function getAuthStatus(){
     let response = await fetch('http://localhost:3000/loginstatus', {  
   credentials: "include"
@@ -176,6 +178,8 @@ export default {
             return new Intl.DateTimeFormat('default', {dateStyle: 'long'}).format(date);
         }
     }
+    
+
 }
 
 /*
@@ -348,8 +352,11 @@ if (result == 0) {
                   </tr>
                 </thead>            
         <tbody>
-          <tr v-for="post in posts" :key="post.id">          
-            <td v-bind:class="post.TIPE"><img v-bind:src="'/src/img/' + post.TIPE + '.png'" width="20"></td>   <!-- Соответствующая иконка  -->
+          <tr v-for="post in posts" :key="post.id">       
+            
+            <!-- <td v-bind:class="post.TIPE"><img v-bind:src="'/src/img/' + post.TIPE + '.png'" width="20"></td>   Соответствующая иконка  -->
+            <!-- <td><i :class="[post.TIPE]"></i></td>  Соответствующая иконка     -->
+            <td><i :class="[post.name]"></i></td>  <!-- Соответствующая иконка  -->           
             <td>{{ formatDate(post.DATE) }}</td>   
             <td>{{ post.INCIDENT }}</td>      
             <td>{{ post.DESCRIPTION }}</td>
