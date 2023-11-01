@@ -285,63 +285,79 @@ if (result == 0) {
           <li class="nav-item" @click="AuthExit"><button class="btn btn-outline-primary">Выход</button></li>         
         </ul>
     </header>   
-    <div class="row main-block">
+    <div class="row">
       <div class="col-2 left-menu">
-      
-        <div id="app">  
-          <Modal
-            v-show="modalState.isVisible"
-            @close="closeModal"
-          />
+МЕНЮ
 
-            <Comfirm
-            v-show="ComfirmState.isVisible"
-            @close="closeComfirm"
-          />
-        </div>
-        <div class="container">
-          <div class="row">  
+      </div>
+      <div class="col-10 p-5">   
+     
+        <!-- Поля и кнопки над картой -->
+        <div class="row">
+          <div class="col-2">
+            пусто
+          </div>
+          <div class="col-1">
             <div class="hint">Период</div>
+          </div>
+          <div class="col-2">
             <input type="text" name="datefilter" class="datefilter" value="" />
-              <div class="hint">Категория</div>
-              <select name="tipes" id="tipes" class="tipes">
+          </div>
+          <div class="col-1">
+            <div class="hint">Категория</div>
+          </div>
+          <div class="col-2">
+            <select name="tipes" id="tipes" class="tipes">
                           <option value="all">Все</option>
                           <option value="Snow">Снег</option>
                           <option value="ice">Гололед</option>  
                           <option value="Trash">Мусор</option>     
                           <option value="Heart">Отопление</option>
-                          <option value="light">Уличное освещение</option>             
-                         
+                          <option value="light">Уличное освещение</option>  
               </select>
-              <Button id="buttonFiltrQuery"
+          </div>
+          <div class="col-2">
+            <Button id="buttonFiltrQuery"
                   @click="getQuery" 
-                  :variant="'success'" 
+                  :variant="''" 
                   :disabled="loading"
                   >
-                  Фильтр
+                  <i class="fa-solid fa-filter"></i>
+                  Применить фильтр
                   </Button>
-
-                    <Button      
+          </div>
+          <div class="col-2">
+                <!-- <div id="app">   -->  
+        <!-- </div> -->
+            <Modal
+            v-show="modalState.isVisible"
+            @close="closeModal"
+          />
+            <Comfirm
+            v-show="ComfirmState.isVisible"
+            @close="closeComfirm"
+          />
+            <Button      
                     @click="showModal"
-                    :variant="'warning'"
+                    :variant="''"
                   >
                   <i class="fa fa-plus" aria-hidden="true"></i> 
                   Добавить
-                  </button>                  
-            </div>
+                  </button>  
           </div>
+        </div>
+     
+        <!-- Поля и кнопки -->
 
-      </div>
-      <div class="col-10 hero-unit ">   
-        <div class="container">     
+        <!-- Карта -->
           <div id="YMapsID"></div>  
           <div v-if="loading"> 
             <div class="spinner-border text-primary" role="status">      
               <span class="sr-only"></span>
             </div>
           </div>
-      <div v-else>
-          <table class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+      <div>
+          <table class="table table-striped table-bordered table-sm" cellspacing="0">
                 <thead>
                   <tr>
                     <th> </th>
@@ -351,24 +367,22 @@ if (result == 0) {
                     <th> </th>
                   </tr>
                 </thead>            
-        <tbody>
-          <tr v-for="post in posts" :key="post.id">       
-            
-            <!-- <td v-bind:class="post.TIPE"><img v-bind:src="'/src/img/' + post.TIPE + '.png'" width="20"></td>   Соответствующая иконка  -->
-            <!-- <td><i :class="[post.TIPE]"></i></td>  Соответствующая иконка     -->
-            <td><i :class="[post.name]"></i></td>  <!-- Соответствующая иконка  -->           
-            <td>{{ formatDate(post.DATE) }}</td>   
-            <td>{{ post.INCIDENT }}</td>      
-            <td>{{ post.DESCRIPTION }}</td>
-            <td width="20" > <button title="Удалить" type="button" :id="post.id" @click="showComfirm(post.id)" class="btn btn-outline-secondary btn-sm"><i class="fa fa-trash" aria-hidden="true">    </i></button></td>  
-          </tr>
-        </tbody>
-      </table>
+           <tbody>
+              <tr v-for="post in posts" :key="post.id">       
+                
+                <!-- <td v-bind:class="post.TIPE"><img v-bind:src="'/src/img/' + post.TIPE + '.png'" width="20"></td>   Соответствующая иконка  -->
+                <!-- <td><i :class="[post.TIPE]"></i></td>  Соответствующая иконка     -->
+                <td><i :class="[post.name]"></i></td>  <!-- Соответствующая иконка  -->           
+                <td>{{ formatDate(post.DATE) }}</td>   
+                <td>{{ post.INCIDENT }}</td>      
+                <td>{{ post.DESCRIPTION }}</td>
+                <td width="20" > <button title="Удалить" type="button" :id="post.id" @click="showComfirm(post.id)" class="btn btn-outline-secondary btn-sm"><i class="fa fa-trash" aria-hidden="true">    </i></button></td>  
+              </tr>
+            </tbody>
+          </table>
+        </div>
     </div>
-  </div>
-</div>
-</div>
-
+    </div>
 <!-- Footer -->
 <footer class="text-center text-lg-start bg-light text-muted">
   <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom"></section>

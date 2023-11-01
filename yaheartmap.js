@@ -23,7 +23,7 @@ ymaps.ready(async function () {
     var map = new ymaps.Map('YMapsID', {
         center: [62.134265, 77.458448],
         controls: ['zoomControl', 'typeSelector',  'fullscreenControl'],
-        zoom: 13, type: 'yandex#satellite'
+        zoom: 15, type: 'yandex#satellite'
     }),
 
     buttons = {
@@ -85,7 +85,7 @@ ymaps.ready(async function () {
         0.7: 'rgba(255, 255, 0, 0.9)',
         1.0: 'rgba(128, 255, 0, 1)' // зеленый
     }],
-    radiuses = [5, 10, 20, 30, 50, 70],
+    radiuses = [5, 10, 20, 30, 50],
     opacities = [0.4, 0.6, 0.8, 1];    
     
     let data = coordinates;    
@@ -93,8 +93,8 @@ ymaps.ready(async function () {
     ymaps.modules.require(['Heatmap'], function (Heatmap) {
         var heatmap = new Heatmap(data, {
             gradient: gradients[0],
-            radius: radiuses[1],
-            opacity: opacities[2]
+            radius: radiuses[4],
+            opacity: opacities[3]
         });
         setTimeout(() => {             
             heatmap.getData(map);

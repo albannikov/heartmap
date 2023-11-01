@@ -2,12 +2,16 @@ html, body {
 	width: 100%;
 	height:100%;
     margin: 0 auto;
-    background: #eef2f4;
+    background: #dddce1;
 }
 
 .header {
-    background-color: white;
-    padding: 20px;
+    background: #FFF;
+    padding: 30px;
+	box-shadow: 0 5px 21px -5px #adadad;
+	z-index: 1;
+	height: 70px;
+
 }
 
 .main-block {
@@ -16,24 +20,31 @@ html, body {
 }
 
 .left-menu {
-    background-color: rgb(44, 44, 44);
-    color:#eef2f4;
-	padding: 20px 5px 0 15px;
+		/* min-height: calc(100vh - 63px); */
+		font-family: roboto,sans-serif;
+		/* background: #dddce1; */
+		color: #787878;
+		/* width: 270px; */
+		/* z-index: 0;
+		transition: width .25s ease,background .25s ease;
+		-webkit-transition: width .25s ease,background .25s ease;
+		-moz-transition: width .25s ease,background .25s ease;
+		-ms-transition: width .25s ease,background .25s ease; */
 }
 
 .filespace {
     padding: 20px 0 0 0;
 }
 
-#YMapsID > ymaps {
+/* #YMapsID > ymaps {
 	border-radius: 15px 15px 0 0;
 	overflow: hidden;
-	}
+	} */
 
 #YMapsID {
     width: 100%;
-    height: 500px;
-    padding: 20px 0 0 0;
+    height: 600px;
+    /* padding: 20px 0 0 0; */
 }
 #YMapsCode {
     width: 880px;
@@ -44,8 +55,14 @@ html, body {
 }
 
 .hint {
-	color: rgb(209, 209, 209);
-	font-size:small;
+	font-family: 'Roboto';
+    src: url('Roboto-ThinItalic-webfont.eot');
+    src: url('Roboto-ThinItalic-webfont.eot?#iefix') format('embedded-opentype'),
+         url('Roboto-ThinItalic-webfont.woff') format('woff'),
+         url('Roboto-ThinItalic-webfont.ttf') format('truetype'),
+         url('Roboto-ThinItalic-webfont.svg#RobotoThinItalic') format('svg'); 
+    font-weight: 500;    
+	/* font-weight: bold; */
 	text-align: left;
 	padding: 2px;
 }
@@ -53,7 +70,7 @@ html, body {
 .tipes {
 	margin: 0 0 20px 0;
 	height: 30px;
-	border-radius: 5px;
+	/* border-radius: 5px; */
 
 }
 
@@ -68,13 +85,11 @@ html, body {
 .datefilter {
 	margin: 0 0 20px 0;
 	height: 30px;
-	border-radius: 5px;
-	background: white;
+	/* border-radius: 5px; */
+	/* background: white; */
 }
 
-.table {
-	border-radius: 0 0 15px 15px;
-}
+
 .table thead th {
 	font-weight: bold;
 	text-align: left;
@@ -90,16 +105,11 @@ html, body {
 .table tr th:last-child, .table tr td:last-child {
 	border-right: 1px solid #ddd;
 }
-.table thead tr th:first-child {
-	border-radius: 20px 0 0 0;
-}
-.table thead tr th:last-child {
-	border-radius: 0 20px 0 0;
-}
+
 .table tbody td {
 	text-align: left;
 	border: none;
-	padding: 10px 15px;
+	padding: 2px 15px;
 	font-size: 14px;
 	vertical-align: top;
 }
@@ -122,7 +132,7 @@ html, body {
 
 .add-form {
 	padding: 5px 10px 20px 10px;
-	border-radius: 10px;
+	/* border-radius: 10px; */
 	background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);
 	box-shadow: 0 0 5px rgba(41, 41, 41, 0.5);
 }
@@ -131,7 +141,7 @@ html, body {
 	font-size: 18px;
 	width: 100%;
 	padding: 5px;
-	border-radius: 5px;
+	/* border-radius: 5px; */
 	height: 38px;
 	border: 0;
 }
@@ -145,7 +155,7 @@ html, body {
 
 .datefilter-add-point {
 	height: 38px;
-	border-radius: 5px;
+	/* border-radius: 5px; */
 	border: 0;
 	width: 100%;	
 	font-size: 18px;
@@ -154,7 +164,7 @@ html, body {
 
 .incNumber {
 	height: 38px;
-	border-radius: 5px;
+	/* border-radius: 5px; */
 	border: 0;
 	width: 100%;
 	font-size: 18px;	
@@ -167,10 +177,11 @@ html, body {
 
 .logo {
 	width: 240px;
-	height: 80px;
+	height: 60px;
 	background-image: url(../img/logo.png);
-	background-size: 240px;
+	background-size: 120px;
 	background-repeat: no-repeat;
+	margin-top: 7px;
 
 }
 .authBody {
@@ -194,7 +205,7 @@ html, body {
 	border-color: rgb(136, 136, 136);
 	width: fit-content;
 	padding: 40px 90px 5px 90px;
-	border-radius: 10px;
+	/* border-radius: 10px; */
 	background-color: rgba(255, 255, 255, 0.9);
 	backdrop-filter: blur(150px);
 	position: fixed;
@@ -205,7 +216,7 @@ html, body {
 
 .loginInput {
 	height: 38px;
-	border-radius: 5px;
+	/* border-radius: 5px; */
 	border: 1px solid;
 	border-color: rgb(136, 136, 136);
 	width: 100%;	
