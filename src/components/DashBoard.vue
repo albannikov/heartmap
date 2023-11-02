@@ -282,32 +282,32 @@ if (result == 0) {
           <div class="logo"></div>     
         </a>      
         <ul class="nav nav-pills">
-          <li class="nav-item" @click="AuthExit"><button class="btn btn-outline-primary">Выход</button></li>         
+          <li class="nav-item" @click="AuthExit"><button class="btn action-map-panel"><i class="fa-solid fa-power-off" style="color: #003899;"></i> Выход</button></li>         
         </ul>
     </header>   
-    <div class="row">
+    <div class="row m-0">
       <div class="col-2 left-menu">
 МЕНЮ
 
       </div>
-      <div class="col-10 p-5">   
+      <div class="col-10">   
      
         <!-- Поля и кнопки над картой -->
-        <div class="row">
+        <div class="row align-items-center action-map-panel">
           <div class="col-2">
-            пусто
+            
           </div>
           <div class="col-1">
-            <div class="hint">Период</div>
+            <div class="hint d-flex justify-content-end">Период</div>
           </div>
-          <div class="col-2">
+          <div class="col-2">        
             <input type="text" name="datefilter" class="datefilter" value="" />
           </div>
-          <div class="col-1">
+          <div class="col-1 d-flex justify-content-end">
             <div class="hint">Категория</div>
           </div>
           <div class="col-2">
-            <select name="tipes" id="tipes" class="tipes">
+              <select name="tipes" id="tipes" class="tipes">
                           <option value="all">Все</option>
                           <option value="Snow">Снег</option>
                           <option value="ice">Гололед</option>  
@@ -317,12 +317,12 @@ if (result == 0) {
               </select>
           </div>
           <div class="col-2">
-            <Button id="buttonFiltrQuery"
+            <Button class="action-map-panel" id="buttonFiltrQuery"
                   @click="getQuery" 
                   :variant="''" 
                   :disabled="loading"
                   >
-                  <i class="fa-solid fa-filter"></i>
+                  <i class="fa-solid fa-filter" style="color: #414141;"></i>
                   Применить фильтр
                   </Button>
           </div>
@@ -337,12 +337,12 @@ if (result == 0) {
             v-show="ComfirmState.isVisible"
             @close="closeComfirm"
           />
-            <Button      
+            <Button class="action-map-panel"     
                     @click="showModal"
                     :variant="''"
                   >
-                  <i class="fa fa-plus" aria-hidden="true"></i> 
-                  Добавить
+                  <i class="fa fa-plus" style="color: #414141;" aria-hidden="true"></i> 
+                  Добавить точку
                   </button>  
           </div>
         </div>

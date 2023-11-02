@@ -68,10 +68,22 @@ html, body {
 }
 
 .tipes {
-	margin: 0 0 20px 0;
-	height: 30px;
+	/* margin: 0 0 20px 0;	
 	/* border-radius: 5px; */
+	height: 20px; 
+	width: 100%;
+	border-color: #c4c4c4;
+	/* border-radius: 15px; */
+}
 
+.datefilter {
+	/* margin: 0 0 20px 0;	
+	/* border-radius: 5px; 
+	/* background: white; */
+	height: 20px; 
+	width: 100%;
+	
+	border: 1px solid #c4c4c4;
 }
 
 .gap-2 {
@@ -82,12 +94,7 @@ html, body {
 	margin: 50px 0;
 }
 
-.datefilter {
-	margin: 0 0 20px 0;
-	height: 30px;
-	/* border-radius: 5px; */
-	/* background: white; */
-}
+
 
 
 .table thead th {
@@ -232,7 +239,10 @@ html, body {
 	text-align: center;
 }
 
-
+.action-map-panel {
+	font-size: 12px;
+	color: #787878;
+}
 
 
 
