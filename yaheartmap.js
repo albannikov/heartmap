@@ -10,8 +10,6 @@ export async function fetchNewData() {
 }
 
 
-
-
 /**
  * Создаем карту и задаем значения параметров
  * Можно по разному отображать карту, например: 
@@ -21,9 +19,9 @@ export async function fetchNewData() {
  */
 ymaps.ready(async function () {
     var map = new ymaps.Map('YMapsID', {
-        center: [62.134265, 77.458448],
+        center: [62.134265, 77.468448],
         controls: ['zoomControl', 'typeSelector',  'fullscreenControl'],
-        zoom: 15, type: 'yandex#satellite'
+        zoom: 14, type: 'yandex#satellite'
     }),
 
     buttons = {
@@ -93,7 +91,7 @@ ymaps.ready(async function () {
     ymaps.modules.require(['Heatmap'], function (Heatmap) {
         var heatmap = new Heatmap(data, {
             gradient: gradients[0],
-            radius: radiuses[4],
+            radius: radiuses[3],
             opacity: opacities[3]
         });
         setTimeout(() => {             

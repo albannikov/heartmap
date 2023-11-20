@@ -79,7 +79,7 @@ async function getData() {
   }    
     setTimeout(() => {
       loading.value = false;
-    }, 300);
+    }, 1000);
 }
 /*
 * Функция фиольтрации записей
@@ -293,7 +293,7 @@ if (result == 0) {
       <div class="col-10">   
      
         <!-- Поля и кнопки над картой -->
-        <div class="row align-items-center action-map-panel">
+        <div class="row align-items-center action-map-panel map-panel">
           <div class="col-2">
             
           </div>
@@ -351,13 +351,16 @@ if (result == 0) {
 
         <!-- Карта -->
           <div id="YMapsID"></div>  
-          <div v-if="loading"> 
-            <div class="spinner-border text-primary" role="status">      
-              <span class="sr-only"></span>
-            </div>
+          <div class="m-3" v-if="loading"> 
+            <span>
+            <h5>Загружаем данные...</h5>
+        </span>
+        <div class="spinner-grow text-primary"
+            role="status">
+        </div>
           </div>
       <div>
-          <table class="table table-striped table-bordered table-sm" cellspacing="0">
+          <table class="mt-3 table table-striped table-bordered table-sm" cellspacing="0">
                 <thead>
                   <tr>
                     <th> </th>
