@@ -100,6 +100,15 @@ html, body {
 	box-shadow: 0 5px 21px -5px #adadad;	
 }
 
+.btn-exit {
+	padding: 0px 30px;
+    height: 35px;
+}
+
+.btn.btn-rounded {
+    border-radius: 12px;
+	color: black;
+}
 
 .table thead th {
 	font-weight: bold;

@@ -3,9 +3,12 @@
  import { ref, reactive, onMounted } from 'vue';
  import Button from './Button.vue';
  import Modal  from './Modal.vue';
+ import header_element from './header_element.vue';
+ import footer_element from './footer_element.vue';
+ import navbar_element from './navbar_element.vue';
  import Comfirm  from './Comfirm.vue';
  import { useSnackbar } from "vue3-snackbar"; //Библиотека уведомлений, взял тут: https://craigrileyuk.github.io/vue3-snackbar/
- import router from '../router.js'
+//  import router from '../router.js'
 
 // console.log(import.meta.env.VITE_API_URL);
 // async function getAuthStatus(){
@@ -18,8 +21,6 @@
 //   };
 // getAuthStatus();
 
-
-
 async function getAuthStatus(){
     let response = await fetch('http://localhost:3000/loginstatus', {  
   credentials: "include"
@@ -31,13 +32,6 @@ async function getAuthStatus(){
     } 
   };
 getAuthStatus();
-
-
-
-
-
-
-
   // Props
   const props = defineProps({
     msg: String
@@ -81,10 +75,7 @@ async function getData() {
       loading.value = false;
     }, 1000);
 }
-/*
-* Функция фиольтрации записей
-* получаем с фронта параметры и делаем запрос
-*/
+/* Функция фильтрации записей получаем с фронта параметры и делаем запрос */
 window.DatePickerState = 0;
 async function getQuery() {
   if (DatePickerState == 0) {           
@@ -258,36 +249,14 @@ $(function() {
     };
   });
 // -END- Получаем значение из Select
-
-/* 
-* Функция разлогинивания
-*/
-
-
-
-async function AuthExit(){
-  let response = await fetch('http://localhost:3000/logout', {  
-  credentials: "include"
-});
-  let result = await response.json();
-if (result == 0) {    
-  router.push('login');
-} 
-}
 </script>
 
 <template>
-    <header class="d-flex flex-wrap justify-content-center py-3 border-bottom header">      
-        <a href="#" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
-          <div class="logo"></div>     
-        </a>      
-        <ul class="nav nav-pills">
-          <li class="nav-item" @click="AuthExit"><button class="btn action-map-panel"><i class="fa-solid fa-power-off" style="color: #003899;"></i> Выход</button></li>         
-        </ul>
-    </header>   
+<header_element></header_element>
     <div class="row m-0">
       <div class="col-2 left-menu">
-МЕНЮ
+
+<navbar_element></navbar_element>
 
       </div>
       <div class="col-10">   
@@ -317,12 +286,12 @@ if (result == 0) {
               </select>
           </div>
           <div class="col-2">
-            <Button class="action-map-panel" id="buttonFiltrQuery"
+            <Button class="m-1 action-map-panel btn btn-warning btn-icon-text btn-rounded" id="buttonFiltrQuery"
                   @click="getQuery" 
                   :variant="''" 
                   :disabled="loading"
                   >
-                  <i class="fa-solid fa-filter" style="color: #414141;"></i>
+                  <i class="fa-solid fa-filter"></i>
                   Применить фильтр
                   </Button>
           </div>
@@ -337,11 +306,11 @@ if (result == 0) {
             v-show="ComfirmState.isVisible"
             @close="closeComfirm"
           />
-            <Button class="action-map-panel"     
+            <Button class="action-map-panel btn btn-primary btn-icon-text btn-rounded"     
                     @click="showModal"
                     :variant="''"
                   >
-                  <i class="fa fa-plus" style="color: #414141;" aria-hidden="true"></i> 
+                  <i class="fa fa-plus" aria-hidden="true"></i> 
                   Добавить точку
                   </button>  
           </div>
@@ -386,23 +355,7 @@ if (result == 0) {
         </div>
     </div>
     </div>
-<!-- Footer -->
-<footer class="text-center text-lg-start bg-light text-muted">
-  <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom"></section>
-  <section class="">
-    <div class="container text-center text-md-start mt-5">
-      <div class="row mt-3">
-        <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">          
-        </div>     
-        <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">             
-         <img src = "/src/img/logo-footer.png" width="180px" >
-        </div>       
-        <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4"></div>
-      </div>     
-    </div>
-  </section>
-</footer>
-<!-- Footer -->
+<footer_element></footer_element>
 </template>
 
 <style>
