@@ -1,17 +1,6 @@
 <script setup >
  import { useSnackbar } from "vue3-snackbar"; //Библиотека уведомлений, взял тут: https://craigrileyuk.github.io/vue3-snackbar/
  const snackbar = useSnackbar();
-/*
-* Получаем широту и долготу из координат
-*/
-// function getCoords() {
-//   let coords = document.getElementById("coordinates").value.split( "," ); // Получили координаты точки
-//   let width = coords[0]; 
-//   let long = coords[1]; 
-//   let tipe = document.getElementById("tipes-add").value; // Получили категорию
-//   let incNumber = document.getElementById("incNumber").value; // Получили номер инцидента
-
-// }
   
 var toastElList = [].slice.call(document.querySelectorAll('.toast'))
 var toastList = toastElList.map(function (toastEl) {
