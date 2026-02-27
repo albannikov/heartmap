@@ -5,10 +5,14 @@
 
 
 export async function fetchNewData() {
-    let data = await coordinates;
-    return data;
+    try {
+        const data = await coordinates; // Предполагаем, что `coordinates` — промис
+        return data;
+    } catch (error) {
+        console.error('Ошибка загрузки данных:', error);
+        return [];
+    }
 }
-
 
 /**
  * Создаем карту и задаем значения параметров
@@ -21,7 +25,7 @@ ymaps.ready(async function () {
     var map = new ymaps.Map('YMapsID', {
         center: [62.134265, 77.468448],
         controls: ['zoomControl', 'typeSelector',  'fullscreenControl'],
-        zoom: 14, type: 'yandex#satellite'
+        zoom: 14, type: 'yandex#hybrid'
     }),
 
     buttons = {
@@ -91,13 +95,14 @@ ymaps.ready(async function () {
     ymaps.modules.require(['Heatmap'], function (Heatmap) {
         var heatmap = new Heatmap(data, {
             gradient: gradients[0],
-            radius: radiuses[3],
+            radius: radiuses[4],
             opacity: opacities[3]
         });
-        setTimeout(() => {             
+            setTimeout(() => {  
             heatmap.getData(map);
             heatmap.setMap(map);            
-        }, 100); 
+            }, 100);      
+
    
         
 
@@ -148,5 +153,6 @@ ymaps.ready(async function () {
         }
     });
 });
+
 
 

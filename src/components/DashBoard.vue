@@ -61,23 +61,120 @@ getAuthStatus();
   * Функция получает список записей и передает координаты обработчику карты 
   */
 
-async function getData() {   
-  loading.value = true;
-  const repsponse = await fetch('http://localhost:8082/');
-  const data = await repsponse.json();
-  posts.value = data;
-  coordinates = [];
-  // Наполним массив координатами точек, чтобы передать его в yaheartmap.js    
-  for (let i = 0; i < data.length; 	i++) {    
-    coordinates.push([data[i]['LOCATION_WIDTH'], data[i]['LOCATION_LONG']]);  
-  }    
+// async function getData() {   
+//   loading.value = true;
+//   const repsponse = await fetch('http://localhost:8082/');
+//   const data = await repsponse.json();
+//   posts.value = data;
+//   coordinates = [];
+//   // Наполним массив координатами точек, чтобы передать его в yaheartmap.js    
+//   for (let i = 0; i < data.length; 	i++) {    
+//     coordinates.push([data[i]['LOCATION_WIDTH'], data[i]['LOCATION_LONG']]);  
+//   }    
+//     setTimeout(() => {
+//       loading.value = false;
+//     }, 1000);
+// }
+
+
+async function getData() {
+  loading.value = true; 
+  try {
+    const response = await fetch('http://localhost:8082/');
+
+    // Проверка статуса HTTP-ответа
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status} ${response.statusText}`);
+    }
+
+    // Проверка типа контента (чтобы избежать ошибок при .json())
+    const contentType = response.headers.get('content-type');
+    if (!contentType || !contentType.includes('application/json')) {
+      throw new Error('Ответ не является JSON. Content-Type: ' + contentType);
+    }
+
+    const data = await response.json();
+
+    // Проверка структуры данных
+    if (!Array.isArray(data)) {
+      throw new Error('Полученные данные не являются массивом');
+    }
+
+    posts.value = data;
+    coordinates = [];
+
+    // Наполняем массив координатами
+    for (let i = 0; i < data.length; i++) {
+      // Проверка наличия полей
+      if (data[i]['LOCATION_WIDTH'] && data[i]['LOCATION_LONG']) {
+        coordinates.push([
+          data[i]['LOCATION_WIDTH'], 
+          data[i]['LOCATION_LONG']
+        ]);
+      } else {
+        console.warn(`Запись ${i} не содержит координат`, data[i]);
+      }
+    }
+
+  } catch (error) {
+    console.error('Ошибка при получении данных:', error);
+
+    // Детализированная обработка разных типов ошибок
+    if (error.message.includes('HTTP error')) {
+      console.log('Проблема с сервером. Статус:', error.message);
+    } else if (error.message.includes('JSON')) {
+      console.log('Не удалось декодировать JSON. Проверьте формат ответа сервера.');
+    } else if (error.name === 'TypeError') {
+      console.log('Сетевая ошибка. Проверьте:');
+      console.log('- Доступность сервера http://localhost:8082');
+      console.log('- Корректность URL');
+      console.log('- Настройки CORS');
+    } else {
+      console.log('Неизвестная ошибка:', error.message);
+    }
+
+    // В любом случае снимаем индикатор загрузки
+    posts.value = []; // Очищаем данные при ошибке
+    coordinates = [];
+  } finally {
     setTimeout(() => {
       loading.value = false;
     }, 1000);
+  }  
 }
+
+
 /* Функция фильтрации записей получаем с фронта параметры и делаем запрос */
 window.DatePickerState = 0;
 async function getQuery() {
+  if (DatePickerState == 0) {           
+      snackbar.add({
+      "type": "error",
+      "title": "Ошибка",
+      "text": "Укажите диапазон дат",
+      "group": "5bfb7ed",
+      "duration": 70000,
+      "count": 1
+    })
+    return;
+  } 
+  // loading.value = true;
+  let queryParams = "http://localhost:8082/query?tipe=" + tipeEvent + "&dateFrom=" + DateStart + "&dateTo=" + DateEnd;
+  const response = await fetch(queryParams);      
+  const data = await response.json();
+  posts.value = data;
+  coordinates = [];
+  // Наполним массив координатами точек, чтобы передать его в yaheartmap.js   
+  for (let i = 0; i < data.length; 	i++) {    
+    coordinates.push([data[i]['LOCATION_WIDTH'], data[i]['LOCATION_LONG']]);  
+  }  
+    setTimeout(() => {
+      loading.value = false;
+    }, 50);      
+}
+
+
+async function getUpdate() {
   if (DatePickerState == 0) {           
       snackbar.add({
       "type": "error",
@@ -103,6 +200,8 @@ async function getQuery() {
       loading.value = false;
     }, 50);      
 }
+
+
 
 /*
 * Всплывающие модальные окна. По умолчанию не видимы
@@ -151,7 +250,16 @@ const showComfirm = (clicked_id) =>  {
 
 
 onMounted(async () => {
-  await getData();  
+  await getData();
+  
+  // Ждём 2 секунды
+  await new Promise(resolve => setTimeout(resolve, 1200));
+  
+  // Находим кнопку и имитируем клик
+  const button = document.getElementById('buttonFiltrQuery');
+  if (button) {
+    button.click();
+  }
 });
 
 const snackbar = useSnackbar(); // Подключаем всплывающие сообщения
@@ -177,66 +285,52 @@ export default {
 * для ДатаПикера используем библиотеку daterangepicker.com
 */
 
-$(function() { 
-// [moment(), moment()]
+$(function() {
   $('input[name="datefilter"]').daterangepicker({
-       "showDropdowns": true,
-          ranges: {
-        'Сегодня': [moment(), moment()],
-        'Вчера': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-        '7 дней': [moment().subtract(6, 'days'), moment()],
-        '30 дней': [moment().subtract(29, 'days'), moment()],
-        'Этот месяц': [moment().startOf('month'), moment().endOf('month')],
-        'Прошлый месяц': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+    "showDropdowns": true,
+    ranges: {
+      'Сегодня': [moment(), moment()],
+      'Вчера': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+      '7 дней': [moment().subtract(6, 'days'), moment()],
+      '30 дней': [moment().subtract(29, 'days'), moment()],
+      'Этот месяц': [moment().startOf('month'), moment().endOf('month')],
+      'Прошлый месяц': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
     },
-         "alwaysShowCalendars": true,
-      autoUpdateInput: false,
-      locale: {
-        "format": "DD.MM.YYYY",
-        "separator": " - ",
-        "applyLabel": "Выбрать",
-        "cancelLabel": "Отмена",
-        "fromLabel": "от",
-        "toLabel": "до",
-        "customRangeLabel": "Вручную",
-        "weekLabel": "н",
-        "daysOfWeek": [
-            "ВС",
-            "ПН",
-            "ВТ",
-            "СР",
-            "ЧТ",
-            "ПТ",
-            "СБ"
-        ],
-        "monthNames": [
-            "Январь",
-            "Февраль",
-            "Март",
-            "Апрель",
-            "Май",
-            "Июнь",
-            "Июль",
-            "Август",
-            "Сентябрь",
-            "Октябрь",
-            "Ноябрь",
-            "Декабрь"
-        ],
-           "firstDay": 1
-      }
+    "alwaysShowCalendars": true,
+    autoUpdateInput: true, // ВАЖНО: автоматически заполняет инпут
+    startDate: moment().subtract(1, 'month'), // Начало: месяц назад
+    endDate: moment(),                        // Конец: сегодня
+    locale: {
+      "format": "DD.MM.YYYY",
+      "separator": " - ",
+      "applyLabel": "Выбрать",
+      "cancelLabel": "Отмена",
+      "fromLabel": "от",
+      "toLabel": "до",
+      "customRangeLabel": "Вручную",
+      "weekLabel": "н",
+      "daysOfWeek": ["ВС", "ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ"],
+      "monthNames": [
+        "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
+        "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
+      ],
+      "firstDay": 1
+    }
   });
 
+  // Обработчик выбора диапазона
   $('input[name="datefilter"]').on('apply.daterangepicker', function(ev, picker) {
-      $(this).val(picker.startDate.format('DD.MM.YYYY') + ' - ' + picker.endDate.format('DD.MM.YYYY'));
-      window.DateStart = picker.startDate.format('YYYY-MM-DD');
-      window.DateEnd = picker.endDate.format('YYYY-MM-DD');
-      DatePickerState = 1; // Ставим флаг, что значение получено
+    $(this).val(picker.startDate.format('DD.MM.YYYY') + ' - ' + picker.endDate.format('DD.MM.YYYY'));
+    window.DateStart = picker.startDate.format('YYYY-MM-DD');
+    window.DateEnd = picker.endDate.format('YYYY-MM-DD');
+    DatePickerState = 1;
   });
 
+  // Обработчик отмены
   $('input[name="datefilter"]').on('cancel.daterangepicker', function(ev, picker) {
-      $(this).val('');
+    $(this).val('');
   });
+  DatePickerState = 1;
 
 });
 // -END- Получаем значение из Datepicker

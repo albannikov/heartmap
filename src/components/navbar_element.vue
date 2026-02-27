@@ -11,13 +11,20 @@
           <a class="nav-link active d-flex p-3 btn-light " href="#"><i class="fa-solid fa-map-location-dot m-1"></i> Тепловая карта</a>
         </li>
         <li class="nav-item w-100">          
-          <a class="nav-link d-flex p-3" href="#"><i class="fa-solid fa-car-burst m-1"></i> Проишествия</a>
+          <a class="nav-link d-flex p-3" target="_blank" href="https://yandex.ru/maps/?l=masstransit&ll=77.486991%2C62.121025&z=13.8"><i class="fa-solid fa-bus m-1"></i> Движение автобусов</a>
         </li>
         <li class="nav-item w-100">          
-          <a class="nav-link d-flex p-3" href="#"><i class="fa-solid fa-magnifying-glass-chart m-1"></i> Аналитика</a>
+          <a class="nav-link d-flex p-3" target="_blank" href="https://w.avtoscan.com/auth/login"><i class="fa-solid fa-tractor m-1"></i> Движение спецтехники</a>
+        </li>
+         <li class="nav-item w-100">          
+          <a class="nav-link d-flex p-3" target="_blank" href="https://rkc.admhmao.ru"><i class="fa-solid fa-snowflake m-1"></i> Уборка снега</a>
+        </li>
+         <li class="nav-item w-100">          
+          <a class="nav-link d-flex p-3" target="_blank" href="https://lesohrana.admhmao.ru/auth/"><i class="fa-solid fa-video m-1"></i> Обзорная камера</a>
         </li>
        </ul>
     </div>
   </div>
 </nav>
 </template>
+

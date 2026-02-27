@@ -1,6 +1,7 @@
-<script setup >
+<script setup>
  import { useSnackbar } from "vue3-snackbar"; //Библиотека уведомлений, взял тут: https://craigrileyuk.github.io/vue3-snackbar/
  const snackbar = useSnackbar();
+ const title = 'Добавить новую точку' // или любой другой заголовок
 /*
 * Получаем широту и долготу из координат
 */

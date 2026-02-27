@@ -1,6 +1,6 @@
 function init () {
     start = '62.132648, 77.463929'; // Стартовые координаты
-    zoom = 14;                      // Зум при старте
+    zoom = 19;                      // Зум при старте
     id = 'map';    
     start = start.split(',');       // разделим координаты на массив
 
@@ -9,7 +9,7 @@ function init () {
     coords = [lat, long];
     let Map = new ymaps.Map(id, {    // Инициализируем карту
         center: coords,
-        type: 'yandex#hybrid',
+        type: 'yandex#publicMapHybrid',
         zoom: zoom,
         controls: ['zoomControl']
     });
